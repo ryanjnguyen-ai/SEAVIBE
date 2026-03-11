@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đại Dương Của Bạn - Đăng Nhập</title>
+    <style>
+        /* Import font chữ hiện đại */
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Hình nền toàn màn hình - Sử dụng ảnh biển xanh ngọc */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            overflow: hidden;
+        }
+
+        /* Lớp phủ màu xanh ngọc nhẹ để chữ dễ đọc hơn */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 206, 209, 0.3), rgba(127, 255, 212, 0.2));
+            z-index: 1;
+        }
+
+        /* Container của form đăng nhập (Hiệu ứng kính mờ - Glassmorphism) */
+        .login-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.15); /* Nền trong suốt */
+            backdrop-filter: blur(12px); /* Độ mờ của kính */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Viền trắng mỏng */
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }
+
+        .login-container h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .login-container p {
+            font-size: 14px;
+            margin-bottom: 30px;
+            color: #e0f7fa;
+            font-weight: 600;
+        }
+
+        /* Style cho các ô nhập liệu */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: 0.3s ease;
+        }
+
+        /* Đổi màu placeholder (chữ mờ trong ô nhập) */
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Nút bấm (Màu vàng cát) */
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #f4a460; /* Màu vàng cát */
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(244, 164, 96, 0.4);
+        }
+
+        .btn-login:hover {
+            background: #e69148;
+            transform: translateY(-2px);
+        }
+
+        .links {
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .links a:hover {
+            color: #f4a460;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="login-container">
+        <h1>SeaVibe</h1>
+        <p>Mang cả đại dương vào căn phòng của bạn</p>
+        
+    <form onsubmit="event.preventDefault(); window.location.href='vibes.html';">
+        <div class="input-group">
+            <input type="email" placeholder="Email của bạn" required>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Mật khẩu" required>
+        </div>
+        <button type="submit" class="btn-login">Bắt đầu khám phá</button>
+    </form>    
+
+        <div class="links">
+            <a href="#">Quên mật khẩu?</a> | <a href="#">Đăng ký ngay</a>
+        </div>
+    </div>
+
+</body>
+</html>
