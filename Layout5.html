@@ -245,6 +245,29 @@
         </div>
 
     </div>
+    <script>
+        // Mở hoặc đóng menu khi click vào khung location
+        function toggleMenu(event) {
+            document.getElementById("location-list").classList.toggle("show");
+            event.stopPropagation(); // Ngăn sự kiện click lọt ra ngoài màn hình
+        }
+
+        // Đổi tên địa điểm & thời tiết khi chọn 1 mục
+        function changeLoc(name, weather) {
+            document.getElementById("current-loc").innerHTML = name + " ▾";
+            document.getElementById("current-weather").innerHTML = weather;
+            
+            // Note: Trong thực tế, hàm này sẽ gọi lệnh đổi video nền nữa.
+        }
+
+        // Tự động đóng menu nếu người dùng click ra ngoài màn hình trống
+        window.onclick = function(event) {
+            var dropdown = document.getElementById("location-list");
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    </script>
 
 </body>
 </html>
