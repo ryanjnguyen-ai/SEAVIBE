@@ -42,7 +42,9 @@
         .content {
             position: relative;
             z-index: 1;
-            height: 100vh;
+            /* Đổi sang min-height để màn hình nhỏ có thể cuộn được */
+            min-height: 100vh; 
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -64,6 +66,7 @@
             gap: 30px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
 
         .card {
@@ -123,6 +126,43 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
+        /* =======================================================
+           RESPONSIVE CHO LAYOUT 2 (CHỌN KHOẢNH KHẮC)
+           ======================================================= */
+        
+        /* Màn hình Tablet (iPad) */
+        @media (max-width: 1024px) {
+            h1 { font-size: 32px; }
+            .cards-wrapper { gap: 20px; }
+            .card { width: 220px; padding: 30px 15px; }
+        }
+
+        /* Màn hình Điện thoại di động */
+        @media (max-width: 768px) {
+            h1 { 
+                font-size: 26px; 
+                margin-bottom: 30px; 
+                padding: 0 10px;
+            }
+            .cards-wrapper {
+                flex-direction: column; /* Ép 3 thẻ xếp dọc trên điện thoại */
+                align-items: center;
+                gap: 20px;
+            }
+            .card { 
+                width: 100%; 
+                max-width: 320px; /* Thẻ bung rộng vừa phải trên mobile */
+                padding: 25px 20px;
+            }
+            .icon { font-size: 40px; margin-bottom: 10px; }
+        }
+
+        /* Màn hình Điện thoại nhỏ */
+        @media (max-width: 480px) {
+            h1 { font-size: 22px; }
+            .card { max-width: 100%; }
+        }
+
     </style>
 </head>
 <body>
@@ -161,13 +201,10 @@
         // Link ảnh chất lượng cao cho các khoảnh khắc
         const images = {
             sunrise: 'url("https://images.unsplash.com/photo-1559827260-36ca18084793?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")',
-            sunset: 'url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")', // Đổi sang ảnh hoàng hôn
+            sunset: 'url("https://images.unsplash.com/photo-1471922614646-a1284d766b11?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")', // Ảnh hoàng hôn
             live: 'url("https://images.unsplash.com/photo-1498623116890-37e912163d5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")',
             default: 'url("https://images.unsplash.com/photo-1498623116890-37e912163d5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")'
         };
-
-        // Đã cập nhật ảnh hoàng hôn rõ rệt hơn
-        images.sunset = 'url("https://images.unsplash.com/photo-1471922614646-a1284d766b11?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")'; 
 
         function changeBg(type) {
             bgContainer.style.background = images[type] + ' no-repeat center center/cover';
