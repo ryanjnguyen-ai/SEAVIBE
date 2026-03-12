@@ -18,7 +18,6 @@
             min-height: 100vh;
             width: 100vw;
             overflow-x: hidden;
-            /* Ảnh nền biển khơi đồng bộ */
             background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
             position: relative;
             color: #fff;
@@ -60,7 +59,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px 150px 20px; /* Chừa khoảng trống bên dưới cho Spotify */
+            padding: 40px 20px 150px 20px;
         }
 
         h1 {
@@ -73,7 +72,6 @@
             letter-spacing: 1px;
         }
 
-        /* --- BỐ CỤC THẺ GIÁ --- */
         .pricing-wrapper {
             display: flex;
             gap: 40px;
@@ -106,12 +104,11 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
 
-        /* Thẻ VIP (Gói Đại Dương) nổi bật hơn */
         .pricing-card.premium {
             background: rgba(10, 40, 70, 0.5);
             border: 1px solid #00d2ff;
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
-            transform: scale(1.05); /* To hơn một xíu so với gói thường */
+            transform: scale(1.05);
         }
 
         .pricing-card.premium:hover {
@@ -230,9 +227,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- RESPONSIVE CHO ĐIỆN THOẠI & TABLET --- */
         @media (max-width: 1024px) {
-            .pricing-card.premium { transform: scale(1); } /* Tắt phóng to trên tablet */
+            .pricing-card.premium { transform: scale(1); }
         }
 
         @media (max-width: 768px) {
@@ -287,7 +283,7 @@
     <div class="spotify-widget">
         <button class="btn-spotify" onclick="toggleSpotify()">🎵 Spotify Playlist</button>
         <div class="spotify-player-box" id="spotify-player">
-            <iframe src="https://open.spotify.com/track/1ByJgfeY9GYlZFVmQv8GPf" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <iframe src="https://open.spotify.com/playlist/5XHizMAmlrmgnRS20Xw0Qe?si=IgKDknL3TIirPVFBz1mcfA" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </div>
 
