@@ -71,15 +71,27 @@
             z-index: 10;
         }
 
-        .orbit-ring {
+        /* --- ẢNH ĐỘNG GIF LẤP ĐẦY QUỸ ĐẠO LỚN --- */
+        .center-gif-wrapper {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            top: 0; left: 0;
+            width: 100%; /* Phóng to 100% lấp đầy khung 500px của quỹ đạo */
+            height: 100%;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
-            pointer-events: none;
+            overflow: hidden; 
+            z-index: 5; /* Nằm ngay dưới các vỏ sò */
+            box-shadow: 0 0 80px rgba(0, 210, 255, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
+        .center-gif {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Phủ kín viền tròn, không bị méo ảnh */
+            opacity: 0.85; /* Hơi mờ để chữ và ốc nổi bật hơn */
+        }
+
+        /* Từng cụm Vỏ sò + Chữ */
         .shell-item {
             position: absolute;
             top: 50%; left: 50%;
@@ -87,6 +99,7 @@
             width: 150px; height: 150px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer;
+            z-index: 10;
         }
 
         .shell-item:nth-child(2) { transform: rotate(-90deg) translate(250px) rotate(90deg); }  
@@ -127,7 +140,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
         }
 
-        /* Ảnh vỏ sò: Thu nhỏ một chút để nằm lọt thỏm trong nền trắng */
+        /* Ảnh vỏ sò */
         .shell-img {
             width: 90px; 
             height: 90px;
@@ -217,8 +230,10 @@
     </header>
 
     <div class="circle-map-container">
-        
-        <div class="orbit-ring"></div>
+
+        <div class="center-gif-wrapper">
+            <img src="https://kenh14cdn.com/thumb_w/500/LJ9BRCA2SwO2i2yoqIMzIMq9QI2QMI/Image/2015/07/b1-c4c87.gif" alt="Center Animation" class="center-gif">
+        </div>
 
         <div class="shell-item" onclick="window.location.href='Layout5.html';">
             <div class="shell-img-wrapper">
