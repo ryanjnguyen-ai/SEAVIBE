@@ -122,28 +122,42 @@
             50% { transform: translateY(-10px); }
         }
 
+        /* Khung nền trắng hình tròn mới cho vỏ sò */
+        .shell-bg-circle {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 130%; /* Kích thước nền trắng đủ lớn để bao quanh, nhưng nhỏ hơn hào quang */
+            height: 130%;
+            background-color: #ffffff; /* Màu trắng nguyên bản */
+            border-radius: 50%;
+            z-index: 1; /* Nằm dưới vỏ sò */
+            pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Đổ bóng nhẹ để tạo khối */
+        }
+
         /* Hình ảnh vỏ sò (Xóa nền trắng, phóng to) */
         .shell-img {
-            width: 120%; /* Phóng to kích thước vỏ sò */
+            width: 120%; /* Phóng to kích thước vỏ sò so với .shell-img-wrapper */
             height: auto;
             object-fit: contain;
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6)); /* Đổ bóng 3D */
             position: relative;
-            z-index: 2;
+            z-index: 2; /* Nằm trên nền trắng */
         }
 
-        /* HIỆU ỨNG LẤP LÁNH SAO ĐỘNG (Bao quanh vỏ sò) */
+        /* HIỆU ỨNG LẤP LÁNH SAO ĐỘNG (Bao quanh nền trắng) */
         .sparkle-aura {
             position: absolute;
-            top: -20%; left: -20%; width: 140%; height: 140%;
+            top: -30%; left: -30%; width: 160%; height: 160%;
             border-radius: 50%;
             background: radial-gradient(circle, transparent 40%, rgba(255, 255, 255, 0.8) 45%, rgba(0, 212, 255, 0.6) 50%, transparent 60%);
             background-size: 200% 200%;
             opacity: 0.6;
             animation: spinAndPulse 3s infinite linear;
-            z-index: 1;
+            z-index: 0; /* Nằm dưới cùng */
             pointer-events: none;
-            filter: blur(2px);
+            filter: blur(2px) brightness(1.2);
         }
 
         @keyframes spinAndPulse {
@@ -152,12 +166,12 @@
             100% { transform: rotate(360deg) scale(0.8); opacity: 0.3; }
         }
 
-        /* Hiệu ứng khi hover vào vỏ sò */
+        /* Hiệu ứng khi hover vào cụm vỏ sò */
         .shell-item:hover .shell-img-wrapper {
-            transform: scale(1.2); /* Phóng to thêm khi rê chuột */
+            transform: scale(1.1); /* Phóng to nhẹ cả cụm */
         }
         .shell-item:hover .sparkle-aura {
-            opacity: 1;
+            opacity: 0.9;
             animation-duration: 1.5s; /* Lấp lánh quay nhanh hơn */
             filter: blur(4px) brightness(1.5);
         }
@@ -202,64 +216,6 @@
             transform: scale(1.1);
         }
 
-        /* --- KHUNG CHAT GÓC TRÁI DƯỚI (Dựa theo ảnh bạn gửi) --- */
-        .chat-input-wrapper {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 20;
-        }
-
-        .chat-input-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 30px;
-            padding: 15px 25px;
-            width: 350px;
-            color: #fff;
-            font-size: 16px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 600;
-            outline: none;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .chat-input-box::placeholder {
-            color: #ffffff;
-            opacity: 0.9;
-        }
-
-        .btn-send-chat {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #87CEEB; /* Xanh đại dương nhạt */
-            border: none;
-            cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            transition: 0.3s;
-        }
-
-        .btn-send-chat:hover {
-            transform: scale(1.1);
-            background-color: #00d2ff;
-        }
-
-        /* Vẽ icon mũi tên tàu thủy/mũi tên gửi màu đen */
-        .send-icon {
-            border: solid #000;
-            border-width: 0 3px 3px 0;
-            display: inline-block;
-            padding: 5px;
-            transform: rotate(-45deg);
-        }
-
     </style>
 </head>
 <body>
@@ -281,7 +237,7 @@
         <div class="shell-item" onclick="window.location.href='live.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
-                <img src="https://via.placeholder.com/150x150/transparent/fff?text=🐚" alt="Vỏ sò điệp" class="shell-img">
+                <div class="shell-bg-circle"></div> <img src="https://via.placeholder.com/150x150/transparent/fff?text=🐚" alt="Vỏ sò điệp" class="shell-img">
             </div>
             <div class="shell-text">
                 <div class="shell-type">Vỏ Sò Điệp</div>
@@ -292,6 +248,7 @@
         <div class="shell-item" onclick="window.location.href='live.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
+                <div class="shell-bg-circle"></div>
                 <img src="https://via.placeholder.com/150x150/transparent/fff?text=🐌" alt="Vỏ ốc xà cừ" class="shell-img">
             </div>
             <div class="shell-text">
@@ -303,6 +260,7 @@
         <div class="shell-item" onclick="window.location.href='live.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
+                <div class="shell-bg-circle"></div>
                 <img src="https://via.placeholder.com/150x150/transparent/fff?text=🦪" alt="Vỏ ốc Nautilus" class="shell-img">
             </div>
             <div class="shell-text">
@@ -314,6 +272,7 @@
         <div class="shell-item" onclick="window.location.href='live.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
+                <div class="shell-bg-circle"></div>
                 <img src="https://via.placeholder.com/150x150/transparent/fff?text=🐚" alt="Vỏ ốc Turret" class="shell-img">
             </div>
             <div class="shell-text">
@@ -325,6 +284,7 @@
         <div class="shell-item" onclick="window.location.href='live.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
+                <div class="shell-bg-circle"></div>
                 <img src="https://via.placeholder.com/150x150/transparent/fff?text=🐚" alt="Vỏ sò nón" class="shell-img">
             </div>
             <div class="shell-text">
@@ -333,13 +293,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="chat-input-wrapper">
-        <input type="text" class="chat-input-box" placeholder="Ê bà ơi chill quá nè" disabled>
-        <button class="btn-send-chat" onclick="window.location.href='live.html';">
-            <i class="send-icon"></i>
-        </button>
     </div>
 
 </body>
