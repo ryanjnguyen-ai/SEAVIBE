@@ -62,11 +62,9 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* HEADER RIGHT: CHỨA NÚT SPOTIFY VÀ NÚT CHAT */
+        /* HEADER RIGHT (SPOTIFY & CHAT) */
         .header-right {
-            display: flex;
-            gap: 15px;
-            align-items: center;
+            display: flex; gap: 15px; align-items: center;
         }
 
         .btn-toggle-chat {
@@ -78,9 +76,7 @@
         }
         .btn-toggle-chat:hover { background: rgba(255, 255, 255, 0.4); }
 
-        .spotify-wrapper {
-            position: relative; /* Để khung nhạc thả xuống từ nút này */
-        }
+        .spotify-wrapper { position: relative; }
 
         .btn-spotify {
             background: rgba(30, 215, 96, 0.2); backdrop-filter: blur(10px); 
@@ -91,8 +87,7 @@
         .btn-spotify:hover { background: rgba(30, 215, 96, 0.5); }
 
         .spotify-player-box {
-            display: none; 
-            position: absolute; top: 130%; right: 0; /* Xổ xuống góc phải */
+            display: none; position: absolute; top: 130%; right: 0; 
             width: 320px; height: 152px; border-radius: 15px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100;
         }
@@ -103,16 +98,15 @@
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* --- BỐ CỤC CHÍNH (CHIA ĐÔI MÀN HÌNH) --- */
+        /* --- BỐ CỤC CHÍNH --- */
         .main-container {
             position: relative; z-index: 10; display: flex;
             height: calc(100vh - 85px); padding: 0 40px 30px 40px; gap: 30px;
         }
 
-        /* 1. KHU VỰC VIDEO & PLAYLIST (PHÍA BÊN TRÁI) */
+        /* 1. KHU VỰC VIDEO & PLAYLIST */
         .video-wrapper-section {
-            flex: 1; /* Tự động co giãn chiếm phần không gian còn lại */
-            display: flex; flex-direction: column; gap: 20px;
+            flex: 1; display: flex; flex-direction: column; gap: 20px;
             transition: all 0.4s ease;
         }
 
@@ -137,15 +131,16 @@
         }
         .seek-bar {
             width: 100%; -webkit-appearance: none; appearance: none;
-            background: transparent; height: 8px; cursor: pointer; outline: none; margin: 0;
+            background: transparent; height: 10px; cursor: pointer; outline: none; margin: 0;
+            z-index: 20; position: relative;
         }
         .seek-bar::-webkit-slider-runnable-track {
             width: 100%; height: 6px; background: rgba(255,255,255,0.3);
         }
         .seek-bar::-webkit-slider-thumb {
             -webkit-appearance: none; appearance: none;
-            width: 14px; height: 14px; background: #87CEEB; border-radius: 50%;
-            margin-top: -4px; transition: 0.2s;
+            width: 16px; height: 16px; background: #87CEEB; border-radius: 50%;
+            margin-top: -5px; transition: 0.2s; box-shadow: 0 0 10px rgba(135, 206, 235, 0.8);
         }
         .seek-bar::-webkit-slider-thumb:hover { transform: scale(1.3); }
 
@@ -163,10 +158,9 @@
         .control-btn:hover { color: #f4a460; transform: scale(1.1); }
 
         .volume-slider { width: 90px; accent-color: #87CEEB; cursor: pointer; }
-        
         .time-display { color: #fff; font-size: 14px; font-weight: 600; margin-left: 10px; }
 
-        /* DANH SÁCH PLAYLIST */
+        /* DANH SÁCH PLAYLIST (GIAO DIỆN MỚI) */
         .playlist-section {
             background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
             border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.2);
@@ -180,34 +174,33 @@
         .playlist-items::-webkit-scrollbar { height: 6px; }
         .playlist-items::-webkit-scrollbar-thumb { background: #87CEEB; border-radius: 10px; }
 
+        /* Chỉnh sửa hiển thị ảnh nhỏ bên trái, text bên phải */
         .playlist-item {
-            flex: 0 0 160px; border-radius: 10px; overflow: hidden; cursor: pointer;
-            border: 2px solid transparent; transition: 0.3s; background: rgba(255,255,255,0.1);
+            display: flex; align-items: center; gap: 10px;
+            flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; background: rgba(0,0,0,0.3);
         }
-        .playlist-item:hover, .playlist-item.active { border-color: #87CEEB; transform: translateY(-5px); }
-        .playlist-item img { width: 100%; height: 90px; object-fit: cover; }
+        .playlist-item:hover, .playlist-item.active { 
+            border-color: #87CEEB; background: rgba(135, 206, 235, 0.2); transform: translateY(-3px); 
+        }
+        .playlist-item img { 
+            width: 60px; height: 45px; object-fit: cover; border-radius: 5px; 
+        }
         .playlist-item span {
-            display: block; padding: 8px; color: #fff; font-size: 13px; font-weight: 600;
-            text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            color: #fff; font-size: 14px; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* 2. KHU VỰC CHAT (PHÍA BÊN PHẢI) */
+        /* 2. KHU VỰC CHAT */
         .chat-section {
-            width: 380px; /* Định hình độ rộng cố định cho cột chat */
-            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(15px);
+            width: 380px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px;
             display: flex; flex-direction: column; overflow: hidden;
-            transition: all 0.4s ease; /* Hiệu ứng mượt mà khi ẩn hiện */
+            transition: all 0.4s ease; 
         }
 
-        /* Khi ẩn chat trên Máy Tính: Thu hẹp kích thước về 0 để Video bung ra toàn màn hình */
         .chat-section.hidden { 
-            width: 0; 
-            opacity: 0; 
-            margin-left: -30px; /* Bù trừ khoảng trống gap */
-            padding: 0;
-            border: none;
-            pointer-events: none;
+            width: 0; opacity: 0; margin-left: -30px; padding: 0; border: none; pointer-events: none;
         }
 
         .chat-header {
@@ -218,7 +211,7 @@
         .chat-messages {
             flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column;
             gap: 15px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;
-            min-width: 300px; /* Đảm bảo nội dung không bị vỡ khi đang hiệu ứng thu nhỏ */
+            min-width: 300px; 
         }
 
         .message { display: flex; gap: 10px; animation: fadeIn 0.3s ease; }
@@ -264,7 +257,6 @@
         }
         .btn-send:hover { background: #f4a460; color: #fff; }
 
-        /* Bảng chọn Sticker/Emoji */
         .emoji-picker {
             position: absolute; bottom: 65px; left: 15px;
             background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.3);
@@ -272,7 +264,6 @@
             width: 220px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 20;
         }
         .emoji-picker.show { display: flex; animation: slideUp 0.2s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .emoji-picker span { font-size: 24px; cursor: pointer; transition: 0.2s; }
         .emoji-picker span:hover { transform: scale(1.3); }
 
@@ -280,17 +271,9 @@
         /* --- RESPONSIVE CHO ĐIỆN THOẠI & TABLET --- */
         @media (max-width: 1024px) {
             body { height: auto; overflow-x: hidden; overflow-y: auto; }
-            
-            /* Sắp xếp Header gọn lại */
             header { flex-wrap: wrap; gap: 15px; }
-            
-            /* Giao diện dọc: Video trên, Chat dưới */
             .main-container { flex-direction: column; height: auto; padding: 0 20px 20px 20px; gap: 20px; }
-            
-            /* Chat bung 100% chiều ngang */
             .chat-section { width: 100%; height: 450px; }
-            
-            /* Tắt hoàn toàn khối chat khi ẩn trên điện thoại để không bị kẹt layout */
             .chat-section.hidden { display: none !important; }
             .chat-messages, .chat-input-wrapper { min-width: unset; }
         }
@@ -317,14 +300,12 @@
         </div>
         
         <div class="header-right">
-            
             <div class="spotify-wrapper">
                 <button class="btn-spotify" onclick="toggleSpotify()">🎵 Spotify</button>
                 <div class="spotify-player-box" id="spotify-player">
                     <iframe src="https://open.spotify.com/playlist/5XHizMAmlrmgnRS20Xw0Qe?si=IgKDknL3TIirPVFBz1mcfA" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
             </div>
-
             <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
         </div>
     </header>
@@ -366,19 +347,19 @@
                 <h3>🌊 Đổi địa điểm & Khoảnh khắc</h3>
                 <div class="playlist-items">
                     <div class="playlist-item active" onclick="changeVideo('9g8XTTFZPBg', this, 'Đảo Phú Quý - Trải nghiệm Local')">
-                        <img src="https://img.youtube.com/vi/9g8XTTFZPBg/hqdefault.jpg" alt="Video 1">
+                        <img src="https://img.youtube.com/vi/9g8XTTFZPBg/hqdefault.jpg" alt="Đảo Phú Quý">
                         <span>Đảo Phú Quý</span>
                     </div>
                     <div class="playlist-item" onclick="changeVideo('jfKfPfyJRdk', this, 'Lofi Chill Biển Đêm')">
-                        <img src="https://img.youtube.com/vi/jfKfPfyJRdk/hqdefault.jpg" alt="Video 2">
+                        <img src="https://img.youtube.com/vi/jfKfPfyJRdk/hqdefault.jpg" alt="Lofi Biển Đêm">
                         <span>Lofi Biển Đêm</span>
                     </div>
                     <div class="playlist-item" onclick="changeVideo('P52EwNtzWqU', this, 'Hoàng Hôn Trên Biển')">
-                        <img src="https://img.youtube.com/vi/P52EwNtzWqU/hqdefault.jpg" alt="Video 3">
+                        <img src="https://img.youtube.com/vi/P52EwNtzWqU/hqdefault.jpg" alt="Hoàng Hôn 4K">
                         <span>Hoàng Hôn 4K</span>
                     </div>
                     <div class="playlist-item" onclick="changeVideo('awmC8o_2s-8', this, 'Khám Phá Rạn San Hô Dưới Đáy Biển')">
-                        <img src="https://img.youtube.com/vi/awmC8o_2s-8/hqdefault.jpg" alt="Video 4">
+                        <img src="https://img.youtube.com/vi/awmC8o_2s-8/hqdefault.jpg" alt="Lặn Biển San Hô">
                         <span>Lặn Biển San Hô</span>
                     </div>
                 </div>
@@ -422,6 +403,7 @@
     <script>
         var player;
         var timeUpdater;
+        var isDragging = false; 
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-video', {
@@ -447,7 +429,7 @@
         }
 
         function updateTime() {
-            if(player && player.getCurrentTime) {
+            if(player && player.getCurrentTime && !isDragging) {
                 var current = player.getCurrentTime();
                 var duration = player.getDuration();
                 var percentage = (current / duration) * 100;
@@ -458,22 +440,36 @@
         }
 
         function formatTime(seconds) {
-            if (isNaN(seconds)) return "0:00";
+            if (isNaN(seconds) || seconds < 0) return "0:00";
             seconds = Math.round(seconds);
             var min = Math.floor(seconds / 60);
             var sec = seconds % 60;
             return min + ":" + (sec < 10 ? "0" + sec : sec);
         }
 
-        document.getElementById('seek-bar').addEventListener('input', function() {
+        var seekBar = document.getElementById('seek-bar');
+
+        seekBar.addEventListener('mousedown', function() { isDragging = true; });
+        seekBar.addEventListener('touchstart', function() { isDragging = true; });
+
+        seekBar.addEventListener('mouseup', function() {
+            isDragging = false;
             var duration = player.getDuration();
             var seekToTime = duration * (this.value / 100);
-            player.seekTo(seekToTime);
+            player.seekTo(seekToTime, true); 
+        });
+        seekBar.addEventListener('touchend', function() {
+            isDragging = false;
+            var duration = player.getDuration();
+            var seekToTime = duration * (this.value / 100);
+            player.seekTo(seekToTime, true); 
         });
 
         function seekVideo(seconds) {
-            var current = player.getCurrentTime();
-            player.seekTo(current + seconds);
+            if(player && player.getCurrentTime) {
+                var current = player.getCurrentTime();
+                player.seekTo(current + seconds, true);
+            }
         }
 
         function toggleMute() {
@@ -504,14 +500,11 @@
         }
 
         /* --- CHAT VÀ STICKER --- */
-        function toggleEmoji() {
-            document.getElementById('emoji-picker').classList.toggle('show');
-        }
+        function toggleEmoji() { document.getElementById('emoji-picker').classList.toggle('show'); }
 
         function insertEmoji(emoji) {
             var input = document.getElementById('chat-input');
-            input.value += emoji;
-            input.focus();
+            input.value += emoji; input.focus();
             document.getElementById('emoji-picker').classList.remove('show');
         }
 
@@ -541,13 +534,8 @@
         function handleKeyPress(event) { if (event.key === "Enter") { sendMessage(); } }
 
         /* --- CÁC NÚT HIỂN THỊ --- */
-        function toggleChat() { 
-            document.getElementById('chat-box').classList.toggle('hidden'); 
-        }
-
-        function toggleSpotify() { 
-            document.getElementById('spotify-player').classList.toggle('show'); 
-        }
+        function toggleChat() { document.getElementById('chat-box').classList.toggle('hidden'); }
+        function toggleSpotify() { document.getElementById('spotify-player').classList.toggle('show'); }
 
         function openFullscreen() {
             const playerContainer = document.getElementById("player-container");
