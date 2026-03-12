@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeaVibe - Trực Tiếp Không Gian Biển</title>
+    <title>SeaVibe - Phòng Live Tương Tác</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500;700&family=Quicksand:wght@500;600;700&display=swap');
 
@@ -18,68 +18,36 @@
             width: 100vw;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
-            background-color: #000;
+            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            position: relative;
         }
 
-        /* --- BACKGROUND YOUTUBE VIDEO --- */
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        /* Thiết lập để iframe YouTube luôn phủ kín màn hình (cover) */
-        .video-container iframe {
-            width: 100vw;
-            height: 56.25vw; /* Tỉ lệ 16:9 */
-            min-height: 100vh;
-            min-width: 177.77vh;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none; /* Không cho người dùng click vào YouTube để dừng video */
-        }
-
-        /* Lớp phủ vintage để đồng bộ màu sắc với các trang trước */
         .vintage-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(43, 91, 92, 0.15) 0%, rgba(200, 160, 120, 0.2) 100%);
+            background: linear-gradient(135deg, rgba(43, 91, 92, 0.4) 0%, rgba(200, 160, 120, 0.4) 100%);
             mix-blend-mode: multiply;
             z-index: 1;
             pointer-events: none;
         }
 
-        /* --- GIAO DIỆN NGƯỜI DÙNG (UI LAYER) --- */
-        .ui-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* --- HEADER --- */
+        header {
+            position: relative;
             z-index: 10;
-            pointer-events: none; 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 30px 40px;
-        }
-
-        .ui-layer > * {
-            pointer-events: auto;
-        }
-
-        .header-top {
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .icon-btn {
@@ -89,101 +57,108 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .icon-btn:hover {
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(1.05);
-        }
-
-        .icon-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: #fff;
-        }
-
-        /* Thông tin địa điểm & Live */
-        .location-badge {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 8px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            transition: 0.3s;
             color: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 20px;
         }
+        .icon-btn:hover { background: rgba(255, 255, 255, 0.5); }
 
-        .loc-name {
-            font-size: 16px;
+        .live-title {
+            color: #fff;
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .weather-info {
-            font-size: 14px;
-            font-weight: 600;
-            color: #f4a460;
-            border-left: 1px solid rgba(255,255,255,0.3);
-            padding-left: 15px;
-        }
-
-        .live-indicator {
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #ff4757;
-            text-transform: uppercase;
+            gap: 10px;
         }
 
         .live-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background-color: #ff4757;
             border-radius: 50%;
             box-shadow: 0 0 8px #ff4757;
-            animation: blink 1.5s infinite ease-in-out;
+            animation: blink 1.5s infinite;
         }
 
-        @keyframes blink {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.3); }
-            100% { opacity: 1; transform: scale(1); }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .btn-toggle-chat {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-toggle-chat:hover { background: rgba(255, 255, 255, 0.4); }
+
+        /* --- BỐ CỤC CHÍNH --- */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            height: calc(100vh - 85px);
+            padding: 0 40px 30px 40px;
+            gap: 30px;
         }
 
-        /* Thanh điều khiển dưới cùng */
-        .bottom-controls {
-            align-self: center;
+        /* 1. KHU VỰC VIDEO */
+        .video-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+        }
+
+        .player-container {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid #87CEEB; 
+            border-radius: 15px;
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #video-wrapper {
+            width: 100%;
+            position: relative;
+            padding-top: 56.25%; 
+            pointer-events: none; 
+        }
+
+        #video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .custom-controls {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            padding: 10px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .control-group {
             display: flex;
             align-items: center;
             gap: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: opacity 0.5s ease;
-        }
-
-        .ui-layer:not(:hover) .bottom-controls {
-            opacity: 0.4;
-        }
-        .bottom-controls:hover {
-            opacity: 1 !important;
         }
 
         .control-btn {
@@ -192,79 +167,365 @@
             color: #fff;
             font-size: 20px;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: 0.3s;
             display: flex;
             align-items: center;
         }
+        .control-btn:hover { color: #f4a460; }
 
-        .control-btn:hover {
+        .volume-slider {
+            width: 100px;
+            accent-color: #87CEEB; 
+            cursor: pointer;
+        }
+
+        /* 2. KHU VỰC CHAT */
+        .chat-section {
+            width: 350px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .chat-section.hidden {
+            width: 0;
+            opacity: 0;
+            margin-left: -30px;
+            pointer-events: none;
+            border: none;
+        }
+
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.3) transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+
+        .message { display: flex; gap: 10px; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: #f4a460;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #fff;
+            font-size: 14px;
+            flex-shrink: 0; 
+        }
+
+        .msg-content {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            border-radius: 0 15px 15px 15px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.4;
+            word-break: break-word; 
+        }
+
+        .msg-author {
+            font-size: 12px;
+            color: #87CEEB;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .message.self {
+            flex-direction: row-reverse;
+        }
+        .message.self .msg-content {
+            border-radius: 15px 0 15px 15px;
+            background: rgba(135, 206, 235, 0.2);
+        }
+        .message.self .msg-author {
+            text-align: right;
             color: #f4a460;
         }
 
-        .volume-slider {
-            width: 80px;
-            accent-color: #f4a460;
-            cursor: pointer;
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
         }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .chat-input-area input::placeholder { color: #ccc; }
+
+        .btn-send {
+            background: #87CEEB;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .btn-send:hover { background: #f4a460; color: #fff; }
+
+        /* --- SPOTIFY WIDGET --- */
+        .spotify-widget {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            z-index: 50;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 15px;
+        }
+
+        .btn-spotify {
+            background: rgba(30, 215, 96, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 215, 96, 0.5);
+            border-radius: 30px;
+            padding: 10px 20px;
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: max-content;
+        }
+        .btn-spotify:hover { background: rgba(30, 215, 96, 0.5); }
+
+        .spotify-player-box {
+            display: none; 
+            width: 300px;
+            height: 152px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .spotify-player-box.show { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="video-container">
-        <iframe 
-            src="https://www.youtube.com/shorts/i9jurO4Y0Ts?feature=share" 
-            frameborder="0" 
-            allow="autoplay; fullscreen; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
-    </div>
-
     <div class="vintage-overlay"></div>
 
-    <div class="ui-layer">
-        
-        <div class="header-top">
-            <button class="icon-btn" title="Quay lại Bản đồ">
-                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-            </button>
+    <header>
+        <div class="header-left">
+            <button class="icon-btn" onclick="history.back();" title="Quay lại">❮</button>
+            <div class="live-title">
+                <div class="live-dot"></div> Đảo Phú Quý - Trải nghiệm Local
+            </div>
+        </div>
+        <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
+    </header>
 
-            <div class="location-badge">
-                <div class="live-indicator">
-                    <div class="live-dot"></div> LIVE
+    <div class="main-container">
+        
+        <div class="video-section">
+            <div class="player-container" id="player-container">
+                <div id="video-wrapper">
+                    <iframe 
+                        id="yt-video"
+                        src="https://www.youtube.com/embed/9g8XTTFZPBg?autoplay=1&mute=1&controls=0&loop=1&playlist=9g8XTTFZPBg&modestbranding=1&rel=0&showinfo=0&enablejsapi=1" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture">
+                    </iframe>
                 </div>
-                <div class="loc-name">Cầu Hôn - Phú Quốc</div>
-                <div class="weather-info">🌅 28°C</div>
+                <div class="custom-controls">
+                    <div class="control-group">
+                        <button class="control-btn" id="btn-play" onclick="togglePlayPause()" title="Phát / Tạm dừng">⏸</button>
+                        <button class="control-btn" id="btn-mute" onclick="toggleMute()" title="Bật / Tắt âm thanh">🔇</button>
+                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50" oninput="changeVolume()">
+                    </div>
+                    <div class="control-group">
+                        <button class="control-btn" onclick="openFullscreen()" title="Toàn màn hình">⛶ Phóng to</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="bottom-controls">
-            <button class="control-btn" title="Phát / Tạm dừng">⏸</button>
-            <button class="control-btn" title="Bật / Tắt âm thanh">🔊</button>
-            <input type="range" class="volume-slider" min="0" max="100" value="50">
-            <button class="control-btn" title="Toàn màn hình">⛶</button>
+        <div class="chat-section" id="chat-box">
+            <div class="chat-header">Khu Vực Giao Lưu 🌊</div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message">
+                    <div class="avatar">H</div>
+                    <div class="msg-content">
+                        <div class="msg-author">Hải Yến</div>
+                        Ê bà ơi chill quá nè! Phú Quý đẹp xỉu!
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
+                <button class="btn-send" onclick="sendMessage()">➤</button>
+            </div>
         </div>
 
     </div>
+
+    <div class="spotify-widget">
+        <button class="btn-spotify" onclick="toggleSpotify()">🎵 Spotify Playlist</button>
+        <div class="spotify-player-box" id="spotify-player">
+            <iframe src="http://googleusercontent.com/spotify.com/7" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
-        // Mở hoặc đóng menu khi click vào khung location
-        function toggleMenu(event) {
-            document.getElementById("location-list").classList.toggle("show");
-            event.stopPropagation(); // Ngăn sự kiện click lọt ra ngoài màn hình
+        // --- 1. TÍNH NĂNG ĐIỀU KHIỂN YOUTUBE BẰNG CODE CỦA MÌNH ---
+        var player;
+        
+        // Hàm này tự động chạy khi thư viện YouTube tải xong
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-video', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
         }
 
-        // Đổi tên địa điểm & thời tiết khi chọn 1 mục
-        function changeLoc(name, weather) {
-            document.getElementById("current-loc").innerHTML = name + " ▾";
-            document.getElementById("current-weather").innerHTML = weather;
+        function onPlayerReady(event) {
+            // Khi video đã sẵn sàng, đặt âm lượng mặc định theo thanh trượt
+            player.setVolume(50);
+        }
+
+        // Bật/Tắt âm thanh
+        function toggleMute() {
+            if (player.isMuted()) {
+                player.unMute();
+                document.getElementById('btn-mute').innerText = '🔊'; // Đổi icon sang đang mở
+            } else {
+                player.mute();
+                document.getElementById('btn-mute').innerText = '🔇'; // Đổi icon sang tắt
+            }
+        }
+
+        // Kéo thanh âm lượng
+        function changeVolume() {
+            var vol = document.getElementById('volume-slider').value;
+            player.setVolume(vol);
             
-            // Note: Trong thực tế, hàm này sẽ gọi lệnh đổi video nền nữa.
+            // Nếu đang kéo âm lượng lên mà video đang bị tắt tiếng thì tự động bật tiếng lên
+            if (vol > 0 && player.isMuted()) {
+                player.unMute();
+                document.getElementById('btn-mute').innerText = '🔊';
+            }
         }
 
-        // Tự động đóng menu nếu người dùng click ra ngoài màn hình trống
-        window.onclick = function(event) {
-            var dropdown = document.getElementById("location-list");
-            if (dropdown.classList.contains('show')) {
-                dropdown.classList.remove('show');
+        // Phát/Tạm dừng video
+        function togglePlayPause() {
+            var state = player.getPlayerState();
+            // 1 nghĩa là đang Play, 2 nghĩa là đang Pause
+            if (state == 1) { 
+                player.pauseVideo();
+                document.getElementById('btn-play').innerText = '▶️';
+            } else {
+                player.playVideo();
+                document.getElementById('btn-play').innerText = '⏸';
+            }
+        }
+
+
+        // --- CÁC TÍNH NĂNG GIAO DIỆN KHÁC (GIỮ NGUYÊN) ---
+        function toggleChat() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.classList.toggle('hidden');
+        }
+
+        function toggleSpotify() {
+            const spotifyPlayer = document.getElementById('spotify-player');
+            spotifyPlayer.classList.toggle('show');
+        }
+
+        function openFullscreen() {
+            const playerContainer = document.getElementById("player-container");
+            if (playerContainer.requestFullscreen) {
+                playerContainer.requestFullscreen();
+            } else if (playerContainer.webkitRequestFullscreen) {
+                playerContainer.webkitRequestFullscreen();
+            } else if (playerContainer.msRequestFullscreen) {
+                playerContainer.msRequestFullscreen();
+            }
+        }
+
+        function sendMessage() {
+            const inputField = document.getElementById('chat-input');
+            const messageText = inputField.value.trim();
+
+            if (messageText !== "") {
+                const chatMessages = document.getElementById('chat-messages');
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message', 'self');
+
+                newMessage.innerHTML = `
+                    <div class="avatar" style="background:#87CEEB; color: #000;">T</div>
+                    <div class="msg-content">
+                        <div class="msg-author">Thắng</div>
+                        ${messageText}
+                    </div>
+                `;
+
+                chatMessages.appendChild(newMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                inputField.value = "";
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
             }
         }
     </script>
