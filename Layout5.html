@@ -352,6 +352,62 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* =======================================================
+           RESPONSIVE CHO LAYOUT 5 (PHÒNG LIVE)
+           ======================================================= */
+        
+        @media (max-width: 1024px) {
+            /* Mở khóa cuộn trang trên màn hình nhỏ */
+            body { 
+                height: auto; 
+                overflow-x: hidden; 
+                overflow-y: auto; 
+            }
+            
+            header { padding: 15px 20px; }
+            .live-title { font-size: 18px; }
+
+            /* Đổi cấu trúc từ dàn ngang (row) sang xếp dọc (column) */
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                padding: 0 20px 20px 20px;
+                gap: 20px;
+            }
+
+            /* Video bung tràn 100% chiều ngang */
+            .video-section {
+                width: 100%;
+                flex: none;
+            }
+
+            /* Khung chat nằm dưới video, cũng tràn 100% chiều ngang */
+            .chat-section {
+                width: 100%;
+                height: 450px; /* Khống chế chiều cao để cuộn tin nhắn */
+            }
+            .chat-section.hidden {
+                display: none; /* Ẩn hoàn toàn thay vì thu hẹp trên mobile */
+            }
+
+            /* Widget Spotify đưa xuống dưới cùng, hiển thị theo khối */
+            .spotify-widget {
+                position: relative;
+                bottom: auto; left: auto;
+                margin: 0 20px 30px 20px;
+                width: calc(100% - 40px);
+            }
+            .spotify-player-box { width: 100%; }
+            .btn-spotify { margin: 0 auto; } /* Ra giữa */
+        }
+
+        @media (max-width: 480px) {
+            .custom-controls { padding: 10px; }
+            .control-group { gap: 10px; }
+            .volume-slider { width: 70px; } /* Thu ngắn thanh âm lượng */
+            .btn-toggle-chat { padding: 8px 12px; font-size: 12px; }
+        }
+
     </style>
 </head>
 <body>
