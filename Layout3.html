@@ -218,6 +218,43 @@
             transform: scale(1.1);
         }
 
+        /* =======================================================
+           RESPONSIVE CHO LAYOUT 3 (BẢN ĐỒ)
+           ======================================================= */
+        
+        /* Màn hình Tablet (iPad) */
+        @media (max-width: 1024px) {
+            .circle-map-container {
+                transform: translate(-50%, -50%) scale(0.8); /* Thu nhỏ 80% */
+            }
+            .main-title { font-size: 26px; }
+        }
+
+        /* Màn hình Điện thoại di động */
+        @media (max-width: 768px) {
+            header {
+                top: 15px; left: 15px; right: 15px;
+            }
+            .main-title { 
+                font-size: 20px; 
+                text-align: center;
+                line-height: 1.2;
+            }
+            .icon-btn { width: 35px; height: 35px; font-size: 16px; }
+            
+            .circle-map-container {
+                /* Kéo lên một chút và thu nhỏ chỉ còn 50% để lọt thỏm vào màn hình dọc */
+                transform: translate(-50%, -45%) scale(0.5); 
+            }
+        }
+
+        /* Màn hình Điện thoại siêu nhỏ (iPhone cũ) */
+        @media (max-width: 480px) {
+            .circle-map-container {
+                transform: translate(-50%, -45%) scale(0.4); /* Thu nhỏ 40% */
+            }
+        }
+
     </style>
 </head>
 <body>
