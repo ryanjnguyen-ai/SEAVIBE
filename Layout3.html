@@ -18,12 +18,10 @@
             width: 100vw;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
-            /* Nền đáy biển xanh thẳm sâu thẳm */
             background: url('https://images.unsplash.com/photo-1682687982501-1e5898cb8f4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-            background-color: #041424; /* Backup color */
+            background-color: #041424; 
         }
 
-        /* Lớp phủ màu xanh đen thẳm + Hiệu ứng hạt sao li ti */
         .deep-sea-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -73,7 +71,6 @@
             z-index: 10;
         }
 
-        /* Vòng tròn mờ (Quỹ đạo) */
         .orbit-ring {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -83,26 +80,21 @@
             pointer-events: none;
         }
 
-        /* Từng cụm Vỏ sò + Chữ */
         .shell-item {
             position: absolute;
             top: 50%; left: 50%;
-            /* Căn giữa tâm của vỏ sò vào quỹ đạo */
             margin: -75px 0 0 -75px; 
             width: 150px; height: 150px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer;
         }
 
-        /* Thuật toán CSS xếp 5 vật thể thành vòng tròn (360/5 = 72 độ) 
-           Bán kính vòng tròn là 250px (dịch chuyển translateX 250px) */
-        .shell-item:nth-child(2) { transform: rotate(-90deg) translate(250px) rotate(90deg); }  /* Top */
-        .shell-item:nth-child(3) { transform: rotate(-18deg) translate(250px) rotate(18deg); }  /* Top Right */
-        .shell-item:nth-child(4) { transform: rotate(54deg) translate(250px) rotate(-54deg); }  /* Bottom Right */
-        .shell-item:nth-child(5) { transform: rotate(126deg) translate(250px) rotate(-126deg); } /* Bottom Left */
-        .shell-item:nth-child(6) { transform: rotate(198deg) translate(250px) rotate(-198deg); } /* Top Left */
+        .shell-item:nth-child(2) { transform: rotate(-90deg) translate(250px) rotate(90deg); }  
+        .shell-item:nth-child(3) { transform: rotate(-18deg) translate(250px) rotate(18deg); }  
+        .shell-item:nth-child(4) { transform: rotate(54deg) translate(250px) rotate(-54deg); }  
+        .shell-item:nth-child(5) { transform: rotate(126deg) translate(250px) rotate(-126deg); } 
+        .shell-item:nth-child(6) { transform: rotate(198deg) translate(250px) rotate(-198deg); } 
 
-        /* Bọc hình ảnh vỏ sò */
         .shell-img-wrapper {
             position: relative;
             width: 100px; height: 100px;
@@ -111,7 +103,6 @@
             animation: float 4s infinite ease-in-out;
         }
 
-        /* Delay để các vỏ sò nhấp nhô không đều nhau */
         .shell-item:nth-child(3) .shell-img-wrapper { animation-delay: 0.5s; }
         .shell-item:nth-child(4) .shell-img-wrapper { animation-delay: 1s; }
         .shell-item:nth-child(5) .shell-img-wrapper { animation-delay: 1.5s; }
@@ -122,31 +113,30 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Khung nền trắng hình tròn mới cho vỏ sò */
+        /* Nền trắng ôm trọn vỏ sò để đồng bộ màu */
         .shell-bg-circle {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 130%; /* Kích thước nền trắng đủ lớn để bao quanh, nhưng nhỏ hơn hào quang */
-            height: 130%;
-            background-color: #ffffff; /* Màu trắng nguyên bản */
+            width: 120px; 
+            height: 120px;
+            background-color: #ffffff; 
             border-radius: 50%;
-            z-index: 1; /* Nằm dưới vỏ sò */
+            z-index: 1; 
             pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Đổ bóng nhẹ để tạo khối */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
         }
 
-        /* Hình ảnh vỏ sò (Xóa nền trắng, phóng to) */
+        /* Ảnh vỏ sò: Thu nhỏ một chút để nằm lọt thỏm trong nền trắng */
         .shell-img {
-            width: 80%; /* Phóng to kích thước vỏ sò so với .shell-img-wrapper */
-            height: auto;
+            width: 90px; 
+            height: 90px;
             object-fit: contain;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6)); /* Đổ bóng 3D */
+            mix-blend-mode: darken; 
             position: relative;
-            z-index: 2; /* Nằm trên nền trắng */
+            z-index: 2; 
         }
 
-        /* HIỆU ỨNG LẤP LÁNH SAO ĐỘNG (Bao quanh nền trắng) */
         .sparkle-aura {
             position: absolute;
             top: -30%; left: -30%; width: 160%; height: 160%;
@@ -155,7 +145,7 @@
             background-size: 200% 200%;
             opacity: 0.6;
             animation: spinAndPulse 3s infinite linear;
-            z-index: 0; /* Nằm dưới cùng */
+            z-index: 0; 
             pointer-events: none;
             filter: blur(2px) brightness(1.2);
         }
@@ -166,31 +156,29 @@
             100% { transform: rotate(360deg) scale(0.8); opacity: 0.3; }
         }
 
-        /* Hiệu ứng khi hover vào cụm vỏ sò */
         .shell-item:hover .shell-img-wrapper {
-            transform: scale(1.1); /* Phóng to nhẹ cả cụm */
+            transform: scale(1.15); 
         }
         .shell-item:hover .sparkle-aura {
             opacity: 0.9;
-            animation-duration: 1.5s; /* Lấp lánh quay nhanh hơn */
+            animation-duration: 1.5s; 
             filter: blur(4px) brightness(1.5);
         }
 
-        /* --- CHỮ ĐỊA DANH PHÓNG TO & SÁNG HƠN --- */
+        /* --- CHỮ ĐỊA DANH --- */
         .shell-text {
             position: absolute;
             text-align: center;
             width: 250px;
-            pointer-events: none; /* Không cản trở click chuột vào vỏ sò */
+            pointer-events: none; 
             transition: all 0.3s ease;
         }
 
-        /* Tinh chỉnh vị trí chữ để không đè lên vỏ sò (tùy vào vị trí trong vòng tròn) */
-        .shell-item:nth-child(2) .shell-text { top: -60px; right: -120px; text-align: left; }
-        .shell-item:nth-child(3) .shell-text { top: 30px; left: 110px; text-align: left; }
-        .shell-item:nth-child(4) .shell-text { top: 110px; left: 60px; text-align: left; }
-        .shell-item:nth-child(5) .shell-text { top: 110px; right: 60px; text-align: right; }
-        .shell-item:nth-child(6) .shell-text { top: 30px; right: 110px; text-align: right; }
+        .shell-item:nth-child(2) .shell-text { top: -85px; left: -50px; text-align: center; } 
+        .shell-item:nth-child(3) .shell-text { top: 25px; left: 165px; text-align: left; }   
+        .shell-item:nth-child(4) .shell-text { top: 130px; left: 110px; text-align: left; }   
+        .shell-item:nth-child(5) .shell-text { top: 130px; right: 110px; text-align: right; } 
+        .shell-item:nth-child(6) .shell-text { top: 25px; right: 165px; text-align: right; }  
 
         .shell-type {
             font-size: 16px;
@@ -201,16 +189,14 @@
         }
 
         .shell-name {
-            font-size: 28px; /* Tăng size gấp 3 lần so với bản cũ */
+            font-size: 28px; 
             font-weight: 700;
-            color: #ffffff; /* Trắng tinh để nổi bật */
+            color: #ffffff; 
             text-transform: uppercase;
             letter-spacing: 1px;
-            /* Phát sáng cực mạnh để dễ đọc trên nền tối */
             text-shadow: 0 0 10px #ffffff, 0 0 20px #00d2ff, 0 0 30px #00d2ff, 0 4px 10px rgba(0,0,0,1); 
         }
 
-        /* Hiệu ứng chữ sáng rực lên khi hover */
         .shell-item:hover .shell-name {
             text-shadow: 0 0 15px #ffffff, 0 0 30px #00d2ff, 0 0 50px #00d2ff;
             transform: scale(1.1);
@@ -234,10 +220,11 @@
         
         <div class="orbit-ring"></div>
 
-        <div class="shell-item" onclick="window.location.href='live.html';">
+        <div class="shell-item" onclick="window.location.href='Layout5.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
-                <div class="shell-bg-circle"></div> <img src="So1.png" alt="Vỏ sò điệp" class="shell-img">
+                <div class="shell-bg-circle"></div> 
+                <img src="So1.png" alt="Vỏ sò điệp" class="shell-img">
             </div>
             <div class="shell-text">
                 <div class="shell-type">Vỏ Sò Điệp</div>
@@ -245,7 +232,7 @@
             </div>
         </div>
 
-        <div class="shell-item" onclick="window.location.href='live.html';">
+        <div class="shell-item" onclick="window.location.href='Layout5.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
                 <div class="shell-bg-circle"></div>
@@ -257,7 +244,7 @@
             </div>
         </div>
 
-        <div class="shell-item" onclick="window.location.href='live.html';">
+        <div class="shell-item" onclick="window.location.href='Layout5.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
                 <div class="shell-bg-circle"></div>
@@ -269,7 +256,7 @@
             </div>
         </div>
 
-        <div class="shell-item" onclick="window.location.href='live.html';">
+        <div class="shell-item" onclick="window.location.href='Layout5.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
                 <div class="shell-bg-circle"></div>
@@ -281,7 +268,7 @@
             </div>
         </div>
 
-        <div class="shell-item" onclick="window.location.href='live.html';">
+        <div class="shell-item" onclick="window.location.href='Layout5.html';">
             <div class="shell-img-wrapper">
                 <div class="sparkle-aura"></div>
                 <div class="shell-bg-circle"></div>
