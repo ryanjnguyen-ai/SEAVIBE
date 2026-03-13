@@ -7,11 +7,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500;700&family=Quicksand:wght@500;600;700&display=swap');
 
-        /* --- ĐINH BA POSEIDON --- */
+        /* --- ĐINH BA POSEIDON CÙNG HIỆU ỨNG CHUỘT --- */
         body, a, button, .playlist-item, .icon-btn, .seek-bar, .volume-slider, span, div {
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
         }
-
         input { cursor: text !important; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,8 +24,7 @@
 
         .vintage-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: 1; pointer-events: none;
+            background: rgba(0, 0, 0, 0.2); z-index: 1; pointer-events: none;
         }
 
         /* --- HEADER --- */
@@ -35,68 +33,37 @@
             padding: 15px 40px; display: flex;
             justify-content: space-between; align-items: center;
         }
-
         .header-left { display: flex; align-items: center; gap: 20px; }
-
         .icon-btn {
             width: 45px; height: 45px; border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
             display: flex; justify-content: center; align-items: center;
             transition: 0.3s; color: #fff; font-size: 20px;
         }
         .icon-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
         .live-title {
-            color: #fff; font-size: 24px; font-weight: 700;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            color: #fff; font-size: 24px; font-weight: 700; text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
             display: flex; align-items: center; gap: 10px;
         }
-
         .live-dot {
-            width: 10px; height: 10px; background-color: #ff4757;
-            border-radius: 50%; box-shadow: 0 0 8px #ff4757;
-            animation: blink 1.5s infinite;
+            width: 10px; height: 10px; background-color: #ff4757; border-radius: 50%;
+            box-shadow: 0 0 8px #ff4757; animation: blink 1.5s infinite;
         }
-
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* HEADER RIGHT */
+        /* NÚT TIỆN ÍCH - NỀN GIF NÀNG TIÊN CÁ */
         .header-right { display: flex; gap: 15px; align-items: center; }
-
-        .spotify-widget-compact {
-            width: 320px; height: 80px; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* =========================================
-           NÚT CHAT - NỀN GIF NÀNG TIÊN CÁ 
-           ========================================= */
         .btn-toggle-chat {
-            /* Phủ gradient đen mờ 40% lên trên để chữ rõ ràng, kết hợp ảnh GIF làm nền */
+            /* Lớp phủ đen 40% để làm nổi bật dòng chữ, bên dưới là ảnh GIF nàng tiên cá */
             background: linear-gradient(rgba(10, 20, 30, 0.4), rgba(10, 20, 30, 0.4)), 
                         url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif') no-repeat center center / cover;
-            border: 1px solid rgba(135, 206, 235, 0.6);
-            padding: 10px 25px; 
-            border-radius: 30px; 
-            height: 48px;
-            color: #fff; 
-            font-weight: 700; 
-            transition: 0.3s;
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            white-space: nowrap;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
-            text-shadow: 1px 1px 4px #000; /* Đổ bóng đen cho chữ để nổi bật nét cắt */
-            overflow: hidden;
+            border: 1px solid rgba(135, 206, 235, 0.6); padding: 10px 25px; border-radius: 30px; height: 48px;
+            color: #fff; font-weight: 700; transition: 0.3s; display: flex; align-items: center; gap: 8px; white-space: nowrap;
+            box-shadow: 0 0 15px rgba(135, 206, 235, 0.3); text-shadow: 1px 1px 4px #000; overflow: hidden; cursor: pointer;
         }
-        
         .btn-toggle-chat:hover { 
-            border-color: #87CEEB;
-            box-shadow: 0 0 25px rgba(135, 206, 235, 0.8);
-            /* Khi hover, giảm lớp mờ đi để lộ GIF sáng đẹp hơn */
+            border-color: #87CEEB; box-shadow: 0 0 25px rgba(135, 206, 235, 0.8);
             background: linear-gradient(rgba(10, 20, 30, 0.1), rgba(10, 20, 30, 0.1)), 
                         url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif') no-repeat center center / cover;
             transform: scale(1.02);
@@ -105,147 +72,135 @@
         /* --- BỐ CỤC CHÍNH --- */
         .main-container {
             position: relative; z-index: 10; display: flex;
-            height: calc(100vh - 115px); padding: 0 40px 30px 40px; gap: 30px;
+            height: calc(100vh - 100px); padding: 0 40px 20px 40px; gap: 30px;
         }
 
-        /* KHU VỰC VIDEO */
+        /* 1. KHU VỰC VIDEO BÊN TRÁI */
         .video-wrapper-section {
-            flex: 1; display: flex; flex-direction: column; gap: 20px; transition: all 0.4s ease;
+            flex: 1; display: flex; flex-direction: column; gap: 15px; transition: all 0.4s ease;
         }
-
         .player-container {
-            background: rgba(0, 0, 0, 0.5); 
-            border: 2px solid rgba(135, 206, 235, 0.5); border-radius: 15px;
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            display: flex; flex-direction: column;
+            background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(135, 206, 235, 0.5); border-radius: 15px;
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; flex-direction: column;
         }
-
-        #video-wrapper {
-            width: 100%; position: relative; padding-top: 56.25%; background: #000;
-        }
-
-        #html5-video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-        }
-
-        /* THANH TIẾN ĐỘ */
-        .seek-bar-container {
-            width: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center;
-        }
-        .seek-bar {
-            width: 100%; -webkit-appearance: none; appearance: none;
-            background: transparent; height: 10px; outline: none; margin: 0; z-index: 20; position: relative;
-        }
+        #video-wrapper { width: 100%; position: relative; padding-top: 56.25%; background: #000; }
+        #html5-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        
+        .seek-bar-container { width: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; }
+        .seek-bar { width: 100%; -webkit-appearance: none; appearance: none; background: transparent; height: 10px; outline: none; margin: 0; z-index: 20; position: relative; }
         .seek-bar::-webkit-slider-runnable-track { width: 100%; height: 6px; background: rgba(255,255,255,0.2); }
-        .seek-bar::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 16px; height: 16px; background: #87CEEB; border-radius: 50%;
-            margin-top: -5px; transition: 0.2s; box-shadow: 0 0 10px rgba(135, 206, 235, 0.8);
-        }
+        .seek-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; background: #87CEEB; border-radius: 50%; margin-top: -5px; transition: 0.2s; box-shadow: 0 0 10px rgba(135, 206, 235, 0.8); }
         .seek-bar::-webkit-slider-thumb:hover { transform: scale(1.3); }
-
-        .custom-controls {
-            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px);
-            padding: 12px 25px; display: flex; justify-content: space-between; align-items: center;
-        }
-
+        
+        .custom-controls { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; }
         .control-group { display: flex; align-items: center; gap: 15px; }
-
-        .control-btn {
-            background: none; border: none; color: #fff; font-size: 20px; transition: 0.3s; display: flex; align-items: center;
-        }
+        .control-btn { background: none; border: none; color: #fff; font-size: 20px; transition: 0.3s; display: flex; align-items: center; }
         .control-btn:hover { color: #87CEEB; transform: scale(1.1); }
-
         .volume-slider { width: 90px; accent-color: #87CEEB; }
         .time-display { color: #eee; font-size: 14px; font-weight: 600; margin-left: 10px; min-width: 90px; }
 
-        /* DANH SÁCH PLAYLIST */
         .playlist-section {
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
-            border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
-        .playlist-section h3 { color: #fff; font-size: 16px; margin-bottom: 12px; font-family: 'Quicksand', sans-serif;}
-        
-        .playlist-items {
-            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;
-            scrollbar-width: thin; scrollbar-color: #87CEEB transparent;
-        }
+        .playlist-section h3 { color: #fff; font-size: 16px; margin-bottom: 12px; }
+        .playlist-items { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: #87CEEB transparent; }
         .playlist-items::-webkit-scrollbar { height: 6px; }
         .playlist-items::-webkit-scrollbar-thumb { background: #87CEEB; border-radius: 10px; }
+        .playlist-item { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; background: rgba(255,255,255,0.05); }
+        .playlist-item:hover, .playlist-item.active { border-color: #87CEEB; background: rgba(135, 206, 235, 0.15); transform: translateY(-3px); }
+        .playlist-item img { width: 60px; height: 45px; object-fit: cover; border-radius: 5px; }
+        .playlist-item span { color: #fff; font-size: 14px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); white-space: nowrap; }
 
-        .playlist-item {
-            display: flex; align-items: center; gap: 10px;
-            flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px; cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; background: rgba(255,255,255,0.05);
-        }
-        .playlist-item:hover, .playlist-item.active { 
-            border-color: #87CEEB; background: rgba(135, 206, 235, 0.15); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .playlist-item img { width: 60px; height: 45px; object-fit: cover; border-radius: 5px; background: #222; }
-        .playlist-item span { color: #fff; font-size: 14px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* KHU VỰC CHAT */
-        .chat-section {
+        /* =========================================================================
+           2. CỘT SIDEBAR BÊN PHẢI (CHỨA SPOTIFY, POMODORO VÀ CHAT)
+           ========================================================================= */
+        .sidebar-section {
             flex: 0 0 25%; min-width: 320px; max-width: 400px;
-            background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 15px;
-            display: flex; flex-direction: column; overflow: hidden; transition: all 0.4s ease; box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; gap: 15px;
+            transition: all 0.4s ease;
         }
 
-        .chat-section.hidden { flex: 0 0 0%; min-width: 0; opacity: 0; margin-left: -30px; padding: 0; border: none; pointer-events: none; }
-        .chat-header { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-weight: 700; text-align: center; white-space: nowrap; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
+        .sidebar-section.hidden { 
+            flex: 0 0 0%; min-width: 0; opacity: 0; margin-left: -30px; pointer-events: none; 
+        }
+
+        /* Định dạng chung cho 3 widget */
+        .widget-block {
+            background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 15px;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.2); overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+
+        /* TỶ LỆ KÍCH THƯỚC MỚI: 10% - 30% - 60% */
+        .spotify-block { flex: 1; min-height: 80px; padding: 0;} /* Spotify 10% - Vừa đúng chuẩn widget nhỏ */
+        .pomodoro-block { flex: 3; min-height: 180px; padding: 15px; align-items: center; justify-content: center;} /* Pomodoro 30% */
+        .chat-block { flex: 6; min-height: 350px; } /* Chat 60% - Rộng rãi hơn */
+
+        /* WIDGET POMODORO (TRONG SUỐT) */
+        .pomo-header {
+            display: flex; gap: 10px; margin-bottom: 15px;
+            background: rgba(255,255,255,0.1); padding: 5px; border-radius: 20px;
+        }
+        .pomo-btn {
+            background: none; border: none; color: #ccc; font-weight: 600; font-size: 13px;
+            padding: 8px 15px; border-radius: 15px; transition: 0.3s;
+        }
+        .pomo-btn:hover { color: #fff; }
+        .pomo-btn.active { background: rgba(135, 206, 235, 0.5); color: #fff; box-shadow: 0 0 10px rgba(135,206,235,0.5); }
+        
+        .pomo-time {
+            font-size: 65px; font-weight: 700; color: #fff; letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-bottom: 15px; font-family: 'Asap Condensed', sans-serif;
+        }
+
+        .pomo-start {
+            background: #fff; color: #000; font-weight: 700; font-size: 16px;
+            padding: 10px 40px; border-radius: 30px; border: none; transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.2); letter-spacing: 1px;
+        }
+        .pomo-start:hover { background: #87CEEB; color: #fff; box-shadow: 0 5px 20px rgba(135,206,235,0.6); transform: translateY(-2px);}
+
+        /* WIDGET CHAT */
+        .chat-header { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-weight: 700; text-align: center; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
         .message { display: flex; gap: 10px; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .avatar { width: 35px; height: 35px; background: #87CEEB; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #000; font-size: 14px; flex-shrink: 0; }
-        .msg-content { background: rgba(255, 255, 255, 0.1); padding: 10px 15px; border-radius: 0 15px 15px 15px; color: #eee; font-size: 14px; line-height: 1.4; word-break: break-word; }
-        .msg-author { font-size: 12px; color: #87CEEB; font-weight: 700; margin-bottom: 3px; }
-
+        .avatar { width: 32px; height: 32px; background: #87CEEB; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #000; font-size: 13px; flex-shrink: 0; }
+        .msg-content { background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 0 15px 15px 15px; color: #eee; font-size: 13px; line-height: 1.4; word-break: break-word; }
+        .msg-author { font-size: 11px; color: #87CEEB; font-weight: 700; margin-bottom: 2px; }
         .message.self { flex-direction: row-reverse; }
         .message.self .msg-content { border-radius: 15px 0 15px 15px; background: rgba(135, 206, 235, 0.2); color: #fff; }
         .message.self .msg-author { text-align: right; color: #87CEEB; }
         .message.self .avatar { background: #f4a460; color: #fff; }
 
-        /* KHUNG NHẬP CHAT */
-        .chat-input-wrapper { padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 8px; position: relative; }
-        .btn-emoji { background: none; border: none; font-size: 24px; cursor: pointer; transition: 0.2s; }
+        .chat-input-wrapper { padding: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 8px; position: relative; }
+        .btn-emoji { background: none; border: none; font-size: 22px; transition: 0.2s; }
         .btn-emoji:hover { transform: scale(1.1); filter: brightness(1.2); }
-        .chat-input-wrapper input { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: #fff; outline: none; font-family: 'Quicksand', sans-serif; width: 100%; }
-        .btn-send { background: #87CEEB; border: none; border-radius: 50%; width: 40px; height: 40px; color: #000; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; cursor: pointer;}
+        .chat-input-wrapper input { flex: 1; padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: #fff; outline: none; font-size: 13px;}
+        .btn-send { background: #87CEEB; border: none; border-radius: 50%; width: 35px; height: 35px; color: #000; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; }
         .btn-send:hover { background: #fff; box-shadow: 0 0 10px #87CEEB; }
-
-        .emoji-picker { position: absolute; bottom: 65px; left: 15px; background: rgba(20, 30, 45, 0.95); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; display: none; gap: 8px; flex-wrap: wrap; width: 220px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 20; }
+        
+        .emoji-picker { position: absolute; bottom: 55px; left: 10px; background: rgba(20, 30, 45, 0.95); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; display: none; gap: 8px; flex-wrap: wrap; width: 200px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 20; }
         .emoji-picker.show { display: flex; animation: slideUp 0.2s ease; }
-        .emoji-picker span { font-size: 24px; cursor: pointer; transition: 0.2s; }
+        .emoji-picker span { font-size: 20px; transition: 0.2s; }
         .emoji-picker span:hover { transform: scale(1.3); }
 
         /* MƯA BONG BÓNG LẤP LÁNH CỦA ĐINH BA */
         .magic-sparkle {
             position: absolute; pointer-events: none; z-index: 9999; background: #87CEEB;
-            border-radius: 50%; box-shadow: 0 0 8px #00d2ff, 0 0 15px #ffffff;
-            animation: sparkle-fade 0.8s ease-out forwards;
+            border-radius: 50%; box-shadow: 0 0 8px #00d2ff, 0 0 15px #ffffff; animation: sparkle-fade 0.8s ease-out forwards;
         }
-        @keyframes sparkle-fade {
-            0% { opacity: 1; transform: scale(1) translateY(0); }
-            100% { opacity: 0; transform: scale(0) translateY(20px); }
-        }
+        @keyframes sparkle-fade { 0% { opacity: 1; transform: scale(1) translateY(0); } 100% { opacity: 0; transform: scale(0) translateY(20px); } }
 
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             body { height: auto; overflow-x: hidden; overflow-y: auto; }
-            header { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; }
-            .header-right { width: 100%; justify-content: space-between; }
-            .main-container { flex-direction: column; height: auto; padding: 0 20px 20px 20px; gap: 20px; }
-            .chat-section { flex: none; width: 100%; max-width: none; height: 450px; margin-left: 0 !important; }
-            .chat-section.hidden { display: none !important; }
-        }
-        @media (max-width: 480px) {
-            .header-right { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .spotify-widget-compact { width: 100%; }
-            .time-display { display: none; } 
-            .control-group { gap: 10px; }
-            .volume-slider { width: 60px; }
+            .main-container { flex-direction: column; height: auto; }
+            .sidebar-section { flex: none; width: 100%; max-width: none; }
+            .sidebar-section.hidden { display: none !important; }
+            .spotify-block { min-height: 80px; }
+            .pomodoro-block { min-height: 200px; }
+            .chat-block { height: 400px; }
         }
     </style>
 </head>
@@ -262,11 +217,7 @@
         </div>
         
         <div class="header-right">
-            <div class="spotify-widget-compact">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            
-            <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
+            <button class="btn-toggle-chat" onclick="toggleSidebar()">💬 Ẩn / Hiện Tiện Ích</button>
         </div>
     </header>
 
@@ -277,7 +228,6 @@
                 <div id="video-wrapper">
                     <video id="html5-video" autoplay loop muted playsinline>
                         <source src="NhaTrang1.mp4" type="video/mp4">
-                        Trình duyệt của bạn không hỗ trợ thẻ video.
                     </video>
                 </div>
                 
@@ -290,7 +240,6 @@
                         <button class="control-btn" onclick="seekVideo(-10)" title="Lùi 10 giây">⏪</button>
                         <button class="control-btn" id="btn-play" onclick="togglePlayPause()" title="Phát / Tạm dừng">⏸</button>
                         <button class="control-btn" onclick="seekVideo(10)" title="Tiến 10 giây">⏩</button>
-                        
                         <button class="control-btn" id="btn-mute" onclick="toggleMute()" title="Bật / Tắt âm thanh">🔇</button>
                         <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="0" oninput="changeVolume()">
                         <span class="time-display" id="time-display">0:00 / 0:00</span>
@@ -324,55 +273,117 @@
             </div>
         </div>
 
-        <div class="chat-section" id="chat-box">
-            <div class="chat-header">Khu Vực Giao Lưu 🌊</div>
+        <div class="sidebar-section" id="sidebar-box">
             
-            <div class="chat-messages" id="chat-messages">
-                <div class="message">
-                    <div class="avatar">Y</div>
-                    <div class="msg-content">
-                        <div class="msg-author">Hải Yến</div>
-                        Ê bà ơi chill quá nè! Nút Chat đỉnh quá nha!
+            <div class="widget-block spotify-block">
+                <iframe style="border-radius:0px;" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <div class="widget-block pomodoro-block">
+                <div class="pomo-header">
+                    <button class="pomo-btn active" id="btn-pomo" onclick="setPomoMode('pomo')">Pomodoro</button>
+                    <button class="pomo-btn" id="btn-short" onclick="setPomoMode('short')">Short Break</button>
+                    <button class="pomo-btn" id="btn-long" onclick="setPomoMode('long')">Long Break</button>
+                </div>
+                <div class="pomo-time" id="pomo-time">25:00</div>
+                <button class="pomo-start" id="pomo-start-btn" onclick="togglePomo()">BẮT ĐẦU</button>
+            </div>
+
+            <div class="widget-block chat-block">
+                <div class="chat-header">Khu Vực Giao Lưu 🌊</div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message">
+                        <div class="avatar">Y</div>
+                        <div class="msg-content">
+                            <div class="msg-author">Hải Yến</div>
+                            Ê bà ơi chill quá nè! Bật Pomodoro lên học bài thôi! 📚
+                        </div>
                     </div>
+                </div>
+                <div class="chat-input-wrapper">
+                    <button class="btn-emoji" onclick="toggleEmoji()">😀</button>
+                    <div class="emoji-picker" id="emoji-picker">
+                        <span onclick="insertEmoji('😍')">😍</span><span onclick="insertEmoji('🔥')">🔥</span>
+                        <span onclick="insertEmoji('🌊')">🌊</span><span onclick="insertEmoji('❤️')">❤️</span>
+                        <span onclick="insertEmoji('✨')">✨</span><span onclick="insertEmoji('📚')">📚</span>
+                    </div>
+                    <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
+                    <button class="btn-send" onclick="sendMessage()">➤</button>
                 </div>
             </div>
 
-            <div class="chat-input-wrapper">
-                <button class="btn-emoji" onclick="toggleEmoji()">😀</button>
-                <div class="emoji-picker" id="emoji-picker">
-                    <span onclick="insertEmoji('😍')">😍</span>
-                    <span onclick="insertEmoji('🔥')">🔥</span>
-                    <span onclick="insertEmoji('🌊')">🌊</span>
-                    <span onclick="insertEmoji('❤️')">❤️</span>
-                    <span onclick="insertEmoji('✨')">✨</span>
-                    <span onclick="insertEmoji('🤣')">🤣</span>
-                    <span onclick="insertEmoji('🌅')">🌅</span>
-                    <span onclick="insertEmoji('🏖️')">🏖️</span>
-                </div>
-                
-                <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
-                <button class="btn-send" onclick="sendMessage()">➤</button>
-            </div>
         </div>
 
     </div>
 
     <script>
-        // --- JAVASCRIPT TẠO HIỆU ỨNG LẤP LÁNH KHI CHUỘT DI CHUYỂN ---
+        // --- JAVASCRIPT: HIỆU ỨNG LẤP LÁNH CHUỘT ---
         document.addEventListener('mousemove', function(e) {
             if (Math.random() < 0.2) { createSparkle(e.pageX, e.pageY); }
         });
-
         function createSparkle(x, y) {
             const sparkle = document.createElement('div');
             sparkle.classList.add('magic-sparkle');
-            sparkle.style.left = (x + 8) + 'px';
-            sparkle.style.top = (y + 12) + 'px';
+            sparkle.style.left = (x + 8) + 'px'; sparkle.style.top = (y + 12) + 'px';
             const size = Math.random() * 6 + 4; 
-            sparkle.style.width = size + 'px';
-            sparkle.style.height = size + 'px';
+            sparkle.style.width = size + 'px'; sparkle.style.height = size + 'px';
             document.body.appendChild(sparkle);
             setTimeout(() => { sparkle.remove(); }, 800);
+        }
+
+        // --- JAVASCRIPT: BỘ ĐẾM GIỜ POMODORO ---
+        let pomoTime = 25 * 60; // Mặc định 25 phút
+        let pomoInterval = null;
+        let isPomoRunning = false;
+
+        function updatePomoDisplay() {
+            let m = Math.floor(pomoTime / 60);
+            let s = pomoTime % 60;
+            document.getElementById('pomo-time').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function setPomoMode(mode) {
+            clearInterval(pomoInterval);
+            isPomoRunning = false;
+            document.getElementById('pomo-start-btn').innerText = 'BẮT ĐẦU';
+            
+            // Xóa màu active của nút cũ
+            document.getElementById('btn-pomo').classList.remove('active');
+            document.getElementById('btn-short').classList.remove('active');
+            document.getElementById('btn-long').classList.remove('active');
+
+            if (mode === 'pomo') {
+                pomoTime = 25 * 60;
+                document.getElementById('btn-pomo').classList.add('active');
+            } else if (mode === 'short') {
+                pomoTime = 5 * 60;
+                document.getElementById('btn-short').classList.add('active');
+            } else if (mode === 'long') {
+                pomoTime = 15 * 60;
+                document.getElementById('btn-long').classList.add('active');
+            }
+            updatePomoDisplay();
+        }
+
+        function togglePomo() {
+            if (isPomoRunning) {
+                clearInterval(pomoInterval);
+                document.getElementById('pomo-start-btn').innerText = 'TIẾP TỤC';
+            } else {
+                pomoInterval = setInterval(() => {
+                    if (pomoTime > 0) {
+                        pomoTime--;
+                        updatePomoDisplay();
+                    } else {
+                        clearInterval(pomoInterval);
+                        alert("Hết giờ rồi! Thư giãn một chút với tiếng sóng biển nhé 🌊");
+                        document.getElementById('pomo-start-btn').innerText = 'BẮT ĐẦU';
+                        isPomoRunning = false;
+                    }
+                }, 1000);
+                document.getElementById('pomo-start-btn').innerText = 'TẠM DỪNG';
+            }
+            isPomoRunning = !isPomoRunning;
         }
 
         // --- CÁC TÍNH NĂNG VIDEO ---
@@ -382,42 +393,28 @@
         const volumeSlider = document.getElementById('volume-slider');
         const seekBar = document.getElementById('seek-bar');
         const timeDisplay = document.getElementById('time-display');
-        
         let isDragging = false;
 
-        function togglePlayPause() {
-            if (videoPlayer.paused) { videoPlayer.play(); } 
-            else { videoPlayer.pause(); }
-        }
-
+        function togglePlayPause() { if (videoPlayer.paused) { videoPlayer.play(); } else { videoPlayer.pause(); } }
         videoPlayer.addEventListener('play', () => playBtn.innerText = '⏸');
         videoPlayer.addEventListener('pause', () => playBtn.innerText = '▶️');
 
         function formatTime(seconds) {
             if (isNaN(seconds) || seconds < 0) return "0:00";
-            let min = Math.floor(seconds / 60);
-            let sec = Math.floor(seconds % 60);
+            let min = Math.floor(seconds / 60); let sec = Math.floor(seconds % 60);
             return min + ":" + (sec < 10 ? "0" + sec : sec);
         }
 
         videoPlayer.addEventListener('timeupdate', () => {
             if (!isDragging && videoPlayer.duration) {
-                const current = videoPlayer.currentTime;
-                const duration = videoPlayer.duration;
-                seekBar.value = (current / duration) * 100;
-                timeDisplay.innerText = formatTime(current) + ' / ' + formatTime(duration);
+                seekBar.value = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+                timeDisplay.innerText = formatTime(videoPlayer.currentTime) + ' / ' + formatTime(videoPlayer.duration);
             }
         });
 
         seekBar.addEventListener('mousedown', () => isDragging = true);
         seekBar.addEventListener('touchstart', () => isDragging = true);
-
-        function updateVideoTime() {
-            isDragging = false;
-            if (videoPlayer.duration) {
-                videoPlayer.currentTime = videoPlayer.duration * (seekBar.value / 100);
-            }
-        }
+        function updateVideoTime() { isDragging = false; if (videoPlayer.duration) { videoPlayer.currentTime = videoPlayer.duration * (seekBar.value / 100); } }
         seekBar.addEventListener('mouseup', updateVideoTime);
         seekBar.addEventListener('touchend', updateVideoTime);
 
@@ -425,20 +422,14 @@
 
         function changeVolume() {
             videoPlayer.volume = volumeSlider.value / 100;
-            if (videoPlayer.volume > 0 && videoPlayer.muted) {
-                videoPlayer.muted = false; muteBtn.innerText = '🔊';
-            } else if (videoPlayer.volume == 0) {
-                videoPlayer.muted = true; muteBtn.innerText = '🔇';
-            }
+            if (videoPlayer.volume > 0 && videoPlayer.muted) { videoPlayer.muted = false; muteBtn.innerText = '🔊'; } 
+            else if (videoPlayer.volume == 0) { videoPlayer.muted = true; muteBtn.innerText = '🔇'; }
         }
 
         function toggleMute() {
             videoPlayer.muted = !videoPlayer.muted;
-            if (videoPlayer.muted) {
-                muteBtn.innerText = '🔇'; volumeSlider.value = 0;
-            } else {
-                muteBtn.innerText = '🔊'; videoPlayer.volume = 0.5; volumeSlider.value = 50;
-            }
+            if (videoPlayer.muted) { muteBtn.innerText = '🔇'; volumeSlider.value = 0; } 
+            else { muteBtn.innerText = '🔊'; videoPlayer.volume = 0.5; volumeSlider.value = 50; }
         }
 
         function changeVideo(src, element, titleName) {
@@ -449,40 +440,29 @@
             document.getElementById('main-title').innerHTML = '<div class="live-dot"></div> ' + titleName;
         }
 
+        /* --- CHAT VÀ CÁC TÍNH NĂNG KHÁC --- */
+        function toggleSidebar() { document.getElementById('sidebar-box').classList.toggle('hidden'); }
         function toggleEmoji() { document.getElementById('emoji-picker').classList.toggle('show'); }
-
         function insertEmoji(emoji) {
             var input = document.getElementById('chat-input');
-            input.value += emoji; input.focus();
-            document.getElementById('emoji-picker').classList.remove('show');
+            input.value += emoji; input.focus(); document.getElementById('emoji-picker').classList.remove('show');
         }
 
         function sendMessage() {
             const inputField = document.getElementById('chat-input');
             const messageText = inputField.value.trim();
-
             if (messageText !== "") {
                 const chatMessages = document.getElementById('chat-messages');
                 const newMessage = document.createElement('div');
                 newMessage.classList.add('message', 'self');
-
-                newMessage.innerHTML = `
-                    <div class="avatar" style="background:#f4a460; color: #fff;">T</div>
-                    <div class="msg-content">
-                        <div class="msg-author">Thắng</div>
-                        ${messageText}
-                    </div>
-                `;
+                newMessage.innerHTML = `<div class="avatar">T</div><div class="msg-content"><div class="msg-author">Thắng</div>${messageText}</div>`;
                 chatMessages.appendChild(newMessage);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
                 inputField.value = "";
                 document.getElementById('emoji-picker').classList.remove('show');
             }
         }
-
         function handleKeyPress(event) { if (event.key === "Enter") { sendMessage(); } }
-
-        function toggleChat() { document.getElementById('chat-box').classList.toggle('hidden'); }
 
         function openFullscreen() {
             const playerContainer = document.getElementById("player-container");
@@ -490,6 +470,5 @@
             else if (playerContainer.webkitRequestFullscreen) { playerContainer.webkitRequestFullscreen(); }
         }
     </script>
-
 </body>
 </html>
