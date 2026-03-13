@@ -7,6 +7,16 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500;700&family=Quicksand:wght@500;600;700&display=swap');
 
+        /* ĐỔI CON TRỎ CHUỘT THÀNH ĐINH BA POSEIDON CHO TOÀN BỘ WEB */
+        body, a, button, .playlist-item, .icon-btn, .seek-bar, .volume-slider, span, div {
+            cursor: url('https://cdn-icons-png.flaticon.com/32/4149/4149254.png') 16 16, auto !important;
+        }
+
+        /* Riêng khung nhập chat thì giữ lại con trỏ văn bản để dễ gõ chữ */
+        input {
+            cursor: text !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,12 +28,10 @@
             width: 100vw;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
-            /* Hình nền tùy chỉnh của bạn */
             background: url('Layout-Hinhnen.jpg') no-repeat center center/cover;
             position: relative;
         }
 
-        /* Lớp phủ mỏng 20% giúp nổi bật nội dung nhưng không làm mất màu ảnh nền */
         .vintage-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -44,7 +52,7 @@
             width: 45px; height: 45px; border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            display: flex; justify-content: center; align-items: center;
             transition: 0.3s; color: #fff; font-size: 20px;
         }
         .icon-btn:hover { background: rgba(255, 255, 255, 0.2); }
@@ -63,27 +71,21 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* HEADER RIGHT (SPOTIFY & CHAT BUTTON) */
-        .header-right {
-            display: flex; gap: 15px; align-items: center;
-        }
+        /* HEADER RIGHT */
+        .header-right { display: flex; gap: 15px; align-items: center; }
 
         .btn-toggle-chat {
             background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 10px 20px; border-radius: 20px; height: 45px;
-            color: #fff; font-weight: 700; cursor: pointer; transition: 0.3s;
+            color: #fff; font-weight: 700; transition: 0.3s;
             display: flex; align-items: center; gap: 8px; white-space: nowrap;
         }
         .btn-toggle-chat:hover { background: rgba(255, 255, 255, 0.2); }
 
         .spotify-widget-compact {
-            width: 320px; 
-            height: 80px; 
-            border-radius: 12px; 
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            width: 320px; height: 80px; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
         }
 
         /* --- BỐ CỤC CHÍNH --- */
@@ -92,11 +94,9 @@
             height: calc(100vh - 115px); padding: 0 40px 30px 40px; gap: 30px;
         }
 
-        /* 1. KHU VỰC VIDEO & PLAYLIST (Chiếm 3/4) */
+        /* KHU VỰC VIDEO */
         .video-wrapper-section {
-            flex: 1; 
-            display: flex; flex-direction: column; gap: 20px;
-            transition: all 0.4s ease;
+            flex: 1; display: flex; flex-direction: column; gap: 20px; transition: all 0.4s ease;
         }
 
         .player-container {
@@ -107,27 +107,22 @@
         }
 
         #video-wrapper {
-            width: 100%; position: relative; padding-top: 56.25%; 
-            background: #000;
+            width: 100%; position: relative; padding-top: 56.25%; background: #000;
         }
 
         #html5-video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
         }
 
-        /* THANH TIẾN ĐỘ (SEEK BAR) */
+        /* THANH TIẾN ĐỘ */
         .seek-bar-container {
             width: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center;
         }
         .seek-bar {
             width: 100%; -webkit-appearance: none; appearance: none;
-            background: transparent; height: 10px; cursor: pointer; outline: none; margin: 0;
-            z-index: 20; position: relative;
+            background: transparent; height: 10px; outline: none; margin: 0; z-index: 20; position: relative;
         }
-        .seek-bar::-webkit-slider-runnable-track {
-            width: 100%; height: 6px; background: rgba(255,255,255,0.2);
-        }
+        .seek-bar::-webkit-slider-runnable-track { width: 100%; height: 6px; background: rgba(255,255,255,0.2); }
         .seek-bar::-webkit-slider-thumb {
             -webkit-appearance: none; appearance: none;
             width: 16px; height: 16px; background: #87CEEB; border-radius: 50%;
@@ -143,19 +138,17 @@
         .control-group { display: flex; align-items: center; gap: 15px; }
 
         .control-btn {
-            background: none; border: none; color: #fff; font-size: 20px;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center;
+            background: none; border: none; color: #fff; font-size: 20px; transition: 0.3s; display: flex; align-items: center;
         }
         .control-btn:hover { color: #87CEEB; transform: scale(1.1); }
 
-        .volume-slider { width: 90px; accent-color: #87CEEB; cursor: pointer; }
+        .volume-slider { width: 90px; accent-color: #87CEEB; }
         .time-display { color: #eee; font-size: 14px; font-weight: 600; margin-left: 10px; min-width: 90px; }
 
-        /* DANH SÁCH PLAYLIST PIXABAY */
+        /* DANH SÁCH PLAYLIST */
         .playlist-section {
             background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
-            border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
         .playlist-section h3 { color: #fff; font-size: 16px; margin-bottom: 12px; font-family: 'Quicksand', sans-serif;}
         
@@ -168,60 +161,31 @@
 
         .playlist-item {
             display: flex; align-items: center; gap: 10px;
-            flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px; cursor: pointer;
+            flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; background: rgba(255,255,255,0.05);
         }
         .playlist-item:hover, .playlist-item.active { 
-            border-color: #87CEEB; background: rgba(135, 206, 235, 0.15); transform: translateY(-3px); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-color: #87CEEB; background: rgba(135, 206, 235, 0.15); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .playlist-item img { 
-            width: 60px; height: 45px; object-fit: cover; border-radius: 5px; background: #222;
-        }
-        .playlist-item span {
-            color: #fff; font-size: 14px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .playlist-item img { width: 60px; height: 45px; object-fit: cover; border-radius: 5px; background: #222; }
+        .playlist-item span { color: #fff; font-size: 14px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* 2. KHU VỰC CHAT (1/4 KHUNG HÌNH) */
+        /* KHU VỰC CHAT */
         .chat-section {
-            flex: 0 0 25%; 
-            min-width: 320px; 
-            max-width: 400px;
+            flex: 0 0 25%; min-width: 320px; max-width: 400px;
             background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(15px); 
             border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 15px;
-            display: flex; flex-direction: column; overflow: hidden;
-            transition: all 0.4s ease; 
-            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; overflow: hidden; transition: all 0.4s ease; box-shadow: -5px 0 20px rgba(0,0,0,0.2);
         }
 
-        .chat-section.hidden { 
-            flex: 0 0 0%; min-width: 0; opacity: 0; margin-left: -30px; padding: 0; border: none; pointer-events: none;
-        }
-
-        .chat-header {
-            padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff; font-weight: 700; text-align: center; white-space: nowrap;
-        }
-
-        .chat-messages {
-            flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column;
-            gap: 15px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;
-        }
-
+        .chat-section.hidden { flex: 0 0 0%; min-width: 0; opacity: 0; margin-left: -30px; padding: 0; border: none; pointer-events: none; }
+        .chat-header { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-weight: 700; text-align: center; white-space: nowrap; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
         .message { display: flex; gap: 10px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .avatar {
-            width: 35px; height: 35px; background: #87CEEB; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-weight: bold; color: #000; font-size: 14px; flex-shrink: 0; 
-        }
-
-        .msg-content {
-            background: rgba(255, 255, 255, 0.1); padding: 10px 15px;
-            border-radius: 0 15px 15px 15px; color: #eee; font-size: 14px; line-height: 1.4; word-break: break-word; 
-        }
+        .avatar { width: 35px; height: 35px; background: #87CEEB; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #000; font-size: 14px; flex-shrink: 0; }
+        .msg-content { background: rgba(255, 255, 255, 0.1); padding: 10px 15px; border-radius: 0 15px 15px 15px; color: #eee; font-size: 14px; line-height: 1.4; word-break: break-word; }
         .msg-author { font-size: 12px; color: #87CEEB; font-weight: 700; margin-bottom: 3px; }
 
         .message.self { flex-direction: row-reverse; }
@@ -229,49 +193,28 @@
         .message.self .msg-author { text-align: right; color: #87CEEB; }
         .message.self .avatar { background: #f4a460; color: #fff; }
 
-        /* KHUNG NHẬP CHAT VÀ STICKER */
-        .chat-input-wrapper {
-            padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; align-items: center; gap: 8px; position: relative;
-        }
-
-        .btn-emoji { background: none; border: none; font-size: 24px; cursor: pointer; transition: 0.2s; }
+        /* KHUNG NHẬP CHAT */
+        .chat-input-wrapper { padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 8px; position: relative; }
+        .btn-emoji { background: none; border: none; font-size: 24px; transition: 0.2s; }
         .btn-emoji:hover { transform: scale(1.1); filter: brightness(1.2); }
-
-        .chat-input-wrapper input {
-            flex: 1; padding: 10px 15px; border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2);
-            color: #fff; outline: none; font-family: 'Quicksand', sans-serif;
-            width: 100%;
-        }
-
-        .btn-send {
-            background: #87CEEB; border: none; border-radius: 50%; width: 40px; height: 40px;
-            color: #000; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0;
-        }
+        .chat-input-wrapper input { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: #fff; outline: none; font-family: 'Quicksand', sans-serif; width: 100%; }
+        .btn-send { background: #87CEEB; border: none; border-radius: 50%; width: 40px; height: 40px; color: #000; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; }
         .btn-send:hover { background: #fff; box-shadow: 0 0 10px #87CEEB; }
 
-        .emoji-picker {
-            position: absolute; bottom: 65px; left: 15px;
-            background: rgba(20, 30, 45, 0.95); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 10px; padding: 10px; display: none; gap: 8px; flex-wrap: wrap;
-            width: 220px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 20;
-        }
+        .emoji-picker { position: absolute; bottom: 65px; left: 15px; background: rgba(20, 30, 45, 0.95); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; display: none; gap: 8px; flex-wrap: wrap; width: 220px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 20; }
         .emoji-picker.show { display: flex; animation: slideUp 0.2s ease; }
-        .emoji-picker span { font-size: 24px; cursor: pointer; transition: 0.2s; }
+        .emoji-picker span { font-size: 24px; transition: 0.2s; }
         .emoji-picker span:hover { transform: scale(1.3); }
 
-        /* --- RESPONSIVE --- */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             body { height: auto; overflow-x: hidden; overflow-y: auto; }
             header { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; }
             .header-right { width: 100%; justify-content: space-between; }
             .main-container { flex-direction: column; height: auto; padding: 0 20px 20px 20px; gap: 20px; }
-            
             .chat-section { flex: none; width: 100%; max-width: none; height: 450px; margin-left: 0 !important; }
             .chat-section.hidden { display: none !important; }
         }
-        
         @media (max-width: 480px) {
             .header-right { flex-direction: column; align-items: flex-start; gap: 10px; }
             .spotify-widget-compact { width: 100%; }
@@ -289,7 +232,7 @@
         <div class="header-left">
             <button class="icon-btn" onclick="history.back();" title="Quay lại">❮</button>
             <div class="live-title" id="main-title">
-                <div class="live-dot"></div> Làng Chài Quy Nhơn
+                <div class="live-dot"></div> Biển Nha Trang
             </div>
         </div>
         
@@ -308,7 +251,7 @@
             <div class="player-container" id="player-container">
                 <div id="video-wrapper">
                     <video id="html5-video" autoplay loop muted playsinline>
-                        <source src="video1.mp4" type="video/mp4">
+                        <source src="NhaTrang1.mp4" type="video/mp4">
                         Trình duyệt của bạn không hỗ trợ thẻ video.
                     </video>
                 </div>
@@ -337,24 +280,24 @@
                 <h3>🌊 Khám phá các địa danh mới</h3>
                 <div class="playlist-items">
                     
-                    <div class="playlist-item active" onclick="changeVideo('video1.mp4', this, 'Làng Chài Quy Nhơn')">
-                        <img src="https://images.unsplash.com/photo-1583248352195-d3a8e766edf2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Làng Chài Quy Nhơn">
-                        <span>Quy Nhơn</span>
+                    <div class="playlist-item active" onclick="changeVideo('NhaTrang1.mp4', this, 'Biển Nha Trang')">
+                        <img src="https://images.unsplash.com/photo-1559586616-361e46fb9617?w=300" alt="Nha Trang">
+                        <span>Nha Trang</span>
                     </div>
                     
-                    <div class="playlist-item" onclick="changeVideo('video2.mp4', this, 'Sóng Biển Bình Minh')">
-                        <img src="https://images.unsplash.com/photo-1471922614646-a1284d766b11?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sóng Biển Bình Minh">
-                        <span>Bình Minh</span>
+                    <div class="playlist-item" onclick="changeVideo('HaLong1.mp4', this, 'Vịnh Hạ Long')">
+                        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=300" alt="Hạ Long">
+                        <span>Hạ Long</span>
                     </div>
                     
-                    <div class="playlist-item" onclick="changeVideo('video3.mp4', this, 'Bình Minh Đại Dương')">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Hoàng Hôn 4K">
-                        <span>Hoàng Hôn 4K</span>
+                    <div class="playlist-item" onclick="changeVideo('PhanThiet1.mp4', this, 'Biển Phan Thiết')">
+                        <img src="https://images.unsplash.com/photo-1544158498-8ec052eeb2c0?w=300" alt="Phan Thiết">
+                        <span>Phan Thiết</span>
                     </div>
                     
-                    <div class="playlist-item" onclick="changeVideo('video4.mp4', this, 'Lặn Khám Phá San Hô')">
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Lặn Biển San Hô">
-                        <span>Lặn San Hô</span>
+                    <div class="playlist-item" onclick="changeVideo('PhuQuoc.mp4', this, 'Đảo Phú Quốc')">
+                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300" alt="Phú Quốc">
+                        <span>Phú Quốc</span>
                     </div>
 
                 </div>
@@ -468,7 +411,6 @@
             document.getElementById('main-title').innerHTML = '<div class="live-dot"></div> ' + titleName;
         }
 
-        /* --- CHAT VÀ STICKER --- */
         function toggleEmoji() { document.getElementById('emoji-picker').classList.toggle('show'); }
 
         function insertEmoji(emoji) {
