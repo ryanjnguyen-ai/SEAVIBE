@@ -29,8 +29,8 @@
             z-index: -1;
             background-color: #1a1a2e; /* Thêm màu nền tối lót bên dưới chống chớp trắng */
             
-            /* Gắn hình nền GIF mặc định Lofi */
-            background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTdyajY3bnF6bWhycXQ4NDRqc21qZW5ldzRycHYxOTdxZDlyNTkxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/798oH0WDEQnicM4857/giphy.gif');
+            /* Gắn hình nền GIF mặc định mới (biển đêm có mặt trăng) */
+            background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHNsZDZ3ZmFnMnc0N3F4NHNmazMzODQ0aGdieTU4Zjcwb24zYnVmbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uGkXpJfiBTKE0/giphy.gif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -192,13 +192,13 @@
     <script>
         const bgContainer = document.getElementById('bg-container');
         
-        // Link GIF Lofi mặc định (Khi không rê chuột vào đâu)
-        const defaultBg = "url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTdyajY3bnF6bWhycXQ4NDRqc21qZW5ldzRycHYxOTdxZDlyNTkxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/798oH0WDEQnicM4857/giphy.gif')";
+        // Link GIF mặc định (Biển đêm lấp lánh)
+        const defaultBg = "url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHNsZDZ3ZmFnMnc0N3F4NHNmazMzODQ0aGdieTU4Zjcwb24zYnVmbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uGkXpJfiBTKE0/giphy.gif')";
 
-        // Hình nền cho các trạng thái rê chuột (Đã cập nhật link Bình Minh và Live mới)
+        // Hình nền cho các trạng thái rê chuột
         const images = {
             sunrise: "url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2R5ZDZhZnc3OHJseW5mbWlkZ3cwb3Q3YnVwbTl4ejZmb3FmbWZ3MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U4PY30Rwqop7BYWwWV/giphy.gif')",
-            sunset: "url('https://images.unsplash.com/photo-1471922614646-a1284d766b11?auto=format&fit=crop&w=1920&q=80')", 
+            sunset: "url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTdyajY3bnF6bWhycXQ4NDRqc21qZW5ldzRycHYxOTdxZDlyNTkxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/798oH0WDEQnicM4857/giphy.gif')", 
             live: "url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDJycGc5Y2NoYjY4ZjIyNDk2cnFiazVyYTI4aWluOTF1cWhlNTkyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/POBkLjTpvXbsoaa2ES/giphy.gif')"
         };
 
@@ -209,12 +209,12 @@
             img.src = url.replace("url('", "").replace("')", "");
         });
 
-        // Đổi hình nền (Chỉ đổi thuộc tính backgroundImage)
+        // Đổi hình nền khi rê chuột vào thẻ
         function changeBg(type) {
             bgContainer.style.backgroundImage = images[type];
         }
 
-        // Khôi phục về ảnh GIF Lofi mặc định khi chuột đưa ra ngoài thẻ
+        // Khôi phục về ảnh GIF mặc định khi chuột đưa ra ngoài thẻ
         function resetBg() {
             bgContainer.style.backgroundImage = defaultBg;
         }
