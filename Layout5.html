@@ -118,11 +118,14 @@
         }
 
         #video-wrapper {
-            width: 100%; position: relative; padding-top: 56.25%; pointer-events: none; 
+            width: 100%; position: relative; padding-top: 56.25%; 
+            background: #000;
         }
 
-        #video-wrapper iframe {
+        /* TRÌNH PHÁT VIDEO HTML5 */
+        #html5-video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
         }
 
         /* THANH TIẾN ĐỘ (SEEK BAR) */
@@ -158,9 +161,9 @@
         .control-btn:hover { color: #f4a460; transform: scale(1.1); }
 
         .volume-slider { width: 90px; accent-color: #87CEEB; cursor: pointer; }
-        .time-display { color: #fff; font-size: 14px; font-weight: 600; margin-left: 10px; }
+        .time-display { color: #fff; font-size: 14px; font-weight: 600; margin-left: 10px; min-width: 90px; }
 
-        /* DANH SÁCH PLAYLIST (GIAO DIỆN MỚI) */
+        /* DANH SÁCH PLAYLIST */
         .playlist-section {
             background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
             border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.2);
@@ -174,7 +177,6 @@
         .playlist-items::-webkit-scrollbar { height: 6px; }
         .playlist-items::-webkit-scrollbar-thumb { background: #87CEEB; border-radius: 10px; }
 
-        /* Chỉnh sửa hiển thị ảnh nhỏ bên trái, text bên phải */
         .playlist-item {
             display: flex; align-items: center; gap: 10px;
             flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px; cursor: pointer;
@@ -184,7 +186,7 @@
             border-color: #87CEEB; background: rgba(135, 206, 235, 0.2); transform: translateY(-3px); 
         }
         .playlist-item img { 
-            width: 60px; height: 45px; object-fit: cover; border-radius: 5px; 
+            width: 60px; height: 45px; object-fit: cover; border-radius: 5px; background: #333;
         }
         .playlist-item span {
             color: #fff; font-size: 14px; font-weight: 600;
@@ -240,9 +242,7 @@
             min-width: 300px;
         }
 
-        .btn-emoji {
-            background: none; border: none; font-size: 24px; cursor: pointer; transition: 0.2s;
-        }
+        .btn-emoji { background: none; border: none; font-size: 24px; cursor: pointer; transition: 0.2s; }
         .btn-emoji:hover { transform: scale(1.1); }
 
         .chat-input-wrapper input {
@@ -266,7 +266,6 @@
         .emoji-picker.show { display: flex; animation: slideUp 0.2s ease; }
         .emoji-picker span { font-size: 24px; cursor: pointer; transition: 0.2s; }
         .emoji-picker span:hover { transform: scale(1.3); }
-
 
         /* --- RESPONSIVE CHO ĐIỆN THOẠI & TABLET --- */
         @media (max-width: 1024px) {
@@ -295,7 +294,7 @@
         <div class="header-left">
             <button class="icon-btn" onclick="history.back();" title="Quay lại">❮</button>
             <div class="live-title" id="main-title">
-                <div class="live-dot"></div> Đảo Phú Quý - Trải nghiệm Local
+                <div class="live-dot"></div> Làng Chài Quy Nhơn
             </div>
         </div>
         
@@ -315,12 +314,10 @@
         <div class="video-wrapper-section">
             <div class="player-container" id="player-container">
                 <div id="video-wrapper">
-                    <iframe 
-                        id="yt-video"
-                        src="https://www.youtube.com/embed/9g8XTTFZPBg?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&enablejsapi=1" 
-                        frameborder="0" 
-                        allow="autoplay; fullscreen; picture-in-picture">
-                    </iframe>
+                    <video id="html5-video" autoplay loop muted playsinline>
+                        <source src="NhaTrang.mp4" type="video/mp4">
+                        Trình duyệt của bạn không hỗ trợ thẻ video.
+                    </video>
                 </div>
                 
                 <div class="seek-bar-container">
@@ -334,7 +331,7 @@
                         <button class="control-btn" onclick="seekVideo(10)" title="Tiến 10 giây">⏩</button>
                         
                         <button class="control-btn" id="btn-mute" onclick="toggleMute()" title="Bật / Tắt âm thanh">🔇</button>
-                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50" oninput="changeVolume()">
+                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="0" oninput="changeVolume()">
                         <span class="time-display" id="time-display">0:00 / 0:00</span>
                     </div>
                     <div class="control-group">
@@ -344,24 +341,28 @@
             </div>
 
             <div class="playlist-section">
-                <h3>🌊 Đổi địa điểm & Khoảnh khắc</h3>
+                <h3>🌊 Khám phá các địa danh mới</h3>
                 <div class="playlist-items">
-                    <div class="playlist-item active" onclick="changeVideo('9g8XTTFZPBg', this, 'Đảo Phú Quý - Trải nghiệm Local')">
-                        <img src="https://img.youtube.com/vi/9g8XTTFZPBg/hqdefault.jpg" alt="Đảo Phú Quý">
-                        <span>Đảo Phú Quý</span>
+                    <div class="playlist-item active" onclick="changeVideo('NhaTrang.mp4', this, 'Bien Nha Trang')">
+                        <img src="thumb1.jpg" alt="Bien Nha Trang">
+                        <span>Quy Nhơn</span>
                     </div>
-                    <div class="playlist-item" onclick="changeVideo('jfKfPfyJRdk', this, 'Lofi Chill Biển Đêm')">
-                        <img src="https://img.youtube.com/vi/jfKfPfyJRdk/hqdefault.jpg" alt="Lofi Biển Đêm">
-                        <span>Lofi Biển Đêm</span>
+                    
+                    <div class="playlist-item" onclick="changeVideo('PhuQuoc.mp4', this, 'Sóng Biển Bình Minh')">
+                        <img src="thumb2.jpg" alt="Sóng Biển Bình Minh">
+                        <span>Bình Minh</span>
                     </div>
-                    <div class="playlist-item" onclick="changeVideo('P52EwNtzWqU', this, 'Hoàng Hôn Trên Biển')">
-                        <img src="https://img.youtube.com/vi/P52EwNtzWqU/hqdefault.jpg" alt="Hoàng Hôn 4K">
+                    
+                    <div class="playlist-item" onclick="changeVideo('PhanThiet.mp4', this, 'Bình Minh Đại Dương')">
+                        <img src="thumb3.jpg" alt="Bình Minh Đại Dương">
                         <span>Hoàng Hôn 4K</span>
                     </div>
-                    <div class="playlist-item" onclick="changeVideo('awmC8o_2s-8', this, 'Khám Phá Rạn San Hô Dưới Đáy Biển')">
-                        <img src="https://img.youtube.com/vi/awmC8o_2s-8/hqdefault.jpg" alt="Lặn Biển San Hô">
-                        <span>Lặn Biển San Hô</span>
+                    
+                    <div class="playlist-item" onclick="changeVideo('HaLong.mp4', this, 'Lặn Khám Phá San Hô')">
+                        <img src="thumb4.jpg" alt="Lặn Biển San Hô">
+                        <span>Lặn San Hô</span>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -374,7 +375,7 @@
                     <div class="avatar">H</div>
                     <div class="msg-content">
                         <div class="msg-author">Hải Yến</div>
-                        Ê bà ơi chill quá nè! Phú Quý đẹp xỉu!
+                        Ê bà ơi chill quá nè! Quy Nhơn đẹp xỉu!
                     </div>
                 </div>
             </div>
@@ -399,103 +400,103 @@
 
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        var player;
-        var timeUpdater;
-        var isDragging = false; 
+        const videoPlayer = document.getElementById('html5-video');
+        const playBtn = document.getElementById('btn-play');
+        const muteBtn = document.getElementById('btn-mute');
+        const volumeSlider = document.getElementById('volume-slider');
+        const seekBar = document.getElementById('seek-bar');
+        const timeDisplay = document.getElementById('time-display');
+        
+        let isDragging = false;
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('yt-video', {
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            player.setVolume(50);
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING) {
-                document.getElementById('btn-play').innerText = '⏸';
-                timeUpdater = setInterval(updateTime, 500);
+        // Xử lý Phát / Tạm dừng
+        function togglePlayPause() {
+            if (videoPlayer.paused) {
+                videoPlayer.play();
             } else {
-                document.getElementById('btn-play').innerText = '▶️';
-                clearInterval(timeUpdater);
+                videoPlayer.pause();
             }
         }
 
-        function updateTime() {
-            if(player && player.getCurrentTime && !isDragging) {
-                var current = player.getCurrentTime();
-                var duration = player.getDuration();
-                var percentage = (current / duration) * 100;
-                
-                document.getElementById('seek-bar').value = percentage;
-                document.getElementById('time-display').innerText = formatTime(current) + ' / ' + formatTime(duration);
-            }
-        }
+        // Lắng nghe sự kiện thực tế từ Video để đổi Icon
+        videoPlayer.addEventListener('play', () => playBtn.innerText = '⏸');
+        videoPlayer.addEventListener('pause', () => playBtn.innerText = '▶️');
 
+        // Định dạng thời gian (Phút:Giây)
         function formatTime(seconds) {
             if (isNaN(seconds) || seconds < 0) return "0:00";
-            seconds = Math.round(seconds);
-            var min = Math.floor(seconds / 60);
-            var sec = seconds % 60;
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
             return min + ":" + (sec < 10 ? "0" + sec : sec);
         }
 
-        var seekBar = document.getElementById('seek-bar');
-
-        seekBar.addEventListener('mousedown', function() { isDragging = true; });
-        seekBar.addEventListener('touchstart', function() { isDragging = true; });
-
-        seekBar.addEventListener('mouseup', function() {
-            isDragging = false;
-            var duration = player.getDuration();
-            var seekToTime = duration * (this.value / 100);
-            player.seekTo(seekToTime, true); 
-        });
-        seekBar.addEventListener('touchend', function() {
-            isDragging = false;
-            var duration = player.getDuration();
-            var seekToTime = duration * (this.value / 100);
-            player.seekTo(seekToTime, true); 
+        // Tự động chạy thanh tiến độ
+        videoPlayer.addEventListener('timeupdate', () => {
+            if (!isDragging && videoPlayer.duration) {
+                const current = videoPlayer.currentTime;
+                const duration = videoPlayer.duration;
+                seekBar.value = (current / duration) * 100;
+                timeDisplay.innerText = formatTime(current) + ' / ' + formatTime(duration);
+            }
         });
 
+        // Xử lý kéo thả thanh tiến độ mượt mà
+        seekBar.addEventListener('mousedown', () => isDragging = true);
+        seekBar.addEventListener('touchstart', () => isDragging = true);
+
+        function updateVideoTime() {
+            isDragging = false;
+            if (videoPlayer.duration) {
+                videoPlayer.currentTime = videoPlayer.duration * (seekBar.value / 100);
+            }
+        }
+        seekBar.addEventListener('mouseup', updateVideoTime);
+        seekBar.addEventListener('touchend', updateVideoTime);
+
+        // Xử lý Tiến / Lùi 10s
         function seekVideo(seconds) {
-            if(player && player.getCurrentTime) {
-                var current = player.getCurrentTime();
-                player.seekTo(current + seconds, true);
+            videoPlayer.currentTime += seconds;
+        }
+
+        // Xử lý Âm lượng
+        function changeVolume() {
+            videoPlayer.volume = volumeSlider.value / 100;
+            
+            if (videoPlayer.volume > 0 && videoPlayer.muted) {
+                videoPlayer.muted = false;
+                muteBtn.innerText = '🔊';
+            } else if (videoPlayer.volume == 0) {
+                videoPlayer.muted = true;
+                muteBtn.innerText = '🔇';
             }
         }
 
         function toggleMute() {
-            if (player.isMuted()) {
-                player.unMute(); document.getElementById('btn-mute').innerText = '🔊';
+            videoPlayer.muted = !videoPlayer.muted;
+            if (videoPlayer.muted) {
+                muteBtn.innerText = '🔇';
+                volumeSlider.value = 0;
             } else {
-                player.mute(); document.getElementById('btn-mute').innerText = '🔇';
+                muteBtn.innerText = '🔊';
+                // Đặt âm lượng lại 50% nếu bật tiếng
+                videoPlayer.volume = 0.5;
+                volumeSlider.value = 50;
             }
         }
 
-        function changeVolume() {
-            var vol = document.getElementById('volume-slider').value;
-            player.setVolume(vol);
-            if (vol > 0 && player.isMuted()) { player.unMute(); document.getElementById('btn-mute').innerText = '🔊'; }
-        }
-
-        function togglePlayPause() {
-            if (player.getPlayerState() == 1) { player.pauseVideo(); } 
-            else { player.playVideo(); }
-        }
-
-        function changeVideo(videoId, element, titleName) {
-            player.loadVideoById(videoId);
+        // Xử lý chuyển đổi Video Playlist
+        function changeVideo(src, element, titleName) {
+            // Thay đổi nguồn phát video
+            videoPlayer.src = src;
+            videoPlayer.play();
+            
+            // Xử lý hiệu ứng CSS trên danh sách
             var items = document.querySelectorAll('.playlist-item');
             items.forEach(function(item) { item.classList.remove('active'); });
             element.classList.add('active');
+            
+            // Cập nhật tiêu đề hiển thị
             document.getElementById('main-title').innerHTML = '<div class="live-dot"></div> ' + titleName;
         }
 
@@ -533,7 +534,7 @@
 
         function handleKeyPress(event) { if (event.key === "Enter") { sendMessage(); } }
 
-        /* --- CÁC NÚT HIỂN THỊ --- */
+        /* --- CÁC NÚT HIỂN THỊ KHÁC --- */
         function toggleChat() { document.getElementById('chat-box').classList.toggle('hidden'); }
         function toggleSpotify() { document.getElementById('spotify-player').classList.toggle('show'); }
 
