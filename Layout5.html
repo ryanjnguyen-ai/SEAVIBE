@@ -69,33 +69,37 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* KHUNG CHỨA NÚT CHAT & NÀNG TIÊN CÁ */
-        .chat-btn-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
+        /* =========================================
+           NÚT CHAT - NỀN GIF NÀNG TIÊN CÁ 
+           ========================================= */
         .btn-toggle-chat {
-            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 20px; border-radius: 20px; height: 45px;
-            color: #fff; font-weight: 700; transition: 0.3s;
-            display: flex; align-items: center; gap: 8px; white-space: nowrap;
+            /* Phủ gradient đen mờ 40% lên trên để chữ rõ ràng, kết hợp ảnh GIF làm nền */
+            background: linear-gradient(rgba(10, 20, 30, 0.4), rgba(10, 20, 30, 0.4)), 
+                        url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif') no-repeat center center / cover;
+            border: 1px solid rgba(135, 206, 235, 0.6);
+            padding: 10px 25px; 
+            border-radius: 30px; 
+            height: 48px;
+            color: #fff; 
+            font-weight: 700; 
+            transition: 0.3s;
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            white-space: nowrap;
             cursor: pointer;
+            box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
+            text-shadow: 1px 1px 4px #000; /* Đổ bóng đen cho chữ để nổi bật nét cắt */
+            overflow: hidden;
         }
-        .btn-toggle-chat:hover { background: rgba(255, 255, 255, 0.2); }
-
-        /* NÀNG TIÊN CÁ (TĨNH, MỜ 50%, HÒA MÀU VÀO NỀN) */
-        .mermaid-static {
-            position: absolute;
-            top: -48px; /* Đặt nổi lên trên nút Chat */
-            right: -15px; /* Lùi về góc phải */
-            width: 80px;
-            opacity: 0.5; /* Làm mờ đúng 50% theo ý bạn */
-            mix-blend-mode: screen; /* Giúp ảnh hòa quyện siêu đẹp vào màu nền web */
-            pointer-events: none; /* Tránh click nhầm vào ảnh thay vì nút */
-            transform: scaleX(-1); /* Lật hình hướng vào trong */
-            z-index: 60;
+        
+        .btn-toggle-chat:hover { 
+            border-color: #87CEEB;
+            box-shadow: 0 0 25px rgba(135, 206, 235, 0.8);
+            /* Khi hover, giảm lớp mờ đi để lộ GIF sáng đẹp hơn */
+            background: linear-gradient(rgba(10, 20, 30, 0.1), rgba(10, 20, 30, 0.1)), 
+                        url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif') no-repeat center center / cover;
+            transform: scale(1.02);
         }
 
         /* --- BỐ CỤC CHÍNH --- */
@@ -262,10 +266,7 @@
                 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
             
-            <div class="chat-btn-wrapper">
-                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif" alt="Nàng tiên cá" class="mermaid-static">
-                <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
-            </div>
+            <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
         </div>
     </header>
 
@@ -331,7 +332,7 @@
                     <div class="avatar">Y</div>
                     <div class="msg-content">
                         <div class="msg-author">Hải Yến</div>
-                        Ê bà ơi chill quá nè! Thấy nàng tiên cá đang nghỉ chân không? 😍
+                        Ê bà ơi chill quá nè! Nút Chat đỉnh quá nha!
                     </div>
                 </div>
             </div>
