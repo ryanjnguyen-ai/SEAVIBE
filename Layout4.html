@@ -7,6 +7,11 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Asap+Condensed:wght@500;700&display=swap');
 
+        /* ĐỒNG BỘ CON TRỎ CHUỘT ĐINH BA POSEIDON TỪ LAYOUT 5 SANG */
+        body, a, button, .pricing-card, .icon-btn, span, div {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,16 +23,17 @@
             min-height: 100vh;
             width: 100vw;
             overflow-x: hidden;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            /* ĐÃ CẬP NHẬT ẢNH GIF NÀNG TIÊN CÁ LÀM HÌNH NỀN */
+            background: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif') no-repeat center center/cover;
             position: relative;
             color: #fff;
         }
 
+        /* Lớp phủ mờ màu tối giúp text và các thẻ giá nổi bật trên ảnh nền GIF đang chuyển động */
         .vintage-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(43, 91, 92, 0.6) 0%, rgba(200, 160, 120, 0.4) 100%);
-            mix-blend-mode: multiply;
+            background: rgba(10, 20, 35, 0.65);
             z-index: 1;
             pointer-events: none;
         }
@@ -67,7 +73,7 @@
             font-size: 42px;
             font-weight: 700;
             margin-bottom: 50px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
             text-align: center;
             letter-spacing: 1px;
         }
@@ -93,7 +99,7 @@
             flex-direction: column;
             align-items: center;
             transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
         }
 
@@ -101,18 +107,18 @@
             transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         .pricing-card.premium {
-            background: rgba(10, 40, 70, 0.5);
+            background: rgba(10, 40, 70, 0.6);
             border: 1px solid #00d2ff;
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
             transform: scale(1.05);
         }
 
         .pricing-card.premium:hover {
-            background: rgba(10, 40, 70, 0.7);
+            background: rgba(10, 40, 70, 0.8);
             box-shadow: 0 0 35px rgba(0, 210, 255, 0.5);
             transform: scale(1.08) translateY(-5px);
         }
@@ -257,7 +263,8 @@
             
             <div class="pricing-card">
                 <div class="plan-name">Gói Lãng Du</div>
-                <div class="plan-price"></div> <ul class="features">
+                <div class="plan-price"></div> 
+                <ul class="features">
                     <li>Khám phá 5 bãi biển tuyệt đẹp</li>
                     <li>Không gian thư giãn cơ bản</li>
                     <li>Tham gia khung chat cộng đồng</li>
@@ -283,7 +290,7 @@
     <div class="spotify-widget">
         <button class="btn-spotify" onclick="toggleSpotify()">🎵 Spotify Playlist</button>
         <div class="spotify-player-box" id="spotify-player">
-            <iframe src="https://open.spotify.com/playlist/5XHizMAmlrmgnRS20Xw0Qe?si=IgKDknL3TIirPVFBz1mcfA" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <iframe src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </div>
 
