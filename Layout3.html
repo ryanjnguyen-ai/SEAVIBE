@@ -3,186 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeaVibe - Layout 3</title>
+    <title>SeaVibe - Cửa Sổ Đại Dương</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Asap+Condensed:wght@900&display=swap');
 
-        /* ĐINH BA POSEIDON */
+        /* --- ĐINH BA POSEIDON --- */
         body, a, .circle-center, .list-item {
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Quicksand', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
 
         body {
             width: 100vw; min-height: 100vh;
-            background: #050a15; /* Nền tối để hiệu ứng lấp lánh rõ hơn */
+            /* THAY ĐỔI: Nền Gradient hài hòa, tạo chiều sâu như dưới lòng biển */
+            background: radial-gradient(circle at center, #0a2e38 0%, #05161d 100%); 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             overflow-x: hidden; padding: 20px;
+            position: relative;
         }
 
-        /* Container chính chia 2 cột */
-        .main-container {
+        /* --- KHUNG TIÊU ĐỀ GÓC TRÊN TRÁI (ĐỘ MỜ 50%) --- */
+        .header-title-box {
+            position: absolute;
+            top: 25px;
+            left: 40px;
+            z-index: 50;
+            background: linear-gradient(rgba(10, 20, 30, 0.5), rgba(10, 20, 30, 0.5)), 
+                        url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWF0NTVlZXVyOGE5dGV2N3A1eXV0aHJ5d2F1bGY2NmV0cTU4djUwZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3orif1uaS2ngBaqIvu/giphy.gif') no-repeat center center / cover;
+            border: 1px solid rgba(135, 206, 235, 0.6);
+            padding: 12px 30px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.4);
             display: flex;
-            flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: 5vw;
-            width: 100%;
-            max-width: 1200px;
-            z-index: 2;
+            pointer-events: none;
         }
 
-        /* VÒNG TRÒN TÂM - GIỮ NGUYÊN HÌNH ĐỘNG */
+        .wave-text-header {
+            font-family: 'Asap Condensed', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8), 0 0 15px rgba(135, 206, 235, 0.5);
+        }
+
+        /* --- BỐ CỤC CHÍNH --- */
+        .main-container {
+            display: flex; flex-direction: row; align-items: center;
+            justify-content: center; gap: 5vw; width: 100%; max-width: 1200px; z-index: 2;
+        }
+
+        /* VÒNG TRÒN TRUNG TÂM (Ô CỬA NHÌN ĐẠI DƯƠNG) */
         .circle-center {
             width: 55vmin; height: 55vmin;
             max-width: 500px; max-height: 500px;
             min-width: 280px; min-height: 280px;
             border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.3);
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(135, 206, 235, 0.5);
-            transition: transform 0.5s ease;
+            box-shadow: 0 0 50px rgba(0, 210, 255, 0.4), inset 0 0 30px rgba(0,0,0,0.5);
+            transition: 0.5s ease;
             animation: breathe 6s ease-in-out infinite;
             text-decoration: none;
         }
 
-        .circle-center:hover {
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
+        .circle-center:hover { transform: scale(1.05); border-color: rgba(255, 255, 255, 0.5); }
 
         .circle-center img {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; height: 100%;
+            object-fit: cover;
         }
 
         @keyframes breathe {
             0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(135, 206, 235, 0.4); }
-            50% { transform: scale(1.03); box-shadow: 0 0 50px rgba(135, 206, 235, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 60px rgba(135, 206, 235, 0.7); }
         }
 
-        /* DANH SÁCH BÊN PHẢI */
-        .seashell-list {
-            display: flex; flex-direction: column; gap: 20px;
-            flex-shrink: 0;
+        /* --- DANH SÁCH BÊN PHẢI --- */
+        .seashell-list { display: flex; flex-direction: column; gap: 20px; }
+        .list-item { 
+            display: flex; align-items: center; gap: 20px; text-decoration: none; color: white; transition: 0.3s; 
+            background: rgba(255, 255, 255, 0.05); /* Thêm nền mờ nhẹ cho từng item để hòa quyện với background mới */
+            padding: 10px 20px;
+            border-radius: 40px 15px 15px 40px;
         }
+        .list-item:hover { background: rgba(135, 206, 235, 0.15); transform: translateX(15px); }
 
-        .list-item {
-            display: flex; align-items: center; gap: 20px;
-            text-decoration: none; color: white;
-            transition: 0.3s;
-        }
-
-        .list-item:hover { transform: translateX(15px); }
-
-        /* HIỆU ỨNG VỎ ỐC LẤP LÁNH NHƯ BAN ĐẦU */
         .shell-icon {
-            width: 60px; height: 60px;
-            background: white; border-radius: 50%;
+            width: 60px; height: 60px; background: white; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(0, 210, 255, 0.4);
             animation: float 3s ease-in-out infinite;
-            position: relative;
         }
-
         .shell-icon img { width: 70%; height: auto; }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-8px) rotate(5deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        .text-content {
-            display: flex; flex-direction: column;
-        }
+        .text-content { display: flex; flex-direction: column; }
+        .location { font-size: 24px; font-weight: 700; letter-spacing: 1px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+        .shell-name { font-size: 13px; color: #87CEEB; font-weight: 600; text-transform: uppercase; }
 
-        .location {
-            font-size: 24px; font-weight: 700; letter-spacing: 1px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .shell-name {
-            font-size: 13px; color: #87CEEB; font-weight: 600;
-        }
-
-        /* RESPONSIVE CHO ĐIỆN THOẠI */
-        @media (max-width: 850px) {
-            .main-container { flex-direction: column; gap: 40px; }
-            .circle-center { width: 65vmin; height: 65vmin; }
-            .location { font-size: 20px; }
-        }
-
-        /* HIỆU ỨNG SPARKLE KHI DI CHUYỂN CHUỘT */
+        /* HIỆU ỨNG SPARKLE CHUỘT */
         .magic-sparkle {
             position: absolute; pointer-events: none; z-index: 9999;
             background: white; border-radius: 50%;
             box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
             animation: sparkle-fade 0.8s ease-out forwards;
         }
-        @keyframes sparkle-fade {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0) translateY(20px); }
+        @keyframes sparkle-fade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0) translateY(20px); } }
+
+        @media (max-width: 850px) {
+            .header-title-box { left: 20px; top: 15px; padding: 8px 20px; }
+            .wave-text-header { font-size: 20px; }
+            .main-container { flex-direction: column; gap: 40px; margin-top: 60px; }
+            .circle-center { width: 60vmin; height: 60vmin; }
         }
     </style>
 </head>
 <body>
 
+    <div class="header-title-box">
+        <div class="wave-text-header">Khám Phá Đại Dương</div>
+    </div>
+
     <div class="main-container">
-        
         <a href="Layout4.html" class="circle-center">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHNidjU5bmZ6bnR4ZzR0eWlybmN6eW95eXp6eXp6eXp6eXp6eXp6JmN0PWc/3o7TKMGpxxcaqzDDS8/giphy.gif" alt="Ocean Drive">
+            <img src="https://kenh14cdn.com/thumb_w/500/LJ9BRCA2SwO2i2yoqIMzIMq9QI2QMI/Image/2015/07/b1-c4c87.gif" alt="Ocean Life">
         </a>
 
         <div class="seashell-list">
-            
             <a href="Layout4.html" class="list-item">
-                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041772.png" alt="Shell"></div>
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041772.png" alt="Sò"></div>
                 <div class="text-content">
                     <span class="shell-name">Vỏ Sò Điệp</span>
                     <span class="location">NHA TRANG</span>
                 </div>
             </a>
-
             <a href="Layout4.html" class="list-item">
-                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504381.png" alt="Shell"></div>
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504381.png" alt="Sò"></div>
                 <div class="text-content">
                     <span class="shell-name">Vỏ Sò Nón</span>
                     <span class="location">PHÚ QUỐC</span>
                 </div>
             </a>
-
             <a href="Layout4.html" class="list-item">
-                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041838.png" alt="Shell"></div>
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041838.png" alt="Sò"></div>
                 <div class="text-content">
                     <span class="shell-name">Vỏ Ốc Xà Cừ</span>
                     <span class="location">MỸ KHÊ</span>
                 </div>
             </a>
-
             <a href="Layout4.html" class="list-item">
-                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504344.png" alt="Shell"></div>
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504344.png" alt="Sò"></div>
                 <div class="text-content">
                     <span class="shell-name">Vỏ Ốc Turret</span>
                     <span class="location">KỲ CO</span>
                 </div>
             </a>
-
             <a href="Layout4.html" class="list-item">
-                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504423.png" alt="Shell"></div>
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504423.png" alt="Sò"></div>
                 <div class="text-content">
                     <span class="shell-name">Vỏ Ốc Nautilus</span>
                     <span class="location">CÔN ĐẢO</span>
                 </div>
             </a>
-
         </div>
     </div>
 
     <script>
-        // Hiệu ứng lấp lánh theo con trỏ chuột
         document.addEventListener('mousemove', function(e) {
             if (Math.random() < 0.15) {
                 const sparkle = document.createElement('div');
