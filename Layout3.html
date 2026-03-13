@@ -3,338 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeaVibe - Khám Phá Địa Danh Biển</title>
+    <title>SeaVibe - Chọn Địa Danh</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500;700&family=Quicksand:wght@500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Asap+Condensed:wght@700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- CON TRỎ CHUỘT ĐINH BA --- */
+        body, a, button, div, span {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
 
         body {
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            font-family: 'Quicksand', sans-serif;
-            background: url('https://images.unsplash.com/photo-1682687982501-1e5898cb8f4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-            background-color: #041424; 
+            width: 100vw; min-height: 100vh;
+            background: #050a15; /* Nền tối sâu để làm nổi bật hiệu ứng lấp lánh */
+            color: #fff; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; position: relative; overflow-x: hidden; padding: 40px 20px;
         }
 
-        .deep-sea-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(10, 40, 70, 0.4) 0%, rgba(2, 10, 20, 0.9) 100%);
-            z-index: 1;
-            pointer-events: none;
+        /* Hình nền mờ ảo phía sau */
+        .bg-blur {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1518182170546-076616fdfaaf?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            opacity: 0.3; z-index: 0; filter: blur(5px);
         }
 
-        /* --- HEADER --- */
-        header {
-            position: absolute;
-            top: 30px; left: 40px; right: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            z-index: 10;
+        .title {
+            position: relative; z-index: 10; text-align: center;
+            font-size: clamp(24px, 4vw, 36px); font-weight: 700;
+            text-shadow: 0 0 15px rgba(135, 206, 235, 0.8); margin-bottom: 40px;
         }
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
-
-        .icon-btn {
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            color: #fff; font-size: 20px; transition: 0.3s;
-        }
-        .icon-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
-
-        .main-title {
-            font-family: 'Asap Condensed', sans-serif;
-            font-size: 32px; 
-            font-weight: 700;
-            color: #e0f7fa;
-            text-transform: uppercase; letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(0, 210, 255, 0.8);
+        /* --- BỐ CỤC 2 CỘT --- */
+        .content-row {
+            position: relative; z-index: 10; display: flex;
+            flex-direction: row; align-items: center; justify-content: center;
+            gap: 8vw; width: 100%; max-width: 1100px;
         }
 
-        /* --- BỐ CỤC VÒNG TRÒN TRUNG TÂM --- */
-        .circle-map-container {
-            position: absolute;
-            top: 58%; 
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px; height: 500px;
-            z-index: 10;
+        /* --- VÒNG TRÒN TÂM ĐỘNG --- */
+        .circle-center {
+            width: 50vmin; height: 50vmin; max-width: 450px; max-height: 450px;
+            min-width: 260px; min-height: 260px; border-radius: 50%;
+            position: relative; overflow: hidden;
+            border: 4px solid rgba(135, 206, 235, 0.5);
+            box-shadow: 0 0 50px rgba(0, 210, 255, 0.4);
+            transition: 0.5s; animation: breathe 6s ease-in-out infinite;
+        }
+        .circle-center:hover { transform: scale(1.05); box-shadow: 0 0 70px rgba(0, 210, 255, 0.8); }
+
+        .ocean-gif {
+            width: 100%; height: 100%; object-fit: cover;
+            /* Bạn có thể thay link GIF đại dương động của bạn ở đây */
+            background: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHNidjU5bmZ6bnR4ZzR0eWlybmN6eW95eXp6eXp6eXp6eXp6eXp6JmN0PWc/3o7TKMGpxxcaqzDDS8/giphy.gif') no-repeat center center/cover;
         }
 
-        /* --- ẢNH ĐỘNG GIF LẤP ĐẦY QUỸ ĐẠO LỚN --- */
-        .center-gif-wrapper {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; 
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden; 
-            z-index: 5; 
-            box-shadow: 0 0 80px rgba(0, 210, 255, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
 
-        .center-gif {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            opacity: 0.85; 
+        /* --- DANH SÁCH VỎ SÒ BÊN PHẢI --- */
+        .seashell-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .list-item {
+            display: flex; align-items: center; gap: 20px;
+            background: rgba(255, 255, 255, 0.05); padding: 10px 25px;
+            border-radius: 50px 15px 15px 50px; border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.4s; text-decoration: none; color: inherit;
+        }
+        .list-item:hover {
+            background: rgba(135, 206, 235, 0.15); transform: translateX(15px);
+            border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
         }
 
-        /* Từng cụm Vỏ sò + Chữ */
-        .shell-item {
-            position: absolute;
-            top: 50%; left: 50%;
-            margin: -75px 0 0 -75px; 
-            width: 150px; height: 150px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer;
-            z-index: 10;
+        /* Hình ảnh vỏ ốc trắng lấp lánh */
+        .shell-frame {
+            width: 60px; height: 60px; background: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            flex-shrink: 0; animation: float 3s ease-in-out infinite;
         }
+        .shell-frame img { width: 70%; height: auto; }
 
-        .shell-item:nth-child(2) { transform: rotate(-90deg) translate(250px) rotate(90deg); }  
-        .shell-item:nth-child(3) { transform: rotate(-18deg) translate(250px) rotate(18deg); }  
-        .shell-item:nth-child(4) { transform: rotate(54deg) translate(250px) rotate(-54deg); }  
-        .shell-item:nth-child(5) { transform: rotate(126deg) translate(250px) rotate(-126deg); } 
-        .shell-item:nth-child(6) { transform: rotate(198deg) translate(250px) rotate(-198deg); } 
-
-        .shell-img-wrapper {
-            position: relative;
-            width: 100px; height: 100px;
-            display: flex; justify-content: center; align-items: center;
-            transition: transform 0.3s ease;
-            animation: float 4s infinite ease-in-out;
-        }
-
-        .shell-item:nth-child(3) .shell-img-wrapper { animation-delay: 0.5s; }
-        .shell-item:nth-child(4) .shell-img-wrapper { animation-delay: 1s; }
-        .shell-item:nth-child(5) .shell-img-wrapper { animation-delay: 1.5s; }
-        .shell-item:nth-child(6) .shell-img-wrapper { animation-delay: 0.2s; }
+        .text-group { display: flex; flex-direction: column; }
+        .location-name { font-family: 'Asap Condensed', sans-serif; font-size: 22px; color: #fff; letter-spacing: 1px; }
+        .shell-name { font-size: 12px; color: #87CEEB; font-weight: 600; text-transform: uppercase; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-5px); }
         }
 
-        /* Nền trắng ôm trọn vỏ sò để đồng bộ màu */
-        .shell-bg-circle {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px; 
-            height: 120px;
-            background-color: #ffffff; 
-            border-radius: 50%;
-            z-index: 1; 
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
+        /* MƯA BONG BÓNG LẤP LÁNH */
+        .magic-sparkle {
+            position: absolute; pointer-events: none; z-index: 9999; background: #87CEEB;
+            border-radius: 50%; box-shadow: 0 0 8px #00d2ff, 0 0 15px #ffffff;
+            animation: sparkle-fade 0.8s ease-out forwards;
+        }
+        @keyframes sparkle-fade {
+            0% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0) translateY(20px); }
         }
 
-        /* Ảnh vỏ sò */
-        .shell-img {
-            width: 90px; 
-            height: 90px;
-            object-fit: contain;
-            mix-blend-mode: darken; 
-            position: relative;
-            z-index: 2; 
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .content-row { flex-direction: column; gap: 30px; }
+            .circle-center { width: 60vmin; height: 60vmin; }
+            .list-item { width: 100%; max-width: 320px; }
         }
-
-        .sparkle-aura {
-            position: absolute;
-            top: -30%; left: -30%; width: 160%; height: 160%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 40%, rgba(255, 255, 255, 0.8) 45%, rgba(0, 212, 255, 0.6) 50%, transparent 60%);
-            background-size: 200% 200%;
-            opacity: 0.6;
-            animation: spinAndPulse 3s infinite linear;
-            z-index: 0; 
-            pointer-events: none;
-            filter: blur(2px) brightness(1.2);
-        }
-
-        @keyframes spinAndPulse {
-            0% { transform: rotate(0deg) scale(0.8); opacity: 0.3; }
-            50% { transform: rotate(180deg) scale(1.1); opacity: 0.8; }
-            100% { transform: rotate(360deg) scale(0.8); opacity: 0.3; }
-        }
-
-        .shell-item:hover .shell-img-wrapper {
-            transform: scale(1.15); 
-        }
-        .shell-item:hover .sparkle-aura {
-            opacity: 0.9;
-            animation-duration: 1.5s; 
-            filter: blur(4px) brightness(1.5);
-        }
-
-        /* --- CHỮ ĐỊA DANH --- */
-        .shell-text {
-            position: absolute;
-            text-align: center;
-            width: 250px;
-            pointer-events: none; 
-            transition: all 0.3s ease;
-        }
-
-        /* ĐÃ CHỈNH LẠI VỊ TRÍ CHỮ NHA TRANG XUỐNG DƯỚI VỎ SÒ */
-        .shell-item:nth-child(2) .shell-text { top: 120px; left: -50px; text-align: center; } 
-        .shell-item:nth-child(3) .shell-text { top: 25px; left: 165px; text-align: left; }   
-        .shell-item:nth-child(4) .shell-text { top: 130px; left: 110px; text-align: left; }   
-        .shell-item:nth-child(5) .shell-text { top: 130px; right: 110px; text-align: right; } 
-        .shell-item:nth-child(6) .shell-text { top: 25px; right: 165px; text-align: right; }  
-
-        .shell-type {
-            font-size: 16px;
-            color: #b2ebf2;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 2px;
-        }
-
-        .shell-name {
-            font-size: 28px; 
-            font-weight: 700;
-            color: #ffffff; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px #ffffff, 0 0 20px #00d2ff, 0 0 30px #00d2ff, 0 4px 10px rgba(0,0,0,1); 
-        }
-
-        .shell-item:hover .shell-name {
-            text-shadow: 0 0 15px #ffffff, 0 0 30px #00d2ff, 0 0 50px #00d2ff;
-            transform: scale(1.1);
-        }
-
-        /* =======================================================
-           RESPONSIVE CHO LAYOUT 3 (BẢN ĐỒ)
-           ======================================================= */
-        
-        /* Màn hình Tablet (iPad) */
-        @media (max-width: 1024px) {
-            .circle-map-container {
-                transform: translate(-50%, -50%) scale(0.8); /* Thu nhỏ 80% */
-            }
-            .main-title { font-size: 26px; }
-        }
-
-        /* Màn hình Điện thoại di động */
-        @media (max-width: 768px) {
-            header {
-                top: 15px; left: 15px; right: 15px;
-            }
-            .main-title { 
-                font-size: 20px; 
-                text-align: center;
-                line-height: 1.2;
-            }
-            .icon-btn { width: 35px; height: 35px; font-size: 16px; }
-            
-            .circle-map-container {
-                /* Kéo lên một chút và thu nhỏ chỉ còn 50% để lọt thỏm vào màn hình dọc */
-                transform: translate(-50%, -45%) scale(0.5); 
-            }
-        }
-
-        /* Màn hình Điện thoại siêu nhỏ (iPhone cũ) */
-        @media (max-width: 480px) {
-            .circle-map-container {
-                transform: translate(-50%, -45%) scale(0.4); /* Thu nhỏ 40% */
-            }
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="deep-sea-overlay"></div>
+    <div class="bg-blur"></div>
 
-    <header>
-        <div class="header-left">
-            <button class="icon-btn" onclick="history.back();">❮</button>
-            <h1 class="main-title">KHÁM PHÁ ĐỊA DANH BIỂN</h1>
+    <div class="title">CHỌN NƠI BẠN MUỐN ĐẾN</div>
+
+    <div class="content-row">
+        
+        <a href="Layout4.html" class="circle-center">
+            <div class="ocean-gif"></div>
+        </a>
+
+        <div class="seashell-list">
+            
+            <a href="Layout4.html" class="list-item">
+                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041772.png" alt="Sò Điệp"></div>
+                <div class="text-group">
+                    <span class="shell-name">Vỏ Sò Điệp</span>
+                    <span class="location-name">NHA TRANG</span>
+                </div>
+            </a>
+
+            <a href="Layout4.html" class="list-item">
+                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504381.png" alt="Sò Nón"></div>
+                <div class="text-group">
+                    <span class="shell-name">Vỏ Sò Nón</span>
+                    <span class="location-name">PHÚ QUỐC</span>
+                </div>
+            </a>
+
+            <a href="Layout4.html" class="list-item">
+                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041838.png" alt="Ốc Xà Cừ"></div>
+                <div class="text-group">
+                    <span class="shell-name">Vỏ Ốc Xà Cừ</span>
+                    <span class="location-name">MỸ KHÊ</span>
+                </div>
+            </a>
+
+            <a href="Layout4.html" class="list-item">
+                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504344.png" alt="Ốc Turret"></div>
+                <div class="text-group">
+                    <span class="shell-name">Vỏ Ốc Turret</span>
+                    <span class="location-name">KỲ CO</span>
+                </div>
+            </a>
+
+            <a href="Layout4.html" class="list-item">
+                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504423.png" alt="Ốc Nautilus"></div>
+                <div class="text-group">
+                    <span class="shell-name">Vỏ Ốc Nautilus</span>
+                    <span class="location-name">CÔN ĐẢO</span>
+                </div>
+            </a>
+
         </div>
-        </header>
-
-    <div class="circle-map-container">
-
-        <div class="center-gif-wrapper">
-            <img src="https://kenh14cdn.com/thumb_w/500/LJ9BRCA2SwO2i2yoqIMzIMq9QI2QMI/Image/2015/07/b1-c4c87.gif" alt="Center Animation" class="center-gif">
-        </div>
-
-        <div class="shell-item" onclick="window.location.href='Layout4.html';">
-            <div class="shell-img-wrapper">
-                <div class="sparkle-aura"></div>
-                <div class="shell-bg-circle"></div> 
-                <img src="So1.png" alt="Vỏ sò điệp" class="shell-img">
-            </div>
-            <div class="shell-text">
-                <div class="shell-type">Vỏ Sò Điệp</div>
-                <div class="shell-name">NHA TRANG</div>
-            </div>
-        </div>
-
-        <div class="shell-item" onclick="window.location.href='Layout4.html';">
-            <div class="shell-img-wrapper">
-                <div class="sparkle-aura"></div>
-                <div class="shell-bg-circle"></div>
-                <img src="So2.png" alt="Vỏ ốc xà cừ" class="shell-img">
-            </div>
-            <div class="shell-text">
-                <div class="shell-type">Vỏ Ốc Xà Cừ</div>
-                <div class="shell-name">MỸ KHÊ</div>
-            </div>
-        </div>
-
-        <div class="shell-item" onclick="window.location.href='Layout4.html';">
-            <div class="shell-img-wrapper">
-                <div class="sparkle-aura"></div>
-                <div class="shell-bg-circle"></div>
-                <img src="So3.png" alt="Vỏ ốc Nautilus" class="shell-img">
-            </div>
-            <div class="shell-text">
-                <div class="shell-type">Vỏ Ốc Nautilus</div>
-                <div class="shell-name">CÔN ĐẢO</div>
-            </div>
-        </div>
-
-        <div class="shell-item" onclick="window.location.href='Layout4.html';">
-            <div class="shell-img-wrapper">
-                <div class="sparkle-aura"></div>
-                <div class="shell-bg-circle"></div>
-                <img src="So4.png" alt="Vỏ ốc Turret" class="shell-img">
-            </div>
-            <div class="shell-text">
-                <div class="shell-type">Vỏ Ốc Turret</div>
-                <div class="shell-name">KỲ CO</div>
-            </div>
-        </div>
-
-        <div class="shell-item" onclick="window.location.href='Layout4.html';">
-            <div class="shell-img-wrapper">
-                <div class="sparkle-aura"></div>
-                <div class="shell-bg-circle"></div>
-                <img src="So5.png" alt="Vỏ sò nón" class="shell-img">
-            </div>
-            <div class="shell-text">
-                <div class="shell-type">Vỏ Sò Nón</div>
-                <div class="shell-name">PHÚ QUỐC</div>
-            </div>
-        </div>
-
     </div>
+
+    <script>
+        // HIỆU ỨNG LẤP LÁNH KHI CHUỘT DI CHUYỂN
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.2) { createSparkle(e.pageX, e.pageY); }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('magic-sparkle');
+            sparkle.style.left = (x + 8) + 'px';
+            sparkle.style.top = (y + 12) + 'px';
+            const size = Math.random() * 6 + 4; 
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            document.body.appendChild(sparkle);
+            setTimeout(() => { sparkle.remove(); }, 800);
+        }
+    </script>
 
 </body>
 </html>
