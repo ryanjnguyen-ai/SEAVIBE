@@ -7,34 +7,24 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500;700&family=Quicksand:wght@500;600;700&display=swap');
 
-        /* ĐỔI CON TRỎ CHUỘT THÀNH ĐINH BA POSEIDON CHO TOÀN BỘ WEB */
+        /* --- ĐINH BA POSEIDON --- */
         body, a, button, .playlist-item, .icon-btn, .seek-bar, .volume-slider, span, div {
-            cursor: url('https://cdn-icons-png.flaticon.com/32/4149/4149254.png') 16 16, auto !important;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
         }
 
-        /* Riêng khung nhập chat thì giữ lại con trỏ văn bản để dễ gõ chữ */
-        input {
-            cursor: text !important;
-        }
+        input { cursor: text !important; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            height: 100vh; width: 100vw; overflow: hidden;
             font-family: 'Quicksand', sans-serif;
             background: url('Layout-Hinhnen.jpg') no-repeat center center/cover;
             position: relative;
         }
 
         .vintage-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.2);
             z-index: 1; pointer-events: none;
         }
@@ -74,18 +64,38 @@
         /* HEADER RIGHT */
         .header-right { display: flex; gap: 15px; align-items: center; }
 
+        .spotify-widget-compact {
+            width: 320px; height: 80px; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* KHUNG CHỨA NÚT CHAT & NÀNG TIÊN CÁ */
+        .chat-btn-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
         .btn-toggle-chat {
             background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 10px 20px; border-radius: 20px; height: 45px;
             color: #fff; font-weight: 700; transition: 0.3s;
             display: flex; align-items: center; gap: 8px; white-space: nowrap;
+            cursor: pointer;
         }
         .btn-toggle-chat:hover { background: rgba(255, 255, 255, 0.2); }
 
-        .spotify-widget-compact {
-            width: 320px; height: 80px; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+        /* NÀNG TIÊN CÁ (TĨNH, MỜ 50%, HÒA MÀU VÀO NỀN) */
+        .mermaid-static {
+            position: absolute;
+            top: -48px; /* Đặt nổi lên trên nút Chat */
+            right: -15px; /* Lùi về góc phải */
+            width: 80px;
+            opacity: 0.5; /* Làm mờ đúng 50% theo ý bạn */
+            mix-blend-mode: screen; /* Giúp ảnh hòa quyện siêu đẹp vào màu nền web */
+            pointer-events: none; /* Tránh click nhầm vào ảnh thay vì nút */
+            transform: scaleX(-1); /* Lật hình hướng vào trong */
+            z-index: 60;
         }
 
         /* --- BỐ CỤC CHÍNH --- */
@@ -161,7 +171,7 @@
 
         .playlist-item {
             display: flex; align-items: center; gap: 10px;
-            flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px;
+            flex: 0 0 auto; min-width: 220px; padding: 8px; border-radius: 8px; cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; background: rgba(255,255,255,0.05);
         }
         .playlist-item:hover, .playlist-item.active { 
@@ -195,16 +205,27 @@
 
         /* KHUNG NHẬP CHAT */
         .chat-input-wrapper { padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 8px; position: relative; }
-        .btn-emoji { background: none; border: none; font-size: 24px; transition: 0.2s; }
+        .btn-emoji { background: none; border: none; font-size: 24px; cursor: pointer; transition: 0.2s; }
         .btn-emoji:hover { transform: scale(1.1); filter: brightness(1.2); }
         .chat-input-wrapper input { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: #fff; outline: none; font-family: 'Quicksand', sans-serif; width: 100%; }
-        .btn-send { background: #87CEEB; border: none; border-radius: 50%; width: 40px; height: 40px; color: #000; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; }
+        .btn-send { background: #87CEEB; border: none; border-radius: 50%; width: 40px; height: 40px; color: #000; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; cursor: pointer;}
         .btn-send:hover { background: #fff; box-shadow: 0 0 10px #87CEEB; }
 
         .emoji-picker { position: absolute; bottom: 65px; left: 15px; background: rgba(20, 30, 45, 0.95); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; display: none; gap: 8px; flex-wrap: wrap; width: 220px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 20; }
         .emoji-picker.show { display: flex; animation: slideUp 0.2s ease; }
-        .emoji-picker span { font-size: 24px; transition: 0.2s; }
+        .emoji-picker span { font-size: 24px; cursor: pointer; transition: 0.2s; }
         .emoji-picker span:hover { transform: scale(1.3); }
+
+        /* MƯA BONG BÓNG LẤP LÁNH CỦA ĐINH BA */
+        .magic-sparkle {
+            position: absolute; pointer-events: none; z-index: 9999; background: #87CEEB;
+            border-radius: 50%; box-shadow: 0 0 8px #00d2ff, 0 0 15px #ffffff;
+            animation: sparkle-fade 0.8s ease-out forwards;
+        }
+        @keyframes sparkle-fade {
+            0% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0) translateY(20px); }
+        }
 
         /* RESPONSIVE */
         @media (max-width: 1024px) {
@@ -238,10 +259,13 @@
         
         <div class="header-right">
             <div class="spotify-widget-compact">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/playlist/5XHizMAmlrmgnRS20Xw0Qe?si=jlhg0UNzQ1eo6D_9a1WxWg" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
             
-            <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
+            <div class="chat-btn-wrapper">
+                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2RpNGJyaDc1Z2JkNjl0aWp5NXBqaXo4M2NiZTJoM2dsb29vODN0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HrrD84O3O1E4M/giphy.gif" alt="Nàng tiên cá" class="mermaid-static">
+                <button class="btn-toggle-chat" onclick="toggleChat()">💬 Ẩn / Hiện Chat</button>
+            </div>
         </div>
     </header>
 
@@ -279,27 +303,22 @@
             <div class="playlist-section">
                 <h3>🌊 Khám phá các địa danh mới</h3>
                 <div class="playlist-items">
-                    
                     <div class="playlist-item active" onclick="changeVideo('NhaTrang1.mp4', this, 'Biển Nha Trang')">
                         <img src="https://images.unsplash.com/photo-1559586616-361e46fb9617?w=300" alt="Nha Trang">
                         <span>Nha Trang</span>
                     </div>
-                    
                     <div class="playlist-item" onclick="changeVideo('HaLong1.mp4', this, 'Vịnh Hạ Long')">
                         <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=300" alt="Hạ Long">
                         <span>Hạ Long</span>
                     </div>
-                    
                     <div class="playlist-item" onclick="changeVideo('PhanThiet1.mp4', this, 'Biển Phan Thiết')">
                         <img src="https://images.unsplash.com/photo-1544158498-8ec052eeb2c0?w=300" alt="Phan Thiết">
                         <span>Phan Thiết</span>
                     </div>
-                    
                     <div class="playlist-item" onclick="changeVideo('PhuQuoc.mp4', this, 'Đảo Phú Quốc')">
                         <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300" alt="Phú Quốc">
                         <span>Phú Quốc</span>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -312,7 +331,7 @@
                     <div class="avatar">Y</div>
                     <div class="msg-content">
                         <div class="msg-author">Hải Yến</div>
-                        Ê bà ơi chill quá nè! Đeo tai nghe vào nghe sóng vỗ cực đã.
+                        Ê bà ơi chill quá nè! Thấy nàng tiên cá đang nghỉ chân không? 😍
                     </div>
                 </div>
             </div>
@@ -338,6 +357,24 @@
     </div>
 
     <script>
+        // --- JAVASCRIPT TẠO HIỆU ỨNG LẤP LÁNH KHI CHUỘT DI CHUYỂN ---
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.2) { createSparkle(e.pageX, e.pageY); }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('magic-sparkle');
+            sparkle.style.left = (x + 8) + 'px';
+            sparkle.style.top = (y + 12) + 'px';
+            const size = Math.random() * 6 + 4; 
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            document.body.appendChild(sparkle);
+            setTimeout(() => { sparkle.remove(); }, 800);
+        }
+
+        // --- CÁC TÍNH NĂNG VIDEO ---
         const videoPlayer = document.getElementById('html5-video');
         const playBtn = document.getElementById('btn-play');
         const muteBtn = document.getElementById('btn-mute');
