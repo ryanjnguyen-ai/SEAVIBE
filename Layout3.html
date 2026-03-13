@@ -3,168 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeaVibe - Chọn Địa Danh</title>
+    <title>SeaVibe - Layout 3</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Asap+Condensed:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
 
-        /* --- CON TRỎ CHUỘT ĐINH BA --- */
-        body, a, button, div, span {
+        /* ĐINH BA POSEIDON */
+        body, a, .circle-center, .list-item {
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
 
         body {
             width: 100vw; min-height: 100vh;
-            background: #050a15; /* Nền tối sâu để làm nổi bật hiệu ứng lấp lánh */
-            color: #fff; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; position: relative; overflow-x: hidden; padding: 40px 20px;
+            background: #050a15; /* Nền tối để hiệu ứng lấp lánh rõ hơn */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow-x: hidden; padding: 20px;
         }
 
-        /* Hình nền mờ ảo phía sau */
-        .bg-blur {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1518182170546-076616fdfaaf?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-            opacity: 0.3; z-index: 0; filter: blur(5px);
+        /* Container chính chia 2 cột */
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 5vw;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
         }
 
-        .title {
-            position: relative; z-index: 10; text-align: center;
-            font-size: clamp(24px, 4vw, 36px); font-weight: 700;
-            text-shadow: 0 0 15px rgba(135, 206, 235, 0.8); margin-bottom: 40px;
-        }
-
-        /* --- BỐ CỤC 2 CỘT --- */
-        .content-row {
-            position: relative; z-index: 10; display: flex;
-            flex-direction: row; align-items: center; justify-content: center;
-            gap: 8vw; width: 100%; max-width: 1100px;
-        }
-
-        /* --- VÒNG TRÒN TÂM ĐỘNG --- */
+        /* VÒNG TRÒN TÂM - GIỮ NGUYÊN HÌNH ĐỘNG */
         .circle-center {
-            width: 50vmin; height: 50vmin; max-width: 450px; max-height: 450px;
-            min-width: 260px; min-height: 260px; border-radius: 50%;
-            position: relative; overflow: hidden;
-            border: 4px solid rgba(135, 206, 235, 0.5);
-            box-shadow: 0 0 50px rgba(0, 210, 255, 0.4);
-            transition: 0.5s; animation: breathe 6s ease-in-out infinite;
+            width: 55vmin; height: 55vmin;
+            max-width: 500px; max-height: 500px;
+            min-width: 280px; min-height: 280px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(135, 206, 235, 0.5);
+            transition: transform 0.5s ease;
+            animation: breathe 6s ease-in-out infinite;
+            text-decoration: none;
         }
-        .circle-center:hover { transform: scale(1.05); box-shadow: 0 0 70px rgba(0, 210, 255, 0.8); }
 
-        .ocean-gif {
+        .circle-center:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .circle-center img {
             width: 100%; height: 100%; object-fit: cover;
-            /* Bạn có thể thay link GIF đại dương động của bạn ở đây */
-            background: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHNidjU5bmZ6bnR4ZzR0eWlybmN6eW95eXp6eXp6eXp6eXp6eXp6JmN0PWc/3o7TKMGpxxcaqzDDS8/giphy.gif') no-repeat center center/cover;
         }
 
         @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(135, 206, 235, 0.4); }
+            50% { transform: scale(1.03); box-shadow: 0 0 50px rgba(135, 206, 235, 0.7); }
         }
 
-        /* --- DANH SÁCH VỎ SÒ BÊN PHẢI --- */
-        .seashell-list { display: flex; flex-direction: column; gap: 15px; }
+        /* DANH SÁCH BÊN PHẢI */
+        .seashell-list {
+            display: flex; flex-direction: column; gap: 20px;
+            flex-shrink: 0;
+        }
 
         .list-item {
             display: flex; align-items: center; gap: 20px;
-            background: rgba(255, 255, 255, 0.05); padding: 10px 25px;
-            border-radius: 50px 15px 15px 50px; border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.4s; text-decoration: none; color: inherit;
-        }
-        .list-item:hover {
-            background: rgba(135, 206, 235, 0.15); transform: translateX(15px);
-            border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+            text-decoration: none; color: white;
+            transition: 0.3s;
         }
 
-        /* Hình ảnh vỏ ốc trắng lấp lánh */
-        .shell-frame {
-            width: 60px; height: 60px; background: #fff; border-radius: 50%;
+        .list-item:hover { transform: translateX(15px); }
+
+        /* HIỆU ỨNG VỎ ỐC LẤP LÁNH NHƯ BAN ĐẦU */
+        .shell-icon {
+            width: 60px; height: 60px;
+            background: white; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-            flex-shrink: 0; animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
         }
-        .shell-frame img { width: 70%; height: auto; }
 
-        .text-group { display: flex; flex-direction: column; }
-        .location-name { font-family: 'Asap Condensed', sans-serif; font-size: 22px; color: #fff; letter-spacing: 1px; }
-        .shell-name { font-size: 12px; color: #87CEEB; font-weight: 600; text-transform: uppercase; }
+        .shell-icon img { width: 70%; height: auto; }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-8px) rotate(5deg); }
         }
 
-        /* MƯA BONG BÓNG LẤP LÁNH */
+        .text-content {
+            display: flex; flex-direction: column;
+        }
+
+        .location {
+            font-size: 24px; font-weight: 700; letter-spacing: 1px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .shell-name {
+            font-size: 13px; color: #87CEEB; font-weight: 600;
+        }
+
+        /* RESPONSIVE CHO ĐIỆN THOẠI */
+        @media (max-width: 850px) {
+            .main-container { flex-direction: column; gap: 40px; }
+            .circle-center { width: 65vmin; height: 65vmin; }
+            .location { font-size: 20px; }
+        }
+
+        /* HIỆU ỨNG SPARKLE KHI DI CHUYỂN CHUỘT */
         .magic-sparkle {
-            position: absolute; pointer-events: none; z-index: 9999; background: #87CEEB;
-            border-radius: 50%; box-shadow: 0 0 8px #00d2ff, 0 0 15px #ffffff;
+            position: absolute; pointer-events: none; z-index: 9999;
+            background: white; border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
             animation: sparkle-fade 0.8s ease-out forwards;
         }
         @keyframes sparkle-fade {
-            0% { opacity: 1; transform: scale(1) translateY(0); }
+            0% { opacity: 1; transform: scale(1); }
             100% { opacity: 0; transform: scale(0) translateY(20px); }
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .content-row { flex-direction: column; gap: 30px; }
-            .circle-center { width: 60vmin; height: 60vmin; }
-            .list-item { width: 100%; max-width: 320px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blur"></div>
-
-    <div class="title">CHỌN NƠI BẠN MUỐN ĐẾN</div>
-
-    <div class="content-row">
+    <div class="main-container">
         
         <a href="Layout4.html" class="circle-center">
-            <div class="ocean-gif"></div>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHNidjU5bmZ6bnR4ZzR0eWlybmN6eW95eXp6eXp6eXp6eXp6eXp6JmN0PWc/3o7TKMGpxxcaqzDDS8/giphy.gif" alt="Ocean Drive">
         </a>
 
         <div class="seashell-list">
             
             <a href="Layout4.html" class="list-item">
-                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041772.png" alt="Sò Điệp"></div>
-                <div class="text-group">
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041772.png" alt="Shell"></div>
+                <div class="text-content">
                     <span class="shell-name">Vỏ Sò Điệp</span>
-                    <span class="location-name">NHA TRANG</span>
+                    <span class="location">NHA TRANG</span>
                 </div>
             </a>
 
             <a href="Layout4.html" class="list-item">
-                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504381.png" alt="Sò Nón"></div>
-                <div class="text-group">
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504381.png" alt="Shell"></div>
+                <div class="text-content">
                     <span class="shell-name">Vỏ Sò Nón</span>
-                    <span class="location-name">PHÚ QUỐC</span>
+                    <span class="location">PHÚ QUỐC</span>
                 </div>
             </a>
 
             <a href="Layout4.html" class="list-item">
-                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041838.png" alt="Ốc Xà Cừ"></div>
-                <div class="text-group">
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041838.png" alt="Shell"></div>
+                <div class="text-content">
                     <span class="shell-name">Vỏ Ốc Xà Cừ</span>
-                    <span class="location-name">MỸ KHÊ</span>
+                    <span class="location">MỸ KHÊ</span>
                 </div>
             </a>
 
             <a href="Layout4.html" class="list-item">
-                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504344.png" alt="Ốc Turret"></div>
-                <div class="text-group">
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504344.png" alt="Shell"></div>
+                <div class="text-content">
                     <span class="shell-name">Vỏ Ốc Turret</span>
-                    <span class="location-name">KỲ CO</span>
+                    <span class="location">KỲ CO</span>
                 </div>
             </a>
 
             <a href="Layout4.html" class="list-item">
-                <div class="shell-frame"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504423.png" alt="Ốc Nautilus"></div>
-                <div class="text-group">
+                <div class="shell-icon"><img src="https://cdn-icons-png.flaticon.com/512/3504/3504423.png" alt="Shell"></div>
+                <div class="text-content">
                     <span class="shell-name">Vỏ Ốc Nautilus</span>
-                    <span class="location-name">CÔN ĐẢO</span>
+                    <span class="location">CÔN ĐẢO</span>
                 </div>
             </a>
 
@@ -172,23 +182,20 @@
     </div>
 
     <script>
-        // HIỆU ỨNG LẤP LÁNH KHI CHUỘT DI CHUYỂN
+        // Hiệu ứng lấp lánh theo con trỏ chuột
         document.addEventListener('mousemove', function(e) {
-            if (Math.random() < 0.2) { createSparkle(e.pageX, e.pageY); }
+            if (Math.random() < 0.15) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('magic-sparkle');
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                const size = Math.random() * 5 + 3;
+                sparkle.style.width = size + 'px';
+                sparkle.style.height = size + 'px';
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            }
         });
-
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('magic-sparkle');
-            sparkle.style.left = (x + 8) + 'px';
-            sparkle.style.top = (y + 12) + 'px';
-            const size = Math.random() * 6 + 4; 
-            sparkle.style.width = size + 'px';
-            sparkle.style.height = size + 'px';
-            document.body.appendChild(sparkle);
-            setTimeout(() => { sparkle.remove(); }, 800);
-        }
     </script>
-
 </body>
 </html>
