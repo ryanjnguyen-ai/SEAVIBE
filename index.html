@@ -2,158 +2,114 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Dương Của Bạn - Đăng Nhập</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <title>SeaVibe - Đăng Nhập</title>
     <style>
-        /* Import font chữ hiện đại */
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Asap+Condensed:wght@900&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Quicksand', sans-serif;
+        /* ĐỒNG BỘ CON TRỎ CHUỘT ĐINH BA POSEIDON */
+        body, a, button {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important;
+        }
+        
+        /* Đảm bảo con trỏ chuột bình thường ở ô nhập liệu */
+        input { cursor: text !important; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+
+        /* FIX LỖI BÀN PHÍM IOS TỪ GỐC */
+        html, body {
+            height: 100dvh; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; position: relative; background-color: #05161d;
+            -webkit-user-select: none; user-select: none; /* Khóa bôi đen toàn trang để tránh xung đột hệ thống */
         }
 
-        /* Hình nền toàn màn hình - Sử dụng ảnh biển xanh ngọc */
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-            overflow: hidden;
-        }
+        #bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
 
-        /* Lớp phủ màu xanh ngọc nhẹ để chữ dễ đọc hơn */
+        /* ÉP LỚP PHỦ KHÔNG ĐƯỢC CHẶN CLICK (!important) */
         .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 206, 209, 0.3), rgba(127, 255, 212, 0.2));
-            z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 20, 30, 0.4); z-index: 1;
+            pointer-events: none !important;
         }
 
-        /* Container của form đăng nhập (Hiệu ứng kính mờ - Glassmorphism) */
+        /* KHỐI LOGIN: ĐẨY LÊN LỚP CAO NHẤT (z-index: 10) */
         .login-container {
-            position: relative;
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.15); /* Nền trong suốt */
-            backdrop-filter: blur(12px); /* Độ mờ của kính */
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Viền trắng mỏng */
-            border-radius: 20px;
-            padding: 40px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-            color: #ffffff;
+            position: relative; z-index: 10;
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px;
+            padding: 40px; width: 90%; max-width: 400px;
+            text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); color: #ffffff;
+            pointer-events: auto; /* Đảm bảo form nhận tương tác */
         }
 
-        .login-container h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-        }
-
-        .login-container p {
-            font-size: 14px;
-            margin-bottom: 30px;
-            color: #e0f7fa;
-            font-weight: 600;
-        }
-
-        /* Style cho các ô nhập liệu */
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
+        .login-container h1 { font-family: 'Asap Condensed', sans-serif; font-size: 56px; margin-bottom: 5px; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(135, 206, 235, 0.7); }
+        .login-container p { font-size: 15px; margin-bottom: 30px; color: #e0f7fa; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        
+        .input-group { margin-bottom: 20px; text-align: left; position: relative; z-index: 20; }
+        
+        /* FIX TRIỆT ĐỂ Ô NHẬP LIỆU IOS BẰNG COMBO LỆNH CHUẨN CAPACITOR */
         .input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: 0.3s ease;
+            width: 100%; padding: 14px 15px; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15); color: #fff; font-size: 16px;
+            outline: none; border: 1px solid rgba(255, 255, 255, 0.3); transition: 0.3s ease;
+            
+            /* Các dòng bắt buộc để bật bàn phím */
+            -webkit-user-select: auto !important;
+            user-select: auto !important;
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
         }
-
-        /* Đổi màu placeholder (chữ mờ trong ô nhập) */
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .input-group input:focus {
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-
-        /* Nút bấm (Màu vàng cát) */
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            background: #f4a460; /* Màu vàng cát */
-            color: #fff;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(244, 164, 96, 0.4);
-        }
-
-        .btn-login:hover {
-            background: #e69148;
-            transform: translateY(-2px);
-        }
-
-        .links {
-            margin-top: 20px;
-            font-size: 13px;
-        }
-
-        .links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .links a:hover {
-            color: #f4a460;
-        }
+        
+        .input-group input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        .input-group input:focus { background: rgba(255, 255, 255, 0.25); border: 1px solid #87CEEB; box-shadow: 0 0 10px rgba(135, 206, 235, 0.3); }
+        
+        .btn-login { width: 100%; padding: 14px; border: none; border-radius: 12px; background: #87CEEB; color: #000; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s ease; box-shadow: 0 5px 15px rgba(135, 206, 235, 0.4); text-transform: uppercase; letter-spacing: 1px; }
+        .btn-login:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6); }
+        
+        .links { margin-top: 25px; font-size: 14px; position: relative; z-index: 20;}
+        .links a { color: #fff; text-decoration: none; font-weight: 600; transition: 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .links a:hover { color: #87CEEB; }
     </style>
 </head>
 <body>
+    
+    <video id="bg-video" autoplay loop muted playsinline>
+        <source src="https://media.giphy.com/media/3orif1uaS2ngBaqIvu/giphy.mp4" type="video/mp4">
+    </video>
 
     <div class="overlay"></div>
 
     <div class="login-container">
-        <h1>SeaVibe</h1>
+        <h1>SEAVIBE</h1>
         <p>Mang cả đại dương vào căn phòng của bạn</p>
         
-    <form onsubmit="event.preventDefault(); window.location.href='Layout2.html';">
-        <div class="input-group">
-            <input type="email" placeholder="Email của bạn" required>
-        </div>
-        <div class="input-group">
-            <input type="password" placeholder="Mật khẩu" required>
-        </div>
-        <button type="submit" class="btn-login">Bắt đầu khám phá</button>
-    </form>    
+        <form onsubmit="event.preventDefault(); window.location.href='Layout2.html';">
+            <div class="input-group">
+                <input type="email" placeholder="Email của bạn" required>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="Mật khẩu" required>
+            </div>
+            <button type="submit" class="btn-login">Bắt đầu khám phá</button>
+        </form>
 
         <div class="links">
-            <a href="#">Quên mật khẩu?</a> | <a href="#">Đăng ký ngay</a>
+            <a href="#">Quên mật khẩu?</a> &nbsp;|&nbsp; <a href="#">Đăng ký ngay</a>
         </div>
     </div>
+
+    <script>
+        // Chỉnh video biển chạy chậm lại 1/4
+        document.getElementById('bg-video').playbackRate = 0.25;
+        
+        // JAVASCRIPT: Bắt buộc bật bàn phím khi ngón tay chạm vào (Xử lý dứt điểm cho iOS)
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('touchstart', function(e) {
+                this.focus();
+            }, {passive: false});
+        });
+    </script>
 
 </body>
 </html>
