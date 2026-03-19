@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <title>SeaVibe - Hồ Sơ Của Tôi</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500;700&family=Quicksand:wght@500;600;700&display=swap');
+
+        body, a, button, div, span { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' style='font-size:26px;'><text x='18' y='26' text-anchor='middle' transform='rotate(-25 18 18)'>🔱</text></svg>") 8 4, auto !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100dvh; width: 100%; overflow: hidden; font-family: 'Quicksand', sans-serif;
+            background-color: #05161d;
+            background-image: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTFlcm5kcTIwMzJtcW05cGc0NzY1ejR0Mmc5MnRwdHhyOWkwZW8yYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tJwfnwUs0W3du/giphy.gif');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            position: relative; color: #fff;
+        }
+        
+        .vintage-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 20, 30, 0.4); z-index: 1; pointer-events: none; }
+
+        header {
+            position: relative; z-index: 50; width: 100%;
+            padding: max(env(safe-area-inset-top), 40px) max(env(safe-area-inset-right), 20px) 10px max(env(safe-area-inset-left), 20px);
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        header .icon-btn { width: 35px; height: 35px; font-size: 16px; }
+        .icon-btn { flex-shrink: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center; transition: 0.3s; color: #fff; text-decoration: none;}
+        .page-title { font-family: 'Asap Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 10px rgba(135,206,235,0.5); }
+
+        .header-right { display: flex; align-items: center; gap: 10px; }
+
+        .btn-add-task {
+            background: linear-gradient(90deg, #87CEEB, #3a7bd5); color: #fff;
+            border: none; border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px rgba(135,206,235,0.4);
+            text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-add-task:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(135,206,235,0.8); }
+
+        .main-content {
+            position: relative; z-index: 10; width: 100%; height: calc(100dvh - 85px);
+            padding: 20px max(env(safe-area-inset-right), 20px) max(env(safe-area-inset-bottom), 20px) max(env(safe-area-inset-left), 20px);
+            overflow-y: auto; scrollbar-width: none;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+        .main-content::-webkit-scrollbar { display: none; }
+
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px;
+            width: 100%; max-width: 800px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); flex-shrink: 0;
+        }
+
+        .glass-panel.accordion { padding: 15px 25px; transition: all 0.3s ease; }
+        .accordion-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+        .accordion-header h3 { font-size: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; font-family: 'Asap Condensed', sans-serif; letter-spacing: 1px; margin: 0;}
+        .toggle-icon { font-size: 14px; color: #ccc; transition: transform 0.3s ease; }
+        .toggle-icon.open { transform: rotate(180deg); }
+        .accordion-content { display: none; margin-top: 15px; padding-top: 5px; }
+        .accordion-content.show { display: block; animation: fadeIn 0.3s ease; }
+
+        /* 1. THÔNG TIN CÁ NHÂN */
+        .profile-header { position: relative; overflow: hidden; padding: 0; }
+        .profile-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNml0YWFyNGVpd3IzZHkzMGQ4Z3Fza2Z5NWFjMXhwMTl6a3U1Z212ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/148sf4rYwG8ziU/giphy.gif') no-repeat center center / cover;
+            opacity: 0.2; z-index: 0;
+        }
+        .profile-content { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 25px; position: relative; z-index: 10; width: 100%; }
+        .profile-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 250px; }
+
+        .btn-upgrade {
+            background: linear-gradient(45deg, #f4a460, #ff7e5f); color: #fff; padding: 6px 15px; border-radius: 20px;
+            font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 15px rgba(244, 164, 96, 0.5); transition: 0.3s;
+            animation: pulse-gold 2s infinite; letter-spacing: 1px; white-space: nowrap; flex-shrink: 0; margin-left: auto;
+        }
+        @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(244, 164, 96, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(244, 164, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 164, 96, 0); } }
+
+        .avatar-box { position: relative; flex-shrink: 0; }
+        .avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #87CEEB; object-fit: cover; box-shadow: 0 0 20px rgba(135, 206, 235, 0.4); }
+        .status-dot { position: absolute; bottom: 5px; right: 5px; width: 18px; height: 18px; background: #2ecc71; border: 3px solid #0a192f; border-radius: 50%; }
+        .user-info { flex: 1; display: flex; flex-direction: column; justify-content: center;}
+        .user-name { font-size: 24px; font-weight: 700; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .user-email { color: #eee; font-size: 14px; margin-bottom: 12px; font-weight: 600;}
+        .plan-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; width: fit-content; }
+
+        /* 2. TRẠM HẢI ĐĂNG */
+        .ai-desc { font-size: 13px; color: #ccc; margin-bottom: 15px; font-style: italic; }
+        .ai-input-group { display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.3); padding: 5px 5px 5px 15px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
+        .ai-input-group:focus-within { border-color: #87CEEB; box-shadow: 0 0 15px rgba(135, 206, 235, 0.3); }
+        .ai-input-group input { flex: 1; border: none; background: transparent; color: #fff; outline: none; font-size: 14px; -webkit-user-select: auto !important; user-select: auto !important; touch-action: manipulation; pointer-events: auto !important; }
+        .ai-input-group input::placeholder { color: rgba(255,255,255,0.5); font-size: 13px;}
+        
+        .btn-seashell {
+            background: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2wwY2w4Y3hqbG02dWJobTZpYzB0cTlrYjVkdGRqazIwbWZrdndzMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT1Ra1NBgzJbnyibIY/giphy.gif') center center / cover;
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; padding: 8px 18px;
+            display: flex; align-items: center; gap: 6px; color: #fff; text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+            font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); transition: 0.3s; white-space: nowrap; flex-shrink: 0;
+        }
+        .btn-seashell:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(135, 206, 235, 0.6); }
+        .shell-icon-img { width: 18px; height: 18px; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.8)); }
+        .ai-loading { display: none; font-size: 13px; color: #87CEEB; margin-top: 10px; text-align: center; animation: pulse 1s infinite; }
+
+        /* ========================================= */
+        /* 3. THỜI KHÓA BIỂU & TỔNG QUAN TIẾN ĐỘ     */
+        /* ========================================= */
+
+        .view-toggles { display: flex; gap: 5px; margin-bottom: 15px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 12px; width: fit-content; border: 1px solid rgba(255,255,255,0.1);}
+        .toggle-btn { padding: 8px 15px; border: none; background: transparent; color: #aaa; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px;}
+        .toggle-btn.active { background: #87CEEB; color: #000; box-shadow: 0 0 10px rgba(135,206,235,0.4); }
+
+        .week-slider { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; scrollbar-width: none; }
+        .week-slider::-webkit-scrollbar { display: none; }
+        .day-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 50px; padding: 10px 5px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid transparent; color: #aaa; transition: 0.3s; flex-shrink: 0; }
+        .day-btn.active { background: #87CEEB; color: #000; box-shadow: 0 0 15px rgba(135,206,235,0.5); }
+        .day-btn span:first-child { font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
+        .day-btn span:last-child { font-size: 18px; font-weight: 700; font-family: 'Asap Condensed', sans-serif; }
+
+        .task-timeline { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
+        .timeline-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border-left: 4px solid #87CEEB; transition: 0.3s; position: relative;}
+        .timeline-item:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+        
+        .cat-orange { border-left-color: #f4a460; } .cat-green { border-left-color: #2ecc71; }
+        .cat-purple { border-left-color: #9b59b6; } .cat-red { border-left-color: #ff4757; }
+
+        .task-time { min-width: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px dashed rgba(255,255,255,0.2); padding-right: 15px; }
+        .task-time span { font-size: 15px; font-weight: 700; color: #fff; }
+        
+        .task-detail { flex: 1; display: flex; flex-direction: column; justify-content: center;}
+        .task-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+        .task-title { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.3;}
+        
+        .task-tag { display: inline-block; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; width: fit-content; }
+        .tag-orange { background: rgba(244, 164, 96, 0.2); color: #f4a460; }
+        .tag-green { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .tag-purple { background: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+        .tag-red { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+
+        .task-actions { display: flex; gap: 8px; flex-shrink: 0; }
+        .action-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-size: 12px;}
+        .action-btn:hover { background: #87CEEB; color: #000; border-color: #87CEEB;}
+        .action-btn.delete-btn:hover { background: #ff4757; border-color: #ff4757; color: #fff;}
+
+        .task-progress-box { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: #aaa; margin-top: 5px;}
+        .progress-track { flex: 1; height: 14px; background: rgba(0,0,0,0.5); border-radius: 10px; margin-right: 10px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); border: 1px solid rgba(135, 206, 235, 0.2); }
+        .progress-fill { height: 100%; border-radius: 10px; transition: width 1s ease-in-out; background: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTRrdTA2em1sYzYxandsczhjeDNoYmwxOXVsM3d0MWZiNW94aW5keSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/loyapZl6s38VVk5N9F/giphy.gif') repeat-x center center / cover; }
+
+        /* LỊCH 31 NGÀY CHUẨN THÁNG */
+        .calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 12px; color: #87CEEB; font-weight: 700; margin-bottom: 10px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 15px; }
+        .cal-day { min-height: 80px; border-radius: 8px; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; align-items: stretch; padding: 4px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: pointer; overflow: hidden; }
+        .cal-day:hover { background: rgba(255,255,255,0.08); border-color: rgba(135, 206, 235, 0.4); }
+        .cal-day.today { border-color: #87CEEB; box-shadow: 0 0 10px rgba(135,206,235,0.3); background: rgba(135,206,235,0.05);}
+        .cal-day.empty { background: transparent; border: none; cursor: default; pointer-events: none; }
+        .day-num { font-size: 12px; font-weight: 700; color: #ccc; margin-bottom: 4px; text-align: right; }
+        .cal-day.today .day-num { color: #87CEEB; font-size: 13px; }
+
+        .mini-task { font-size: 9px; line-height: 1.2; padding: 2px 4px; border-radius: 4px; margin-bottom: 3px; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .bg-red { background: rgba(255, 71, 87, 0.85); } .bg-orange { background: rgba(244, 164, 96, 0.85); }
+        .bg-green { background: rgba(46, 204, 113, 0.85); } .bg-purple { background: rgba(155, 89, 182, 0.85); }
+        .bg-blue { background: rgba(135, 206, 235, 0.85); color: #000; text-shadow: none;}
+
+        .calendar-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px; margin-bottom: 15px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #ccc; text-transform: uppercase; letter-spacing: 0.5px;}
+        .legend-color { width: 12px; height: 12px; border-radius: 3px; }
+        .motivation-text { font-size: 13px; color: #87CEEB; font-style: italic; text-align: center; font-weight: 600; margin-top: 10px;}
+
+        /* ========================================= */
+        /* 4. BIỂU ĐỒ THỐNG KÊ (MÙA BỘI THU)         */
+        /* ========================================= */
+        .stats-tabs { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 5px; border-radius: 15px; width: fit-content;}
+        .stat-btn { background: none; border: none; color: #aaa; padding: 6px 15px; border-radius: 12px; font-weight: 700; font-size: 13px; transition: 0.3s; cursor: pointer;}
+        .stat-btn.active { background: #87CEEB; color: #000; box-shadow: 0 0 10px rgba(135,206,235,0.5); }
+        
+        .stats-content-wrapper { position: relative; width: 100%; min-height: 220px; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; width: 100%; }
+        .tab-content.active { display: block; }
+
+        .chart-canvas-container { position: relative; width: 100%; height: 220px; margin-bottom: 10px;}
+        .year-chart-container { position: relative; width: 100%; height: 220px; display: flex; justify-content: center;}
+
+        .summary-stats { display: flex; justify-content: space-between; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
+        .stat-box { flex: 1; min-width: 90px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-box span { display: block; font-size: 11px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-box strong { font-size: 20px; color: #fff; font-family: 'Asap Condensed', sans-serif; }
+
+        .btn-start-journey { background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #fff; border: none; padding: 15px 40px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4); transition: 0.3s; width: 100%; max-width: 800px; flex-shrink: 0; margin-top: 10px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-start-journey:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 210, 255, 0.6); }
+
+        /* KHUNG POPUP CHUNG */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 99; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; padding: 20px;}
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .settings-panel { position: fixed; top: 0; right: -100%; width: 280px; height: 100dvh; background: rgba(15, 25, 35, 0.95); backdrop-filter: blur(20px); z-index: 100; transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: -5px 0 30px rgba(0,0,0,0.8); border-left: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
+        .settings-panel.open { right: 0; }
+        .settings-header { padding: max(env(safe-area-inset-top), 40px) 20px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .settings-header h2 { font-family: 'Asap Condensed', sans-serif; font-size: 20px; color: #87CEEB; letter-spacing: 1px; margin: 0; }
+        .close-btn { background: none; border: none; color: #fff; font-size: 24px; font-weight: bold; padding: 5px; cursor: pointer; line-height: 1;}
+        .settings-content { padding: 20px; overflow-y: auto; flex: 1; }
+        .menu-group { margin-bottom: 25px; } .menu-title { font-size: 12px; color: #87CEEB; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 10px; border-radius: 10px; transition: 0.2s; cursor: pointer; color: #ddd; font-size: 15px; font-weight: 600; }
+        .menu-item:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
+        .menu-item i { font-style: normal; font-size: 18px; width: 24px; text-align: center; }
+        .btn-logout { margin-top: auto; margin-bottom: max(env(safe-area-inset-bottom), 20px); margin-left: 20px; margin-right: 20px; padding: 14px; background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.5); color: #ff4757; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; flex-shrink: 0; }
+
+        .form-group { margin-bottom: 15px; width: 100%;}
+        .form-label { display: block; font-size: 12px; color: #87CEEB; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: left;}
+        .form-input { width: 100%; padding: 12px 15px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; outline: none; border: 1px solid rgba(255, 255, 255, 0.2); transition: 0.3s ease; }
+        .form-input:focus { background: rgba(255, 255, 255, 0.15); border-color: #87CEEB; box-shadow: 0 0 10px rgba(135, 206, 235, 0.3); }
+        select.form-input { appearance: none; } select.form-input option { color: #000; background: #fff;}
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="vintage-overlay"></div>
+
+    <header>
+        <div class="header-left">
+            <a href="Layout2.html" class="icon-btn" title="Quay lại">❮</a>
+            <div class="page-title">Hồ Sơ Của Tôi</div>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn" onclick="openSettings()" style="border: none; background: transparent; font-size: 22px;">⚙️</button>
+        </div>
+    </header>
+
+    <div class="main-content">
+        
+        <div class="glass-panel profile-header">
+            <div class="profile-bg"></div>
+            <div class="profile-content">
+                <div class="profile-left">
+                    <div class="avatar-box">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=200&h=200" alt="Avatar" class="avatar">
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">Nguyễn Viết Thắng</div>
+                        <div class="user-email">thang.nguyen@example.com</div>
+                        <div class="plan-badge">🌱 Gói Lãng Du</div>
+                    </div>
+                </div>
+                <a href="Layout4.html" class="btn-upgrade">🚀 NÂNG CẤP</a>
+            </div>
+        </div>
+
+        <div class="glass-panel accordion">
+            <div class="accordion-header" onclick="toggleSection('ai-content-box', 'ai-toggle-icon')">
+                <h3 style="color: #f4a460;">✨ Trạm Hải Đăng (AI Trợ Lý)</h3>
+                <span class="toggle-icon" id="ai-toggle-icon">▼</span>
+            </div>
+            <div class="accordion-content" id="ai-content-box">
+                <p class="ai-desc">Nhập mục tiêu lớn, AI sẽ vạch ra hành trình khoa học cho bạn.</p>
+                <div class="ai-input-group">
+                    <input type="text" id="ai-goal-input" placeholder="VD: Lập lịch ôn tập ACCA và IELTS hôm nay..." onkeypress="if(event.key==='Enter') { generateAITasks(); this.blur(); }">
+                    <button class="btn-seashell" onclick="generateAITasks()">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3504/3504381.png" alt="Vỏ Sò" class="shell-icon-img">
+                        <span>Ra Khơi</span>
+                    </button>
+                </div>
+                <div class="ai-loading" id="ai-loading">🌊 Trạm Hải Đăng đang sắp xếp thời gian...</div>
+            </div>
+        </div>
+
+        <div class="glass-panel accordion">
+            <div class="accordion-header" onclick="toggleSection('goal-content-box', 'goal-toggle-icon')">
+                <h3 style="color: #87CEEB;">📅 Hành Trình Của Bạn</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-add-task" onclick="openAddTaskModal(event)">+ Thêm</button>
+                    <span class="toggle-icon open" id="goal-toggle-icon">▼</span>
+                </div>
+            </div>
+            
+            <div class="accordion-content show" id="goal-content-box">
+                <div class="view-toggles">
+                    <button class="toggle-btn active" id="btn-detail-view" onclick="switchTimetableView('detail')">Chi tiết ngày</button>
+                    <button class="toggle-btn" id="btn-overview-view" onclick="switchTimetableView('overview')">Tổng quan tháng</button>
+                </div>
+
+                <div id="daily-detail-view">
+                    <div class="week-slider">
+                        <button class="day-btn active" onclick="selectDay(this)"><span>T2</span><span>16</span></button>
+                        <button class="day-btn" onclick="selectDay(this)"><span>T3</span><span>17</span></button>
+                        <button class="day-btn" onclick="selectDay(this)"><span>T4</span><span>18</span></button>
+                        <button class="day-btn" onclick="selectDay(this)"><span>T5</span><span>19</span></button>
+                        <button class="day-btn" onclick="selectDay(this)"><span>T6</span><span>20</span></button>
+                        <button class="day-btn" onclick="selectDay(this)"><span>T7</span><span>21</span></button>
+                        <button class="day-btn" onclick="selectDay(this)"><span>CN</span><span>22</span></button>
+                    </div>
+
+                    <div class="task-timeline" id="task-list">
+                        
+                        <div class="timeline-item cat-red">
+                            <div class="task-time"><span>06:00</span><span>07:00</span></div>
+                            <div class="task-detail">
+                                <div class="task-header">
+                                    <div>
+                                        <span class="task-tag tag-red">Thể Chất</span>
+                                        <div class="task-title">Đi tập Gym / Bơi lội</div>
+                                    </div>
+                                </div>
+                                <div class="task-progress-box">
+                                    <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
+                                    <span style="color: #2ecc71;">Hoàn thành</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="action-btn" onclick="editTask(this)">✏️</button>
+                                <button class="action-btn delete-btn" onclick="deleteTask(this)">🗑️</button>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item cat-orange">
+                            <div class="task-time"><span>19:00</span><span>21:00</span></div>
+                            <div class="task-detail">
+                                <div class="task-header">
+                                    <div>
+                                        <span class="task-tag tag-orange">Chuyên Môn</span>
+                                        <div class="task-title">Ôn thi ACCA F7 & DipIFR</div>
+                                    </div>
+                                </div>
+                                <div class="task-progress-box">
+                                    <div class="progress-track"><div class="progress-fill" style="width: 75%;"></div></div>
+                                    <span>1.5h / 2h</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="action-btn" onclick="editTask(this)">✏️</button>
+                                <button class="action-btn delete-btn" onclick="deleteTask(this)">🗑️</button>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item cat-green">
+                            <div class="task-time"><span>21:15</span><span>22:15</span></div>
+                            <div class="task-detail">
+                                <div class="task-header">
+                                    <div>
+                                        <span class="task-tag tag-green">Ngoại Ngữ</span>
+                                        <div class="task-title">Luyện nói IELTS Speaking</div>
+                                    </div>
+                                </div>
+                                <div class="task-progress-box">
+                                    <div class="progress-track"><div class="progress-fill" style="width: 30%;"></div></div>
+                                    <span>20p / 1h</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="action-btn" onclick="editTask(this)">✏️</button>
+                                <button class="action-btn delete-btn" onclick="deleteTask(this)">🗑️</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="monthly-overview-view" style="display: none;">
+                     <div class="calendar-legend">
+                        <div class="legend-item"><div class="legend-color bg-orange"></div> Chuyên Môn</div>
+                        <div class="legend-item"><div class="legend-color bg-green"></div> Ngoại Ngữ</div>
+                        <div class="legend-item"><div class="legend-color bg-purple"></div> Kỹ Năng IT</div>
+                        <div class="legend-item"><div class="legend-color bg-red"></div> Thể Chất</div>
+                    </div>
+                    
+                    <div class="calendar-header">
+                        <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+                    </div>
+
+                    <div class="calendar-grid">
+                        <div class="cal-day empty"></div>
+                        <div class="cal-day empty"></div>
+                        <div class="cal-day"><span class="day-num">1</span></div>
+                        <div class="cal-day"><span class="day-num">2</span><div class="mini-task bg-red">06:00 Gym</div></div>
+                        <div class="cal-day"><span class="day-num">3</span><div class="mini-task bg-orange">19:00 ACCA</div></div>
+                        <div class="cal-day"><span class="day-num">4</span><div class="mini-task bg-red">06:00 Gym</div></div>
+                        <div class="cal-day"><span class="day-num">5</span><div class="mini-task bg-purple">22:00 Code</div></div>
+                        
+                        <div class="cal-day"><span class="day-num">6</span><div class="mini-task bg-orange">19:00 Thi Thử</div></div>
+                        <div class="cal-day"><span class="day-num">7</span></div>
+                        <div class="cal-day"><span class="day-num">8</span><div class="mini-task bg-red">06:00 Gym</div></div>
+                        <div class="cal-day"><span class="day-num">9</span><div class="mini-task bg-orange">19:00 ACCA F7</div></div>
+                        <div class="cal-day"><span class="day-num">10</span><div class="mini-task bg-green">21:00 Từ vựng</div></div>
+                        <div class="cal-day"><span class="day-num">11</span><div class="mini-task bg-red">06:00 Gym</div></div>
+                        <div class="cal-day"><span class="day-num">12</span><div class="mini-task bg-orange">19:00 DipIFR</div></div>
+                        
+                        <div class="cal-day"><span class="day-num">13</span><div class="mini-task bg-green">21:15 Nghe</div></div>
+                        <div class="cal-day"><span class="day-num">14</span></div>
+                        <div class="cal-day"><span class="day-num">15</span><div class="mini-task bg-purple">22:30 Data</div></div>
+                        
+                        <div class="cal-day today"><span class="day-num">16</span><div class="mini-task bg-red">06:00 Gym</div><div class="mini-task bg-orange">19:00 ACCA</div><div class="mini-task bg-green">21:15 IELTS</div></div>
+                        
+                        <div class="cal-day"><span class="day-num">17</span><div class="mini-task bg-red">06:00 Gym</div></div>
+                        <div class="cal-day"><span class="day-num">18</span></div>
+                        <div class="cal-day"><span class="day-num">19</span></div>
+                        
+                        <div class="cal-day"><span class="day-num">20</span></div>
+                        <div class="cal-day"><span class="day-num">21</span></div>
+                        <div class="cal-day"><span class="day-num">22</span></div>
+                        <div class="cal-day"><span class="day-num">23</span></div>
+                        <div class="cal-day"><span class="day-num">24</span></div>
+                        <div class="cal-day"><span class="day-num">25</span></div>
+                        <div class="cal-day"><span class="day-num">26</span></div>
+                        
+                        <div class="cal-day"><span class="day-num">27</span></div>
+                        <div class="cal-day"><span class="day-num">28</span></div>
+                        <div class="cal-day"><span class="day-num">29</span></div>
+                        <div class="cal-day"><span class="day-num">30</span></div>
+                        <div class="cal-day"><span class="day-num">31</span></div>
+                        <div class="cal-day empty"></div>
+                        <div class="cal-day empty"></div>
+                    </div>
+                </div>
+                <div class="motivation-text" id="motivation-text">"Kỷ luật là nhịp cầu nối giữa mục tiêu và kết quả."</div>
+            </div>
+        </div>
+
+        <div class="glass-panel stats-section accordion">
+            <div class="accordion-header" onclick="toggleSection('stats-content-box', 'stats-toggle-icon')">
+                <h3 style="color: #2ecc71; text-transform: none; font-size: 20px;">🧺 Mùa Bội Thu ⚖️</h3>
+                <span class="toggle-icon open" id="stats-toggle-icon">▼</span>
+            </div>
+
+            <div class="accordion-content show" id="stats-content-box">
+                <div class="stats-tabs">
+                    <button class="stat-btn active" onclick="switchStatsTab('week', this)">Tuần</button>
+                    <button class="stat-btn" onclick="switchStatsTab('month', this)">Tháng</button>
+                    <button class="stat-btn" onclick="switchStatsTab('year', this)">Năm</button>
+                </div>
+                
+                <div class="stats-content-wrapper">
+                    
+                    <div id="tab-week" class="tab-content active">
+                        <div class="chart-canvas-container">
+                            <canvas id="weekLineChart"></canvas>
+                        </div>
+                        <div class="summary-stats">
+                            <div class="stat-box"><span>Tổng giờ học</span><strong>14.3 Giờ</strong></div>
+                            <div class="stat-box"><span>Chuỗi ngày</span><strong>🔥 12 Ngày</strong></div>
+                        </div>
+                    </div>
+
+                    <div id="tab-month" class="tab-content">
+                        <div class="calendar-legend" style="margin-bottom: 5px; padding: 5px;">
+                            <div class="legend-item"><div class="legend-color bg-orange"></div> Chuyên Môn</div>
+                            <div class="legend-item"><div class="legend-color bg-green"></div> Ngoại Ngữ</div>
+                            <div class="legend-item"><div class="legend-color bg-purple"></div> IT</div>
+                            <div class="legend-item"><div class="legend-color bg-red"></div> Thể Chất</div>
+                        </div>
+                        <div class="chart-canvas-container" style="height: 220px;">
+                            <canvas id="monthBarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="tab-year" class="tab-content">
+                        <div class="year-chart-container">
+                            <canvas id="yearDoughnutChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-start-journey" onclick="window.location.href='Layout2.html'">Bắt đầu trải nghiệm 🌊</button>
+    </div>
+
+    <div class="modal-overlay" id="add-task-modal">
+        <div class="glass-panel" style="max-width: 350px; text-align: center; margin: auto;">
+            <span class="close-btn" onclick="closeAddTaskModal()" style="position: absolute; top: 15px; right: 20px;">×</span>
+            <h2 class="page-title" id="modal-title" style="margin-bottom: 20px; font-size: 24px; color: #87CEEB;">Thêm Lịch Trình</h2>
+            <div class="form-group">
+                <label class="form-label">Tên nhiệm vụ</label>
+                <input type="text" class="form-input" id="new-task-name" placeholder="VD: Luyện nghe Tiếng Anh">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label">Giờ bắt đầu</label>
+                    <input type="time" class="form-input" id="new-task-time-start">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label">Giờ kết thúc</label>
+                    <input type="time" class="form-input" id="new-task-time-end">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mức độ ưu tiên (Sẽ gán màu)</label>
+                <select class="form-input" id="new-task-priority">
+                    <option value="low">Thấp (Xanh Dương - Tự do)</option>
+                    <option value="medium">Vừa (Cam - Chuyên môn)</option>
+                    <option value="high">Cao (Đỏ - Sức khỏe/Khẩn)</option>
+                </select>
+            </div>
+            <button class="btn-start-journey" style="margin-bottom: 0; padding: 12px; width: 100%;" onclick="submitNewTask()">Lưu Hành Trình</button>
+        </div>
+    </div>
+
+    <div class="settings-overlay" id="settings-overlay" onclick="closeSettings()"></div>
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <h2>CÀI ĐẶT</h2>
+            <button class="close-btn" onclick="closeSettings()">×</button>
+        </div>
+        <div class="settings-content">
+            <div class="menu-group">
+                <div class="menu-title">Chỉnh sửa hồ sơ</div>
+                <div class="menu-item" onclick="alert('Tính năng đổi tên đang phát triển')"><i>👤</i> Đổi tên hiển thị</div>
+                <div class="menu-item" onclick="alert('Tính năng đổi SĐT đang phát triển')"><i>📱</i> Đổi số điện thoại</div>
+                <div class="menu-item" onclick="alert('Tính năng đổi ngôn ngữ đang phát triển')"><i>🌐</i> Đổi ngôn ngữ</div>
+            </div>
+            <div class="menu-group">
+                <div class="menu-title">Hỗ trợ</div>
+                <div class="menu-item" onclick="alert('Cảm ơn phản hồi của bạn!')"><i>💬</i> Feedback (Phản hồi)</div>
+                <div class="menu-item" onclick="alert('Phiên bản SeaVibe: 1.0.0')"><i>ℹ️</i> About (Thông tin App)</div>
+            </div>
+        </div>
+        <button class="btn-logout" onclick="logoutApp()"><i>🚪</i> Thoát ra</button>
+    </div>
+
+    <script>
+        // Cấu hình chung cho Chart.js
+        Chart.defaults.color = '#ccc';
+        Chart.defaults.font.family = 'Quicksand';
+        const gridColor = 'rgba(255, 255, 255, 0.1)';
+
+        let weekChart, monthChart, yearChart;
+
+        function initCharts() {
+            // BIỂU ĐỒ ĐƯỜNG (TUẦN)
+            const ctxWeek = document.getElementById('weekLineChart').getContext('2d');
+            let gradientWeek = ctxWeek.createLinearGradient(0, 0, 0, 150);
+            gradientWeek.addColorStop(0, 'rgba(135, 206, 235, 0.5)');
+            gradientWeek.addColorStop(1, 'rgba(135, 206, 235, 0)');
+
+            weekChart = new Chart(ctxWeek, {
+                type: 'line',
+                data: {
+                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                    datasets: [{
+                        label: 'Số giờ học',
+                        data: [1.5, 2.5, 3.0, 2.0, 2.8, 2.5, 0],
+                        borderColor: '#87CEEB',
+                        backgroundColor: gradientWeek,
+                        borderWidth: 2, fill: true, tension: 0.4,
+                        pointBackgroundColor: '#f4a460', pointBorderColor: '#fff',
+                        pointRadius: 4, pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: { display: false } }, y: { grid: { color: gridColor }, beginAtZero: true, suggestedMax: 4 } }
+                }
+            });
+
+            // BIỂU ĐỒ CỘT STACKED (THÁNG) - HIỂN THỊ % BÊN TRONG CỘT
+            const ctxMonth = document.getElementById('monthBarChart').getContext('2d');
+            monthChart = new Chart(ctxMonth, {
+                type: 'bar',
+                data: {
+                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                    datasets: [
+                        { label: 'Chuyên môn', data: [20, 25, 20, 30, 30, 20, 25, 30, 20, 20, 30, 30], backgroundColor: '#f4a460' },
+                        { label: 'Ngoại ngữ', data: [10, 15, 10, 10, 15, 10, 15, 15, 10, 10, 15, 15], backgroundColor: '#2ecc71' },
+                        { label: 'Kỹ năng IT', data: [10, 5, 5, 10, 10, 10, 5, 10, 5, 5, 5, 10], backgroundColor: '#9b59b6' },
+                        { label: 'Thể chất', data: [5, 5, 5, 5, 5, 8, 7, 10, 5, 7, 8, 7], backgroundColor: '#ff4757' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { stacked: true, grid: { color: gridColor }, beginAtZero: true }
+                    }
+                },
+                // Plugin tự viết để vẽ số phần trăm trực tiếp vào cột
+                plugins: [{
+                    id: 'stackedBarText',
+                    afterDatasetsDraw: function(chart) {
+                        const ctx = chart.ctx;
+                        chart.data.datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            if (!meta.hidden) {
+                                meta.data.forEach((element, index) => {
+                                    const val = dataset.data[index];
+                                    let total = 0;
+                                    chart.data.datasets.forEach(ds => total += ds.data[index]);
+
+                                    if (val > 0 && total > 0) {
+                                        const percent = Math.round((val / total) * 100) + "%";
+                                        const { x, y, base } = element;
+                                        const height = Math.abs(base - y);
+                                        // Chỉ hiện chữ nếu đoạn màu đủ cao (lớn hơn 15px)
+                                        if (height > 15) {
+                                            ctx.fillStyle = '#000';
+                                            ctx.font = 'bold 9px Quicksand';
+                                            ctx.textAlign = 'center';
+                                            ctx.textBaseline = 'middle';
+                                            ctx.fillText(percent, x, y + height / 2);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }]
+            });
+
+            // BIỂU ĐỒ PIE (NĂM) - Tròn đặc
+            const ctxYear = document.getElementById('yearDoughnutChart').getContext('2d');
+            yearChart = new Chart(ctxYear, {
+                type: 'pie',
+                data: {
+                    labels: ['Chuyên môn', 'Ngoại ngữ', 'Kỹ năng IT', 'Thể chất'],
+                    datasets: [{
+                        data: [350, 200, 150, 120],
+                        backgroundColor: ['#f4a460', '#2ecc71', '#9b59b6', '#ff4757'],
+                        borderColor: '#05161d',
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#ccc', font: { size: 11, family: 'Quicksand' }, usePointStyle: true, boxWidth: 8 } }
+                    }
+                }
+            });
+        }
+
+        function switchStatsTab(tabId, btnElement) {
+            document.querySelectorAll('.stats-tabs .stat-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.querySelectorAll('.stats-content-wrapper .tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            sortTimelineTasks();
+        });
+        
+        function toggleSection(contentId, iconId) {
+            document.getElementById(contentId).classList.toggle('show');
+            document.getElementById(iconId).classList.toggle('open');
+        }
+        
+        function selectDay(btnElement) {
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            const taskList = document.getElementById('task-list');
+            taskList.style.opacity = '0.5';
+            setTimeout(() => { taskList.style.opacity = '1'; }, 200);
+        }
+
+        function switchTimetableView(view) {
+            if(view === 'detail') {
+                document.getElementById('btn-detail-view').classList.add('active'); document.getElementById('btn-overview-view').classList.remove('active');
+                document.getElementById('daily-detail-view').style.display = 'block'; document.getElementById('monthly-overview-view').style.display = 'none';
+            } else {
+                document.getElementById('btn-overview-view').classList.add('active'); document.getElementById('btn-detail-view').classList.remove('active');
+                document.getElementById('monthly-overview-view').style.display = 'block'; document.getElementById('daily-detail-view').style.display = 'none';
+            }
+        }
+
+        // ==========================================
+        // THUẬT TOÁN SẮP XẾP THEO THỜI GIAN
+        // ==========================================
+        function sortTimelineTasks() {
+            const taskList = document.getElementById('task-list');
+            const items = Array.from(taskList.querySelectorAll('.timeline-item'));
+            items.sort((a, b) => {
+                let timeA = a.querySelector('.task-time span:first-child').innerText.trim();
+                let timeB = b.querySelector('.task-time span:first-child').innerText.trim();
+                return timeA.localeCompare(timeB);
+            });
+            taskList.innerHTML = '';
+            items.forEach(item => taskList.appendChild(item));
+        }
+
+        function sortMiniTasks(calDay) {
+            if(!calDay) return;
+            const dayNum = calDay.querySelector('.day-num');
+            const items = Array.from(calDay.querySelectorAll('.mini-task'));
+            items.sort((a, b) => a.innerText.trim().localeCompare(b.innerText.trim()));
+            calDay.innerHTML = '';
+            if(dayNum) calDay.appendChild(dayNum);
+            items.forEach(item => calDay.appendChild(item));
+        }
+
+        // ==========================================
+        // KIỂM TRA TRÙNG GIỜ (OVERLAP VALIDATION)
+        // ==========================================
+        function timeToMinutes(timeStr) {
+            if(!timeStr || !timeStr.includes(':')) return 0;
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function isOverlapping(startStr, endStr, excludeItem) {
+            const newStart = timeToMinutes(startStr);
+            const newEnd = timeToMinutes(endStr);
+            
+            if(newStart >= newEnd) return "Thời gian kết thúc phải sau thời gian bắt đầu!";
+
+            const items = document.querySelectorAll('#task-list .timeline-item');
+            for(let item of items) {
+                if(item === excludeItem) continue;
+                const timeSpans = item.querySelectorAll('.task-time span');
+                const exStart = timeToMinutes(timeSpans[0].innerText);
+                const exEnd = timeToMinutes(timeSpans[1].innerText);
+
+                // Logic: Trùng nếu bắt đầu trước khi task kia kết thúc VÀ kết thúc sau khi task kia bắt đầu
+                if(newStart < exEnd && newEnd > exStart) {
+                    return `Khung giờ bị trùng với môn: ${item.querySelector('.task-title').innerText} (${timeSpans[0].innerText} - ${timeSpans[1].innerText})`;
+                }
+            }
+            return null;
+        }
+
+        // ==========================================
+        // CHỨC NĂNG EDIT, DELETE VÀ SUBMIT TASK
+        // ==========================================
+        let currentEditTask = null; // Biến toàn cục để lưu trữ task đang được chỉnh sửa
+
+        function openAddTaskModal(event) {
+            if(event) event.stopPropagation();
+            currentEditTask = null; // Đặt về null để biết là chế độ Thêm mới
+            document.getElementById('modal-title').innerText = "Thêm Lịch Trình";
+            document.getElementById('new-task-name').value = "";
+            document.getElementById('new-task-time-start').value = "08:00";
+            document.getElementById('new-task-time-end').value = "09:00";
+            document.getElementById('add-task-modal').classList.add('show');
+        }
+
+        function closeAddTaskModal() { document.getElementById('add-task-modal').classList.remove('show'); }
+
+        function editTask(btn) {
+            currentEditTask = btn.closest('.timeline-item'); // Lưu lại đối tượng DOM đang sửa
+            
+            document.getElementById('modal-title').innerText = "Sửa Lịch Trình";
+            document.getElementById('new-task-name').value = currentEditTask.querySelector('.task-title').innerText;
+            document.getElementById('new-task-time-start').value = currentEditTask.querySelector('.task-time span:nth-child(1)').innerText;
+            document.getElementById('new-task-time-end').value = currentEditTask.querySelector('.task-time span:nth-child(2)').innerText;
+
+            // Đọc màu cũ để gán vào ô Priority
+            const tagColor = currentEditTask.querySelector('.task-tag').classList[1];
+            if(tagColor === 'tag-red') document.getElementById('new-task-priority').value = 'high';
+            else if(tagColor === 'tag-orange') document.getElementById('new-task-priority').value = 'medium';
+            else document.getElementById('new-task-priority').value = 'low';
+
+            document.getElementById('add-task-modal').classList.add('show');
+        }
+
+        function deleteTask(btn) {
+            if(confirm("Bạn có chắc chắn muốn xóa nhiệm vụ này khỏi lịch trình?")) {
+                const item = btn.closest('.timeline-item');
+                item.style.animation = "fadeIn 0.3s reverse both";
+                setTimeout(() => {
+                    item.remove();
+                    // Chú ý: Ỏ bản hoàn chỉnh, ta cũng cần code xóa mini-task bên Tab Tháng tương ứng
+                }, 300);
+            }
+        }
+
+        function submitNewTask() {
+            const taskName = document.getElementById('new-task-name').value;
+            const start = document.getElementById('new-task-time-start').value;
+            const end = document.getElementById('new-task-time-end').value;
+            const priority = document.getElementById('new-task-priority').value;
+
+            if (!taskName.trim() || !start || !end) { alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+
+            // Quét kiểm tra trùng lịch
+            const overlapError = isOverlapping(start, end, currentEditTask);
+            if (overlapError) {
+                alert("⚠️ " + overlapError);
+                return;
+            }
+
+            let colorClass = "blue"; let colorTagText = "Tự do";
+            if(priority === "medium") { colorClass = "orange"; colorTagText = "Chuyên môn"; }
+            if(priority === "high") { colorClass = "red"; colorTagText = "Khẩn cấp"; }
+
+            if(currentEditTask) {
+                // CHẾ ĐỘ SỬA: Cập nhật DOM cũ
+                currentEditTask.className = `timeline-item cat-${colorClass}`;
+                currentEditTask.querySelector('.task-time span:nth-child(1)').innerText = start;
+                currentEditTask.querySelector('.task-time span:nth-child(2)').innerText = end;
+                currentEditTask.querySelector('.task-tag').className = `task-tag tag-${colorClass}`;
+                currentEditTask.querySelector('.task-tag').innerText = colorTagText;
+                currentEditTask.querySelector('.task-title').innerText = taskName;
+                currentEditTask.querySelector('.progress-fill').className = `progress-fill fill-${colorClass}`;
+                currentEditTask.style.animation = "fadeIn 0.4s ease both";
+                document.getElementById('motivation-text').innerText = '"Lịch trình đã được cập nhật!"';
+            } else {
+                // CHẾ ĐỘ THÊM: Tạo DOM mới
+                const taskList = document.getElementById('task-list');
+                const html = `
+                    <div class="timeline-item cat-${colorClass}" style="animation: fadeIn 0.4s ease both;">
+                        <div class="task-time"><span>${start}</span><span>${end}</span></div>
+                        <div class="task-detail">
+                            <div class="task-header">
+                                <div>
+                                    <span class="task-tag tag-${colorClass}">${colorTagText}</span>
+                                    <div class="task-title">${taskName}</div>
+                                </div>
+                            </div>
+                            <div class="task-progress-box">
+                                <div class="progress-track"><div class="progress-fill" style="width: 0%;"></div></div>
+                                <span>0h / 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-btn" onclick="editTask(this)">✏️</button>
+                            <button class="action-btn delete-btn" onclick="deleteTask(this)">🗑️</button>
+                        </div>
+                    </div>
+                `;
+                taskList.insertAdjacentHTML('afterbegin', html);
+                
+                // Cập nhật cả lịch Tổng quan tháng
+                const todayCal = document.querySelector('.cal-day.today');
+                if(todayCal) {
+                    const keyword = taskName.split(' ').slice(0,2).join(' ');
+                    const miniHtml = `<div class="mini-task bg-${colorClass}" style="animation: fadeIn 0.4s ease both;">${start} ${keyword}</div>`;
+                    todayCal.insertAdjacentHTML('beforeend', miniHtml);
+                    sortMiniTasks(todayCal);
+                }
+                document.getElementById('motivation-text').innerText = '"Lịch trình mới đã được lưu thành công!"';
+            }
+
+            sortTimelineTasks(); // Tự động sắp xếp lại theo giờ
+            closeAddTaskModal();
+            switchTimetableView('detail');
+        }
+
+        // ==========================================
+        // CÁC HÀM CÀI ĐẶT & AI
+        // ==========================================
+        function openSettings() { document.getElementById('settings-panel').classList.add('open'); document.getElementById('settings-overlay').classList.add('show'); }
+        function closeSettings() { document.getElementById('settings-panel').classList.remove('open'); document.getElementById('settings-overlay').classList.remove('show'); }
+        function logoutApp() {
+            if (confirm("Bạn có chắc chắn muốn thoát khỏi SeaVibe?")) window.location.href = 'index.html';
+        }
+
+        const GROQ_API_KEY = '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';
+        async function generateAITasks() {
+            const inputField = document.getElementById('ai-goal-input');
+            const goalText = inputField.value.trim();
+            if (goalText === "") return;
+            inputField.blur();
+            
+            const loading = document.getElementById('ai-loading');
+            loading.style.display = 'block';
+            loading.style.color = '#87CEEB';
+            loading.innerText = "🌊 Trạm Hải Đăng đang sắp xếp thời gian khoa học...";
+
+            const goalContent = document.getElementById('goal-content-box');
+            const goalIcon = document.getElementById('goal-toggle-icon');
+            if (!goalContent.classList.contains('show')) {
+                goalContent.classList.add('show');
+                goalIcon.classList.add('open');
+            }
+            switchTimetableView('detail');
+
+            const url = `https://api.groq.com/openai/v1/chat/completions`;
+            
+            const promptText = `Bạn là Trợ lý Hải Đăng chuyên quản lý thời gian. Hãy chia mục tiêu: "${goalText}" thành 2 công việc. Đảm bảo thời gian bắt đầu và kết thúc giữa các môn học không được trùng nhau.
+            Tuyệt đối chỉ trả về mảng JSON, định dạng:
+            [{"start": "19:00", "end": "20:00", "task": "Tên nhiệm vụ", "category": "purple", "tag": "Lộ Trình AI", "keyword": "Từ Khóa Ngắn"}]
+            Lưu ý: category chỉ dùng 1 trong: orange, green, purple, red.`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+                    body: JSON.stringify({ model: "llama-3.1-8b-instant", messages: [{ role: "user", content: promptText }], temperature: 0.5 })
+                });
+
+                if (!response.ok) throw new Error("Lỗi kết nối API");
+
+                const data = await response.json();
+                let aiResponse = data.choices[0].message.content;
+                const firstBracket = aiResponse.indexOf('[');
+                const lastBracket = aiResponse.lastIndexOf(']');
+                if(firstBracket !== -1 && lastBracket !== -1) aiResponse = aiResponse.substring(firstBracket, lastBracket + 1);
+                
+                const tasks = JSON.parse(aiResponse);
+                loading.style.display = 'none';
+                
+                const taskList = document.getElementById('task-list');
+                const todayCal = document.querySelector('.cal-day.today');
+
+                tasks.forEach((t, index) => {
+                    const delay = index * 0.2;
+                    
+                    const html = `
+                        <div class="timeline-item cat-${t.category}" style="animation: fadeIn 0.4s ease ${delay}s both;">
+                            <div class="task-time"><span>${t.start}</span><span>${t.end}</span></div>
+                            <div class="task-detail">
+                                <div class="task-header">
+                                    <div>
+                                        <span class="task-tag tag-${t.category}">${t.tag}</span>
+                                        <div class="task-title">${t.task}</div>
+                                    </div>
+                                </div>
+                                <div class="task-progress-box">
+                                    <div class="progress-track"><div class="progress-fill" style="width: 0%;"></div></div>
+                                    <span>0h / 1h</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="action-btn" onclick="editTask(this)">✏️</button>
+                                <button class="action-btn delete-btn" onclick="deleteTask(this)">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                    taskList.insertAdjacentHTML('afterbegin', html);
+
+                    if(todayCal) {
+                        const miniHtml = `<div class="mini-task bg-${t.category}" style="animation: fadeIn 0.4s ease both;">${t.start} ${t.keyword}</div>`;
+                        todayCal.insertAdjacentHTML('beforeend', miniHtml);
+                    }
+                });
+
+                sortTimelineTasks();
+                sortMiniTasks(todayCal);
+
+                inputField.value = "";
+                taskList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            } catch (error) {
+                loading.style.color = '#ff4757';
+                loading.innerText = `❌ Trạm Hải Đăng đang bảo trì. Vui lòng tự thêm thủ công hoặc thử lại sau!`;
+            }
+        }
+    </script>
+</body>
+</html>
